@@ -1,13 +1,12 @@
 import { Button, Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
 
-export const Input = (addItem, textItem, handleChangeText) => {
+export const Input = ({ addItem, textItem, handleChangeText }) => {
   return (
     <View style={styles.inputContainer}>
-      <TextInput style={styles.textInput} onChangeText={handleChangeText} value={textItem.value} placeholder={'Smartphone'} />
-      <Button title="ADD" color="#5555ff" onPress={addItem} />
-{/*       <Pressable onPress={addItem}>
+      <TextInput style={styles.textInput} onChangeText={handleChangeText} value={textItem.value} placeholder={'Add product...'} />
+      <Pressable onPress={addItem}>
         <Text>Add</Text>
-      </Pressable>  */}
+      </Pressable>
     </View>
   )
 }

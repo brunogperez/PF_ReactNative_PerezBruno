@@ -1,8 +1,9 @@
-import { View, StyleSheet, Text, FlatList, Pressable } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import { useState } from 'react'
 import uuid from 'react-native-uuid'
 import ModalCustom from './src/components/modal/ModalCustom.jsx'
 import Input from './src/components/Input.jsx/Input.jsx'
+import ItemList from './src/components/ItemList/ItemList.jsx'
 
 
 const App = () => {
@@ -47,20 +48,10 @@ const App = () => {
         handleChangeText={handleChangeText}
         textItem={textItem}
       />
-      <View style={styles.taskContainer}>
-        <FlatList
-          style={styles.flatList}
-          data={itemList}
-          keyExtractor={product => product.id.toString()}
-          renderItem={({ item }) =>
-            <Pressable style={styles.card} onPressIn={() => handleModal(item)}>
-              <Text style={styles.taskText} >
-                {item.value}
-              </Text>
-            </Pressable>
-          }
-        />
-      </View>
+      <ItemList
+        handleModal={handleModal}
+        itemList={itemList}
+      />
       <ModalCustom
         handleCancelModal={handleCancelModal}
         handleDelete={handleDelete}
@@ -79,27 +70,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'lightblue',
     flex: 1
-  },
-  taskContainer: {
-    marginTop: 15,
-    alignItems: 'center',
-    width: '90%'
-  },
-  card: {
-    borderWidth: 1,
-    borderRadius: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#cccccc',
-    width: '100%',
-    paddingVertical: 5,
-    marginVertical: 10
-  },
-  taskText: {
-    fontWeight: 'bold',
-    fontSize: 16
-  },
-  flatList: {
-    width: '90%'
   }
 })
