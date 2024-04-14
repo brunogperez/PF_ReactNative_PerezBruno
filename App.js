@@ -1,9 +1,12 @@
 import { View, StyleSheet } from 'react-native'
 import { useState } from 'react'
 import uuid from 'react-native-uuid'
-import ModalCustom from './src/components/modal/ModalCustom.jsx'
-import Input from './src/components/Input.jsx/Input.jsx'
-import ItemList from './src/components/ItemList/ItemList.jsx'
+import ModalCustom from './src/components/ModalCustom.jsx'
+import Input from './src/components/Input.jsx'
+import ItemList from './src/components/ItemList.jsx'
+import Home from './src/screens/Home.jsx'
+import Header from './src/components/Header.jsx'
+import { colors } from './src/constants/colors.js'
 
 
 const App = () => {
@@ -43,7 +46,9 @@ const App = () => {
 
   return (
     <View style={styles.container}>
-      <Input
+      <Header title={'Digital Age'}/>
+      <Home />
+      {/*       <Input
         addItem={addItem}
         handleChangeText={handleChangeText}
         textItem={textItem}
@@ -57,7 +62,7 @@ const App = () => {
         handleDelete={handleDelete}
         itemSelected={itemSelected}
         modalVisible={modalVisible}
-      />
+      /> */}
     </View>
   )
 }
@@ -68,7 +73,7 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: 50,
     alignItems: 'center',
-    backgroundColor: 'lightblue',
+    backgroundColor: colors.Jasper,
     flex: 1
   }
 })
