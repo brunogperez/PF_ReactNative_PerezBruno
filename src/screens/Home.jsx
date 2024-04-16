@@ -5,14 +5,19 @@ import categories from '../data/categories.json'
 import { colors } from '../constants/colors.js'
 
 
-const Home = () => {
+const Home = ({ setCategorySelected }) => {
   return (
     <View style={styles.flatlistContainer}>
       <FlatList
         showsVerticalScrollIndicator={false}
         keyExtractor={item => item}
         data={categories.sort()}
-        renderItem={({ item }) => <CategoryList category={item} />}
+        renderItem={({ item }) => (
+          <CategoryList
+            selectCategory={setCategorySelected}
+            category={item}
+          />
+        )}
       />
     </View>
   )

@@ -3,7 +3,12 @@ import { Button, Pressable, StyleSheet, Text, TextInput, View } from 'react-nati
 export const Input = ({ addItem, textItem, handleChangeText }) => {
   return (
     <View style={styles.inputContainer}>
-      <TextInput style={styles.textInput} onChangeText={handleChangeText} value={textItem.value} placeholder={'Add product...'} />
+      <TextInput
+        style={styles.textInput}
+        onChangeText={handleChangeText}
+        value={textItem.value}
+        placeholder={'Add product...'}
+      />
       <Pressable onPress={addItem}>
         <Text>Add</Text>
       </Pressable>

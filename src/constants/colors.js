@@ -5,6 +5,8 @@ export const colors = {
     Jasper: '#CE5034',
     Tomato: '#FF6542',
     Salmon: '#FF9982',
-    textWhite:'white',
-    textBlack:'black'
+    textLight:'white',
+    textDark:'black',
+    light:'white',
+    dark:'black'
 }

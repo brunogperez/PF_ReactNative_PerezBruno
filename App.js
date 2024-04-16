@@ -7,17 +7,20 @@ import ItemList from './src/components/ItemList.jsx'
 import Home from './src/screens/Home.jsx'
 import Header from './src/components/Header.jsx'
 import { colors } from './src/constants/colors.js'
+import ItemListCategory from './src/screens/ItemListCategory.jsx'
 
 
 const App = () => {
 
-  const [textItem, setTextItem] = useState("")
-  const [itemList, setItemList] = useState([])
+  /*   const [textItem, setTextItem] = useState("")
+    const [itemList, setItemList] = useState([])
+  
+    const [modalVisible, setModalVisible] = useState(false)
+    const [itemSelected, setItemSelected] = useState({})
+   */
+  const [categorySelected, setCategorySelected] = useState('')
 
-  const [modalVisible, setModalVisible] = useState(false)
-  const [itemSelected, setItemSelected] = useState({})
-
-  const addItem = () => {
+  /* const addItem = () => {
     if (textItem == '') return
     setItemList(currentValue => [
       ...currentValue,
@@ -42,12 +45,17 @@ const App = () => {
   const handleCancelModal = () => {
     setModalVisible(false)
     setItemSelected({})
-  }
+  } */
 
   return (
     <View style={styles.container}>
-      <Header title={'Digital Age'}/>
-      <Home />
+      <Header title={'Digital Age'} />
+      {!categorySelected ? (
+        <Home setCategorySelected={setCategorySelected} />
+      ) : (
+        <ItemListCategory categorySelected={categorySelected} setCategorySelected={setCategorySelected} />
+      )}
+
       {/*       <Input
         addItem={addItem}
         handleChangeText={handleChangeText}
