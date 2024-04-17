@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   },
   inputSearch: {
     backgroundColor: colors.CaputMortuum,
-    width: 250,
+    width: '60%', 
     height: 40,
     margin: 10,
     borderRadius: 10,

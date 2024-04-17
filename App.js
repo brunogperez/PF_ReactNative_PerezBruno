@@ -1,4 +1,4 @@
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, SafeAreaView, Platform, StatusBar } from 'react-native'
 import { useState } from 'react'
 import uuid from 'react-native-uuid'
 import ModalCustom from './src/components/ModalCustom.jsx'
@@ -8,6 +8,7 @@ import Home from './src/screens/Home.jsx'
 import Header from './src/components/Header.jsx'
 import { colors } from './src/constants/colors.js'
 import ItemListCategory from './src/screens/ItemListCategory.jsx'
+import ItemDetail from './src/screens/ItemDetail.jsx'
 
 
 const App = () => {
@@ -19,6 +20,7 @@ const App = () => {
     const [itemSelected, setItemSelected] = useState({})
    */
   const [categorySelected, setCategorySelected] = useState('')
+  const [itemIDSelected, setItemIDSelected] = useState('')
 
   /* const addItem = () => {
     if (textItem == '') return
@@ -48,13 +50,25 @@ const App = () => {
   } */
 
   return (
-    <View style={styles.container}>
-      <Header title={'Digital Age'} />
+    <SafeAreaView style={styles.container}>
+      <Header />
       {!categorySelected ? (
         <Home setCategorySelected={setCategorySelected} />
-      ) : (
-        <ItemListCategory categorySelected={categorySelected} setCategorySelected={setCategorySelected} />
-      )}
+      ) :
+
+        !itemIDSelected ?
+          (
+            <ItemListCategory
+              categorySelected={categorySelected}
+              setCategorySelected={setCategorySelected}
+              setItemIDSelected={setItemIDSelected} />
+          ) : (
+            <ItemDetail
+              idSelected={itemIDSelected}
+              setProductSelected={setItemIDSelected}
+            />
+          )
+      }
 
       {/*       <Input
         addItem={addItem}
@@ -71,7 +85,7 @@ const App = () => {
         itemSelected={itemSelected}
         modalVisible={modalVisible}
       /> */}
-    </View>
+    </SafeAreaView>
   )
 }
 
@@ -79,6 +93,8 @@ export default App
 
 const styles = StyleSheet.create({
   container: {
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+    width: '100%',
     paddingTop: 50,
     alignItems: 'center',
     backgroundColor: colors.Jasper,

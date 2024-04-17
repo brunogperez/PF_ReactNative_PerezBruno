@@ -4,7 +4,11 @@ import products from '../data/products.json'
 import ProductItem from '../components/ProductItem'
 import Search from '../components/Search'
 
-const ItemListCategory = ({ categorySelected = '', setCategorySelected = () => { } }) => {
+const ItemListCategory = ({
+  categorySelected = '',
+  setCategorySelected = () => { },
+  setItemIDSelected = () => { }
+}) => {
 
   const [keyword, setKeyword] = useState('')
   const [productsFiltered, setProductsFiltered] = useState('')
@@ -41,7 +45,7 @@ const ItemListCategory = ({ categorySelected = '', setCategorySelected = () => {
       <FlatList
         showsVerticalScrollIndicator={false}
         data={productsFiltered}
-        renderItem={({ item }) => <ProductItem product={item} />}
+        renderItem={({ item }) => <ProductItem product={item} style={styles.productItem} setItemIDSelected={setItemIDSelected} />}
         keyExtractor={(product) => product.id}
       />
     </View>
@@ -60,6 +64,9 @@ const styles = StyleSheet.create({
     padding: 10
   },
   inputSearch: {
+    width: '100%'
+  },
+  productItem: {
     width: '100%'
   }
 })
