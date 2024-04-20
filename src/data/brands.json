@@ -1,0 +1,47 @@
+[
+    {
+        "id": 1,
+        "title": "Skullcandy",
+        "image": "https://www.seekpng.com/png/full/325-3259327_skullcandy-logo-png-transparent-skullcandy-logo.png"
+    },
+    {
+        "id": 2,
+        "title": "Haylou",
+        "image": "https://s3.bmp.ovh/imgs/2021/08/e7fd08b120af4ba2.png"
+    },
+    {
+        "id": 3,
+        "title": "Daihatsu",
+        "image": "https://seeklogo.com/images/D/Daihatsu-logo-BA420104AA-seeklogo.com.png"
+    },
+    {
+        "id": 4,
+        "title": "Xiaomi",
+        "image": "https://seeklogo.com/images/X/xiaomi-new-2021-logo-B75BC33B9A-seeklogo.com.png"
+    },
+    {
+        "id": 5,
+        "title": "Samsung",
+        "image": "https://seeklogo.com/images/S/samsung-logo-8A87EDFB33-seeklogo.com.png"
+    },
+    {
+        "id": 6,
+        "title": "Apple",
+        "image": "https://freelogopng.com/images/all_img/1685901381apple-logo-png-white.png"
+    },
+    {
+        "id": 7,
+        "title": "Logitech",
+        "image": "https://seeklogo.com/images/L/logitech-gaming-logo-B76FC713B0-seeklogo.com.png"
+    },
+    {
+        "id": 8,
+        "title": "Baseus",
+        "image": "https://imgs.search.brave.com/LwcXzgEgrZnf9MWTUmIhKKhAqeGNBQT09zrYcRy9kbk/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9hc3Nl/dC5icmFuZGZldGNo/LmlvL2lkS1AwaXA4/SjAvaWRNUmpSWmd6/di5wbmc_dXBkYXRl/ZD0xNjg3MTY2MjI1/NTgw"
+    },
+    {
+        "id": 9,
+        "title": "Only",
+        "image": "https://seeklogo.com/images/O/only-logo-43B2F4C81F-seeklogo.com.png"
+    }
+]

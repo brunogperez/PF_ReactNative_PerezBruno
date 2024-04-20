@@ -20,7 +20,8 @@ const styles = StyleSheet.create({
         width: 150,
         marginBottom: 10,
         marginTop: 10,
-        justifyContent: 'center'
+        justifyContent: 'center',
+        alignItems:'center'
         /* shadowColor: "#000",
         shadowOffset: {
             width: 0,

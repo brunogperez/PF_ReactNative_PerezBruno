@@ -3,16 +3,16 @@ import React from 'react'
 import Card from './Card'
 import { colors } from '../constants/colors'
 
-const ProductItem = ({ product, setItemIDSelected = () => { } }) => {
+const ProductItem = ({ product, route, navigation }) => {
 
   // const { height, width} = useWindowDimensions()
 
   return (
     <Card style={styles.card}>
-      <Pressable style={styles.styleProduct} onPress={() => setItemIDSelected(product.id)}>
+      <Pressable style={styles.styleProduct} onPress={() => navigation.navigate('ItemDetail', { productID: product.id })}>
         <View style={styles.textContainer}>
-        <Text style={styles.textCategory}> {product.title}</Text>
-        <Text style={styles.textCategory}> ${product.price}</Text>
+          <Text style={styles.textCategory}> {product.title}</Text>
+          <Text style={styles.textCategory}>  Precio: ${product.price}</Text>
         </View>
         <Image
           resizeMode='cover'
@@ -30,10 +30,9 @@ const styles = StyleSheet.create({
   card: {
     height: 120,
     width: '90%',
-    marginTop: 20,
+    marginTop: 30,
     borderRadius: 8,
-    borderWidth: 1,
-    marginLeft: 1
+       
   },
   image: {
     height: 110,
@@ -41,11 +40,10 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderColor: colors.CaputMortuum,
     marginBottom: 50,
-    marginLeft: 10,
-    
+    marginLeft: 20,
   },
   styleProduct: {
-    paddingLeft: 10,
+    paddingLeft: 20,
     flexDirection: 'row',
     alignItems: 'center'
   },
@@ -53,7 +51,7 @@ const styles = StyleSheet.create({
     width: '65%',
   },
   textCategory: {
-    marginVertical:5,
+    marginVertical: 5,
     color: colors.textLight
   }
 })

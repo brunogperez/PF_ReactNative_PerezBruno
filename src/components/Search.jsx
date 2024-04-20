@@ -2,10 +2,9 @@ import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
 import React, { useState } from 'react'
 import { colors } from '../constants/colors'
 import { FontAwesome5 } from '@expo/vector-icons'
-import { AntDesign } from '@expo/vector-icons'
 
 
-const Search = ({ onSearch = () => { }, error = '', goBack = () => { } }) => {
+const Search = ({ onSearch = () => { }, error = '', navigation }) => {
 
   const [input, setInput] = useState('')
 
@@ -17,14 +16,12 @@ const Search = ({ onSearch = () => { }, error = '', goBack = () => { } }) => {
         value={input}
       />
       <Pressable onPress={() => onSearch(input)} >
-        <FontAwesome5 name='search' size={24} style={styles.colorIcons} />
+        <FontAwesome5 name='search' size={20} style={styles.colorIcons} />
       </Pressable>
       <Pressable onPress={() => setInput('')}>
-        <FontAwesome5 name='eraser' size={24} style={styles.colorIcons} />
+        <FontAwesome5 name='eraser' size={20} style={styles.colorIcons} />
       </Pressable>
-      <Pressable onPress={() => goBack('')}>
-        <AntDesign name='back' size={24} style={styles.colorIcons} />
-      </Pressable>
+      
       {error ? <Text>{error}</Text> : null}
     </View>
   )
@@ -35,11 +32,14 @@ export default Search
 const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: colors.Chetsnut,
+    width:'100%',
+    borderBottomWidth:3
   },
   inputSearch: {
-    backgroundColor: colors.CaputMortuum,
-    width: '60%', 
+    backgroundColor: colors.Jasper,
+    width: '75%',
     height: 40,
     margin: 10,
     borderRadius: 10,
