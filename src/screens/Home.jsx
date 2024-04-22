@@ -41,7 +41,7 @@ const Home = ({ route, navigation }) => {
         data={products}
         keyExtractor={(product) => product.id}
         renderItem={({ item }) =>
-          <Card product={item} style={styles.cardItem} navigation={navigation} >
+          <Card product={item}  style={(width <= 360) ? styles.cardItemSM : styles.cardItemM} navigation={navigation} >
             <Image
               source={{ uri: item.images[0] }}
               style={(width <= 360) ? styles.imageSM : styles.imageM}
@@ -51,9 +51,9 @@ const Home = ({ route, navigation }) => {
       />
 
       <View style={styles.brandSection}>
-      <Text style={styles.text}>
-        Marcas destacadas
-      </Text>
+        <Text style={styles.text}>
+          Marcas destacadas
+        </Text>
         <FlatList
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -69,46 +69,26 @@ const Home = ({ route, navigation }) => {
             </Card>}
         />
       </View>
-
-      <Text style={styles.text}>
-        Productos Destacados
-      </Text>
-      <FlatList
-        horizontal
-        initialNumToRender={10}
-        /* numColumns={(width <= 360) ? 2 : 3} */
-        showsHorizontalScrollIndicator={false}
-        data={products}
-        keyExtractor={(product) => product.id}
-        renderItem={({ item }) =>
-          <Card product={item} style={styles.cardItem} navigation={navigation} >
-            <Image
-              source={{ uri: item.images[0] }}
-              style={(width <= 360) ? styles.imageSM : styles.imageM}
-              resizeMode='cover'
-            />
-          </Card>}
-      />
-      <Text style={styles.text}>
-        Productos Destacados
-      </Text>
-      <FlatList
-        horizontal
-        initialNumToRender={10}
-        /* numColumns={(width <= 360) ? 2 : 3} */
-        showsHorizontalScrollIndicator={false}
-        data={products}
-        keyExtractor={(product) => product.id}
-        renderItem={({ item }) =>
-          <Card product={item} style={styles.cardItem} navigation={navigation} >
-            <Image
-              source={{ uri: item.images[0] }}
-              style={(width <= 360) ? styles.imageSM : styles.imageM}
-              resizeMode='cover'
-            />
-          </Card>}
-
-      />
+      <View>
+        <Text style={styles.text}>
+          Productos Destacados
+        </Text>
+        <FlatList
+          horizontal
+          initialNumToRender={10}
+          showsHorizontalScrollIndicator={false}
+          data={products}
+          keyExtractor={(product) => product.id}
+          renderItem={({ item }) =>
+            <Card product={item} style={(width <= 360) ? styles.cardItemSM : styles.cardItemM} navigation={navigation} >
+              <Image
+                source={{ uri: item.images[0] }}
+                style={(width <= 360) ? styles.imageSM : styles.imageM}
+                resizeMode='cover'
+              />
+            </Card>}
+        />
+      </View>
     </ScrollView>
   )
 }
@@ -117,42 +97,49 @@ export default Home
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.Jasper,
     width: '100%',
     height: '100%',
     flexDirection: 'column',
-
+    flex:1,
   },
   brandSection: {
-    backgroundColor: colors.Chetsnut
+    backgroundColor: colors.Chetsnut,
+    borderWidth: 1,
+    marginVertical: 15
   },
-  cardItem: {
+  cardItemM: {
     width: 150,
     height: 150,
     margin: 5,
   },
   brandItem: {
-    
     width: 90,
-    height: 70,
-    margin:2
-
-  },
-  imageSM: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 10
+    height: 50,
+    margin: 1
   },
   imageM: {
     width: '100%',
     height: '100%',
-    borderRadius: 10
+    borderRadius: 10,
   },
   text: {
     textAlign: 'center',
     fontSize: 20,
-    color: colors.textLight,
+    color: colors.textDark,
     marginVertical: 5,
-    fontFamily:'Square'
-  }
+    fontFamily: 'Square'
+  },
+
+  // Estilos para móviles small
+
+  cardItemSM: {
+    width: 100,
+    height: 100,
+    margin: 5,
+  },
+  imageSM: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 8
+  },
 })

@@ -1,17 +1,13 @@
 import { Image, Pressable, StyleSheet, View, useWindowDimensions } from 'react-native'
 import React from 'react'
-import { AntDesign } from '@expo/vector-icons'
 import { colors } from '../constants/colors'
 
-const Header = ({ route, navigation }) => {
+const Header = ({ navigation }) => {
 
   const { height, width } = useWindowDimensions()
 
   return (
     <View style={styles.container}>
-      {(route.name != 'Home') && (<Pressable onPress={() => navigation.goBack()} style={styles.goBack}>
-        <AntDesign name='back' size={30} style={styles.colorIcons} />
-      </Pressable>)}
       <Pressable onPress={() => navigation.navigate('Home')}>
         <Image
           style={(width < height) ? styles.tinyLogo : styles.tinyLogoLandscape}
@@ -35,12 +31,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor:colors.Chetsnut
   },
-  goBack: {
-    position: 'absolute',
-    alignItems: 'center',
-    left: '5%',
-    top: '80%',
-  },
+
   text: {
     fontSize: 30
 
@@ -48,9 +39,6 @@ const styles = StyleSheet.create({
   textSM: {
     fontSize: 22
 
-  },
-  colorIcons: {
-    color: colors.light
   },
   tinyLogo: {
     height: 50,

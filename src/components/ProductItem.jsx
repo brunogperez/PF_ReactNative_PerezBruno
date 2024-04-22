@@ -2,14 +2,21 @@ import { Image, Pressable, StyleSheet, Text, View, useWindowDimensions } from 'r
 import React from 'react'
 import Card from './Card'
 import { colors } from '../constants/colors'
+import { useDispatch } from 'react-redux'
+import { setItemIDSelected } from '../features/shop/shopSlice'
 
 const ProductItem = ({ product, route, navigation }) => {
-
   // const { height, width} = useWindowDimensions()
 
+  const dispatch = useDispatch()
+
+  const handleNavigate = () => {
+    dispatch(setItemIDSelected(product.title))
+    navigation.navigate('ItemDetail', { productID: product.id })
+  }
   return (
     <Card style={styles.card}>
-      <Pressable style={styles.styleProduct} onPress={() => navigation.navigate('ItemDetail', { productID: product.id })}>
+      <Pressable style={styles.styleProduct} onPress={handleNavigate}>
         <View style={styles.textContainer}>
           <Text style={styles.textCategory}> {product.title}</Text>
           <Text style={styles.textCategory}>  Precio: ${product.price}</Text>
@@ -32,7 +39,7 @@ const styles = StyleSheet.create({
     width: '90%',
     marginTop: 30,
     borderRadius: 8,
-       
+
   },
   image: {
     height: 110,

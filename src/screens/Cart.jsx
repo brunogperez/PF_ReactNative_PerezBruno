@@ -21,12 +21,12 @@ const Cart = () => {
         }}
       />
       <View style={styles.totalContainer}>
+        <Text>Total: ${total}</Text>
         <Pressable>
           <Text>
-            Confirm
+            Purcharse
           </Text>
         </Pressable>
-        <Text>Total: ${total}</Text>
       </View>
     </View>
   )
@@ -34,4 +34,11 @@ const Cart = () => {
 
 export default Cart
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  totalContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 20,
+    gap: 20
+  }
+})

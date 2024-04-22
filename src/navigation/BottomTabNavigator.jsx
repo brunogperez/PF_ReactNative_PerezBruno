@@ -73,10 +73,10 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     backgroundColor: colors.light,
     borderRadius: 15,
-    height: 60,
+    height: 50,
     width: '80%',
     marginBottom: '2%',
     position: 'absolute',
-    left:'10%'
+    left: '10%'
   },
 })

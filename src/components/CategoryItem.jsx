@@ -1,14 +1,24 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native'
+import { Pressable, StyleSheet, Text } from 'react-native'
 import Card from './Card.jsx'
 import { colors } from '../constants/colors.js'
+import { useDispatch, useSelector } from 'react-redux'
+import { setCategorySelected } from '../features/shop/shopSlice.js'
 
 const CategoryItem = ({ category, navigation }) => {
+
+  const dispatch = useDispatch()
+
+  const handleNavigate = () => {
+    dispatch(setCategorySelected({ category }))
+    navigation.navigate('ItemListCategory', { category })
+  }
+  
   return (
     <Card style={styles.cardCategory}>
       <Pressable
         // Cuando se usa navigate, se envian dos parametros el primero es el nombre del componente a 
         // navegar y el segundo es un objeto que son los parámetros a recibir por el componente.
-        onPress={() => navigation.navigate('ItemListCategory', { category })}
+        onPress={handleNavigate}
       >
         <Text style={styles.textCategory}>{category}</Text>
       </Pressable>
@@ -20,7 +30,7 @@ export default CategoryItem
 
 const styles = StyleSheet.create({
   cardCategory: {
-    width:100,
+    width: 100,
     marginHorizontal: 3
   },
   textCategory: {

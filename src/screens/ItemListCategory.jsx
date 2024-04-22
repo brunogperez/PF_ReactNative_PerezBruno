@@ -4,7 +4,7 @@ import products from '../data/products.json'
 import ProductItem from '../components/ProductItem'
 import Search from '../components/Search'
 import { colors } from '../constants/colors'
-import { AntDesign } from '@expo/vector-icons'
+
 
 const ItemListCategory = ({
   setCategorySelected = () => { },
@@ -41,6 +41,7 @@ const ItemListCategory = ({
 
   return (
     <View style={styles.flatlistContainer}>
+   
       <Search
         onSearch={setKeyword}
         goBack={() => setCategorySelected('')}
@@ -74,5 +75,5 @@ const styles = StyleSheet.create({
   },
   productItem: {
     width: '100%',
-  }
+  },
 })

@@ -2,9 +2,9 @@ import { Image, Pressable, StyleSheet, Text, View, useWindowDimensions } from 'r
 import React, { useEffect, useState } from 'react'
 import products from '../data/products.json'
 import Counter from '../components/Counter'
-import { FontAwesome5 } from '@expo/vector-icons'
-import { AntDesign } from '@expo/vector-icons'
 import { colors } from '../constants/colors'
+import { MaterialIcons } from '@expo/vector-icons'
+
 
 const ItemDetail = ({ route, navigation }) => {
 
@@ -31,12 +31,14 @@ const ItemDetail = ({ route, navigation }) => {
     else setOrientation('portrait')
   }, [width, height])
 
-  console.log(width)
   //Landscape = Horizontal
   //Portrait = Vertical
 
   return (
     <View>
+      <Pressable onPress={() => navigation.goBack()} style={styles.goBack}>
+        <MaterialIcons name="arrow-back" size={30} style={styles.colorIcons} />
+      </Pressable>
       {product ? (
         <View
           style={
@@ -69,7 +71,7 @@ const ItemDetail = ({ route, navigation }) => {
               <Text>{product.description}</Text>
               <Text style={styles.price}>Precio: ${product.price}</Text>
             </View>
-            <View style={styles.quantityContainer}>
+            <View style={(width <= 360) ? styles.quantityContainerSM : styles.quantityContainerM}>
               <Counter />
               <Pressable style={styles.pressable}>
                 <Text style={styles.textPressable}>ADD TO CART</Text>
@@ -92,21 +94,21 @@ const styles = StyleSheet.create({
   mainContainer: {
     flexDirection: 'column',
     alignItems: 'center',
-    gap: 20,
+    gap: 5,
     padding: 10,
-    backgroundColor: colors.Jasper,
     height: '100%',
-    width: '100%'
+    width: '100%',
+
   },
   imgContainerM: {
     backgroundColor: colors.Chetsnut,
     width: '120%',
     paddingBottom: 10,
     gap: 40,
-    borderBottomEndRadius:300,
+    borderBottomEndRadius: 300,
     borderBottomStartRadius: 300,
-    top:-10,
-    height:'60%'
+    top: -10,
+    height: '60%'
   },
   imageM: {
     alignSelf: 'center',
@@ -116,6 +118,7 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     flexDirection: 'column',
+
   },
   textTitleContainer: {
     alignItems: 'center',
@@ -124,7 +127,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     margin: 10
   },
-  quantityContainer: {
+  quantityContainerM: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center'
@@ -144,25 +147,42 @@ const styles = StyleSheet.create({
   textPressable: {
     color: colors.textLight
   },
-
+  goBack: {
+    position: 'absolute',
+    alignItems: 'center',
+    left: '5%',
+    top: '1%',
+    zIndex:1
+  },
+  colorIcons: {
+    color: colors.light
+  },
 
   // Estilos para tamaño de movil small
 
   imgContainerSM: {
     backgroundColor: colors.Chetsnut,
     width: '120%',
-    paddingBottom: 40,
+    paddingBottom: 10,
     gap: 10,
     borderBottomEndRadius: 400,
     borderBottomStartRadius: 400,
-    top:-10,
-    height:'60%'
+    top: -10,
+    height: '50%',
+
   },
   imageSM: {
     alignSelf: 'center',
-    width: 200,
-    height: 200,
+    width: 150,
+    height: 150,
     borderRadius: 400,
+  },
+  quantityContainerSM: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 100,
+    top: -20
   },
   // Estilos para posición horizontal del dispositivo
 

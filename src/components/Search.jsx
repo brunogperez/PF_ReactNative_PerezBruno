@@ -2,6 +2,7 @@ import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
 import React, { useState } from 'react'
 import { colors } from '../constants/colors'
 import { FontAwesome5 } from '@expo/vector-icons'
+import { MaterialIcons } from '@expo/vector-icons'
 
 
 const Search = ({ onSearch = () => { }, error = '', navigation }) => {
@@ -10,6 +11,9 @@ const Search = ({ onSearch = () => { }, error = '', navigation }) => {
 
   return (
     <View style={styles.inputContainer}>
+         <Pressable onPress={() => navigation.goBack()} style={styles.goBack}>
+        <MaterialIcons name="arrow-back" size={30} style={styles.colorIcons} />
+      </Pressable>
       <TextInput
         style={styles.inputSearch}
         onChangeText={setInput}
@@ -39,7 +43,7 @@ const styles = StyleSheet.create({
   },
   inputSearch: {
     backgroundColor: colors.Jasper,
-    width: '75%',
+    width: '60%',
     height: 40,
     margin: 10,
     borderRadius: 10,
