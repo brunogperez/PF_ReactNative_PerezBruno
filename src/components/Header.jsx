@@ -1,21 +1,42 @@
 import { Image, Pressable, StyleSheet, View, useWindowDimensions } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
+import SwitchCustom from './SwitchCustom'
 import { colors } from '../constants/colors'
+import { useDispatch, useSelector } from 'react-redux'
+import { setDarkMode } from '../features/global/globalSlice'
 
 const Header = ({ navigation }) => {
 
+  const dispatch = useDispatch()
+
+  const isDark = useSelector(state => state.globalReducer.value.darkMode)
+  
+  const bgColor = isDark ? colors.DarkGreen : colors.Mint
+
   const { height, width } = useWindowDimensions()
 
+  const [isEnabled, setIsEnabled] = useState(false)
+
+  const handleTheme = () => {
+    setIsEnabled(initialValue => !initialValue)
+    dispatch(setDarkMode(!isEnabled))
+  }
+
   return (
-    <View style={styles.container}>
+    <View style={{ backgroundColor: bgColor, ...styles.container }}>
       <Pressable onPress={() => navigation.navigate('Home')}>
         <Image
-          style={(width < height) ? styles.tinyLogo : styles.tinyLogoLandscape}
+          style={(width < height) ? styles.logo : styles.logoLandscape}
           source={{
-            uri: 'https://res.cloudinary.com/divujqlv8/image/upload/v1713306803/xglccdvcuokh4iwd6gnn.webp',
+            uri: 'https://res.cloudinary.com/divujqlv8/image/upload/v1713998174/fghdfghdfgh_gjmnht.png',
           }}
         />
       </Pressable>
+      <SwitchCustom
+        isEnabled={isEnabled}
+        setIsEnabled={handleTheme}
+        style={styles.switch}
+      />
     </View>
   )
 }
@@ -24,23 +45,16 @@ export default Header
 
 const styles = StyleSheet.create({
   container: {
+    paddingHorizontal: 15,
     paddingTop: 30,
     paddingBottom: 15,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'space-between',
+    alignSelf: 'center',
     flexDirection: 'row',
-    backgroundColor:colors.Chetsnut
+    marginHorizontal: 20,
+    width: '100%',
   },
-
-  text: {
-    fontSize: 30
-
-  },
-  textSM: {
-    fontSize: 22
-
-  },
-  tinyLogo: {
+  logo: {
     height: 50,
     width: 100,
     borderRadius: 8
@@ -48,7 +62,7 @@ const styles = StyleSheet.create({
 
   // Estilos para posicion horizontal del dispositivo
 
-  tinyLogoLandscape: {
+  logoLandscape: {
     height: 70,
     width: 200,
     borderRadius: 4

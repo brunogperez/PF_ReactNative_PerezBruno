@@ -8,7 +8,6 @@ import { colors } from '../constants/colors'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Header from '../components/Header'
 
-
 const Tab = createBottomTabNavigator()
 
 const BottomTabNavigator = () => {
@@ -18,8 +17,8 @@ const BottomTabNavigator = () => {
         header: () => {
           return <Header navigation={navigation} route={route} />
         },
-        tabBarShowLabel: false,
         tabBarStyle: styles.tabBar,
+        tabBarShowLabel: false,
       })}
     >
       <Tab.Screen
@@ -29,7 +28,7 @@ const BottomTabNavigator = () => {
           tabBarIcon: ({ focused }) => {
             return (
               <View>
-                <FontAwesome5 name="store" size={24} color={focused ? "black" : colors.Chetsnut}
+                <FontAwesome5 name="store" size={focused ? 28 : 20} color={focused ? "black" : colors.Chetsnut}
                 />
               </View>
             )
@@ -43,7 +42,7 @@ const BottomTabNavigator = () => {
           tabBarIcon: ({ focused }) => {
             return (
               <View>
-                <FontAwesome5 name="shopping-cart" size={24} color={focused ? 'black' : colors.Chetsnut} />
+                <FontAwesome5 name="shopping-cart" size={focused ? 28 : 20}  color={focused ? 'black' : colors.Chetsnut} />
               </View>
             )
           },
@@ -56,13 +55,12 @@ const BottomTabNavigator = () => {
           tabBarIcon: ({ focused }) => {
             return (
               <View>
-                <FontAwesome5 name="receipt" size={24} color={focused ? 'black' : colors.Chetsnut} />
+                <FontAwesome5 name="receipt" size={focused ? 28 : 20}  color={focused ? 'black' : colors.Chetsnut} />
               </View>
             )
           },
         }}
       />
-
     </Tab.Navigator>
   )
 }
@@ -70,13 +68,12 @@ export default BottomTabNavigator
 
 const styles = StyleSheet.create({
   tabBar: {
-    alignSelf: 'center',
-    backgroundColor: colors.light,
-    borderRadius: 15,
-    height: 50,
-    width: '80%',
-    marginBottom: '2%',
-    position: 'absolute',
-    left: '10%'
+    height: 60,
+    position:'absolute',
+    bottom:10,
+    borderRadius:10,
+    width:'90%',
+    left:20,
+    backgroundColor:'#dcdcdc'
   },
 })

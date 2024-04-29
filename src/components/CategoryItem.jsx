@@ -1,7 +1,7 @@
 import { Pressable, StyleSheet, Text } from 'react-native'
 import Card from './Card.jsx'
 import { colors } from '../constants/colors.js'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { setCategorySelected } from '../features/shop/shopSlice.js'
 
 const CategoryItem = ({ category, navigation }) => {
@@ -12,7 +12,7 @@ const CategoryItem = ({ category, navigation }) => {
     dispatch(setCategorySelected({ category }))
     navigation.navigate('ItemListCategory', { category })
   }
-  
+
   return (
     <Card style={styles.cardCategory}>
       <Pressable

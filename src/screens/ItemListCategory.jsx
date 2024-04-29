@@ -1,9 +1,10 @@
-import { FlatList, Pressable, StyleSheet, View } from 'react-native'
+import { FlatList, StyleSheet, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import products from '../data/products.json'
 import ProductItem from '../components/ProductItem'
 import Search from '../components/Search'
 import { colors } from '../constants/colors'
+import LayoutCustom from '../components/LayoutCustom'
 
 
 const ItemListCategory = ({
@@ -48,7 +49,7 @@ const ItemListCategory = ({
         error={error}
         style={styles.inputSearch}
         navigation={navigation}
-      />
+      />  
       <FlatList
         showsVerticalScrollIndicator={false}
         data={productsFiltered}
@@ -63,17 +64,18 @@ export default ItemListCategory
 
 const styles = StyleSheet.create({
   flatlistContainer: {
-    width: '100%',
-    flex: 1,
+    width:'100%',
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'column',
-    backgroundColor: colors.Jasper
+    backgroundColor:'black'
+    
   },
   inputSearch: {
     width: '100%'
   },
   productItem: {
-    width: '100%',
+    alignSelf:'center',
+    
   },
 })

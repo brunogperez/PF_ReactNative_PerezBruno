@@ -6,7 +6,6 @@ import { useDispatch } from 'react-redux'
 import { setItemIDSelected } from '../features/shop/shopSlice'
 
 const ProductItem = ({ product, route, navigation }) => {
-  // const { height, width} = useWindowDimensions()
 
   const dispatch = useDispatch()
 
@@ -38,8 +37,10 @@ const styles = StyleSheet.create({
     height: 120,
     width: '90%',
     marginTop: 30,
-    borderRadius: 8,
-
+    borderRadius: 10,
+    alignSelf: 'center',
+    borderWidth:2,
+    backgroundColor:colors.Chetsnut
   },
   image: {
     height: 110,
@@ -59,6 +60,5 @@ const styles = StyleSheet.create({
   },
   textCategory: {
     marginVertical: 5,
-    color: colors.textLight
   }
 })

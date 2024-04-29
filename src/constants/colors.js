@@ -1,12 +1,14 @@
-export const colors = {
-    Night: '#0C0C0C',
-    CaputMortuum: '#481E14',
-    Chetsnut: '#9B3922',
-    Jasper: '#CE5034',
-    Tomato: '#FF6542',
-    Salmon: '#FF9982',
+export const colors= {
+    
+    Black: '#010302',
+    DarkGreen: '#103422',
+    CastletonGreen: '#1B5B3A',
+    SeaGreen: '#278052',
+    Mint: '#4FB477',
+    Turquoise: '#51DAB3',
+    FlourescentCyan: '#52FFEE',
+    MintGreen: '#DCFFFD',
+    White:'white',
     textLight:'white',
     textDark:'black',
-    light:'white',
-    dark:'black'
 }

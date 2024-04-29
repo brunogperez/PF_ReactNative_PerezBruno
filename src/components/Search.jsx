@@ -39,7 +39,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: colors.Chetsnut,
     width:'100%',
-    borderBottomWidth:3
   },
   inputSearch: {
     backgroundColor: colors.Jasper,

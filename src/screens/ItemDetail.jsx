@@ -4,9 +4,25 @@ import products from '../data/products.json'
 import Counter from '../components/Counter'
 import { colors } from '../constants/colors'
 import { MaterialIcons } from '@expo/vector-icons'
+import { useDispatch, useSelector } from 'react-redux'
+import { addToCart } from '../features/cart/cartSlice'
+import Card from '../components/Card'
 
 
 const ItemDetail = ({ route, navigation }) => {
+
+
+  const dispatch = useDispatch()
+
+  const isDark = useSelector(state => state.globalReducer.value.darkMode)
+
+  const bgColor = isDark ? colors.Black : colors.MintGreen
+  const bgimage = isDark ? colors.DarkGreen : colors.Mint
+  const colorText = isDark ? colors.White : colors.Black
+
+  const addProduct = () => {
+    dispatch(addToCart(product))
+  }
 
   const { width, height } = useWindowDimensions()
 
@@ -43,38 +59,28 @@ const ItemDetail = ({ route, navigation }) => {
         <View
           style={
             orientation === 'portrait' ?
-              styles.mainContainer
-              : styles.mainContainerLandscape
+              { backgroundColor: bgColor, ...styles.mainContainer }
+              : { backgroundColor: bgColor, ...styles.mainContainerLandscape }
           }
         >
-          <View style={(width <= 360) ? styles.imgContainerSM : styles.imgContainerM}>
+          <Card style={(width <= 360) ? { backgroundColor: bgimage, ...styles.imgContainerSM } : { backgroundColor: bgimage, ...styles.imgContainerM }}>
             <View style={styles.textTitleContainer}>
-              <Text style={styles.textTitle} >{product.title}</Text>
+              <Text style={{ color: colorText ,...styles.textTitle}} >{product.title}</Text>
             </View>
-            {(orientation === 'portrait') ? (
-              <Image
-                source={{ uri: product.images[0] }}
-                style={(width <= 360) ? styles.imageSM : styles.imageM}
-                resizeMode='cover'
-              />
-            ) : (
-              <Image
-                source={{ uri: product.images[0] }}
-                style={(width <= 592) ? styles.imageLandscapeSM : styles.imageLandscapeM}
-                resizeMode='cover'
-              />
-            )}
-
-          </View>
+            <Image
+              source={{ uri: product.images[0] }}
+              style={(width <= 360) ? styles.imageSM : styles.imageM}
+              resizeMode='cover'
+            />
+          </Card>
           <View style={orientation === 'portrait' ? styles.textContainer : styles.textContainerLandscape}>
-            <View style={styles.textDescription} >
-              <Text>{product.description}</Text>
-              <Text style={styles.price}>Precio: ${product.price}</Text>
+            <View >
+              <Text style={{ color: colorText }}>{product.description}</Text>
+              <Text style={{ color: colorText ,...styles.price}}>Precio: ${product.price}</Text>
             </View>
             <View style={(width <= 360) ? styles.quantityContainerSM : styles.quantityContainerM}>
-              <Counter />
-              <Pressable style={styles.pressable}>
-                <Text style={styles.textPressable}>ADD TO CART</Text>
+              <Pressable style={{ backgroundColor: bgimage,...styles.pressable}} onPress={() => dispatch(addProduct)}>
+                <Text style={{ color: colorText }}>ADD TO CART</Text>
                 {/* <FontAwesome5 name="cart-plus" size={30} color="black" /> */}
               </Pressable>
             </View>
@@ -101,13 +107,12 @@ const styles = StyleSheet.create({
 
   },
   imgContainerM: {
-    backgroundColor: colors.Chetsnut,
     width: '120%',
     paddingBottom: 10,
     gap: 40,
     borderBottomEndRadius: 300,
     borderBottomStartRadius: 300,
-    top: -10,
+    top: -20,
     height: '60%'
   },
   imageM: {
@@ -129,8 +134,9 @@ const styles = StyleSheet.create({
   },
   quantityContainerM: {
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center'
+    alignSelf: 'center',
+    justifyContent: 'center',
+
   },
   price: {
     width: '100%',
@@ -140,19 +146,15 @@ const styles = StyleSheet.create({
   pressable: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: colors.Chetsnut,
     padding: 20,
     borderRadius: 100,
-  },
-  textPressable: {
-    color: colors.textLight
   },
   goBack: {
     position: 'absolute',
     alignItems: 'center',
     left: '5%',
-    top: '1%',
-    zIndex:1
+    top: '2%',
+    zIndex: 1
   },
   colorIcons: {
     color: colors.light
@@ -161,7 +163,7 @@ const styles = StyleSheet.create({
   // Estilos para tamaño de movil small
 
   imgContainerSM: {
-    backgroundColor: colors.Chetsnut,
+    backgroundColor: 'white',
     width: '120%',
     paddingBottom: 10,
     gap: 10,
@@ -192,7 +194,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 20,
     gap: 10,
-    backgroundColor: colors.Jasper,
+
     height: '100%'
   },
   textContainerLandscape: {

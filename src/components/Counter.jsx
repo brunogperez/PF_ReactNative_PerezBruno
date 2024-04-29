@@ -34,11 +34,9 @@ const styles = StyleSheet.create({
   counterContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    marginHorizontal: 15,
+    justifyContent: 'left',
     marginVertical: 15,
-    padding: 7,
-    gap: 10
+    gap: 10,
   },
   pressable: {
     backgroundColor: colors.Chetsnut,
