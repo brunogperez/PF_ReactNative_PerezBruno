@@ -1,18 +1,18 @@
 import { FlatList, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect } from 'react'
+import React from 'react'
 import CategoryItem from '../components/CategoryItem.jsx'
-import categories from '../data/categories.json'
 import { colors } from '../constants/colors.js'
 import products from '../data/products.json'
 import Card from '../components/Card.jsx'
 import { useDispatch, useSelector } from 'react-redux'
 import { setItemIDSelected } from '../features/shop/shopSlice.js'
+import { useGetCategoriesQuery } from '../services/shopService.js'
 
 const Home = ({ navigation }) => {
 
+  const { data: categories, isLoading, error } = useGetCategoriesQuery()
 
   const isDark = useSelector(state => state.globalReducer.value.darkMode)
-
   const bgColor = isDark ? colors.Black : colors.MintGreen
 
   const dispatch = useDispatch()
@@ -20,13 +20,10 @@ const Home = ({ navigation }) => {
   const idRandom = Math.floor(Math.random(10) * 10)
   const productRandom = products.find(product => product.id == 1)
 
-
-
   const handleNavigate = () => {
     dispatch(setItemIDSelected(productRandom.title))
     navigation.navigate('ItemDetail', { productID: productRandom.id })
   }
-
 
   return (
     <ScrollView style={{ backgroundColor: bgColor, ...styles.container }} showsVerticalScrollIndicator={false}>

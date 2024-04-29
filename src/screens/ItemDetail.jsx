@@ -1,16 +1,13 @@
 import { Image, Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import products from '../data/products.json'
-import Counter from '../components/Counter'
 import { colors } from '../constants/colors'
 import { MaterialIcons } from '@expo/vector-icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { addToCart } from '../features/cart/cartSlice'
 import Card from '../components/Card'
-
+import { useGetProductsByIDQuery } from '../services/shopService'
 
 const ItemDetail = ({ route, navigation }) => {
-
 
   const dispatch = useDispatch()
 
@@ -20,32 +17,25 @@ const ItemDetail = ({ route, navigation }) => {
   const bgimage = isDark ? colors.DarkGreen : colors.Mint
   const colorText = isDark ? colors.White : colors.Black
 
-  const addProduct = () => {
-    dispatch(addToCart(product))
-  }
-
   const { width, height } = useWindowDimensions()
-
-  // Estado para manejar el seteo para el renderizado del producto
-  const [product, setProduct] = useState()
 
   // Estado para manejar la orientación del dispositivo
   const [orientation, setOrientation] = useState('portrait')
 
   const { productID } = route.params
 
-  useEffect(() => {
-    // Función para encontrar el ID del producto
-    const productSelected = products.find((product) => product.id === productID)
-    // Seteamos el producto 
-    setProduct(productSelected)
-  }, [productID])
+  const { data: product, error, isLoading } = useGetProductsByIDQuery(productID)
 
   useEffect(() => {
     // Condicional para comprobar la posición del dispositivo
     if (width > height) setOrientation('landscape')
     else setOrientation('portrait')
   }, [width, height])
+
+
+  const handleAddCart = () => {
+    dispatch(addToCart({...product, quantity: 1}))
+  }
 
   //Landscape = Horizontal
   //Portrait = Vertical
@@ -65,7 +55,7 @@ const ItemDetail = ({ route, navigation }) => {
         >
           <Card style={(width <= 360) ? { backgroundColor: bgimage, ...styles.imgContainerSM } : { backgroundColor: bgimage, ...styles.imgContainerM }}>
             <View style={styles.textTitleContainer}>
-              <Text style={{ color: colorText ,...styles.textTitle}} >{product.title}</Text>
+              <Text style={{ color: colorText, ...styles.textTitle }} >{product.title}</Text>
             </View>
             <Image
               source={{ uri: product.images[0] }}
@@ -76,10 +66,10 @@ const ItemDetail = ({ route, navigation }) => {
           <View style={orientation === 'portrait' ? styles.textContainer : styles.textContainerLandscape}>
             <View >
               <Text style={{ color: colorText }}>{product.description}</Text>
-              <Text style={{ color: colorText ,...styles.price}}>Precio: ${product.price}</Text>
+              <Text style={{ color: colorText, ...styles.price }}>Precio: ${product.price}</Text>
             </View>
             <View style={(width <= 360) ? styles.quantityContainerSM : styles.quantityContainerM}>
-              <Pressable style={{ backgroundColor: bgimage,...styles.pressable}} onPress={() => dispatch(addProduct)}>
+              <Pressable style={{ backgroundColor: bgimage, ...styles.pressable }} onPress={handleAddCart}>
                 <Text style={{ color: colorText }}>ADD TO CART</Text>
                 {/* <FontAwesome5 name="cart-plus" size={30} color="black" /> */}
               </Pressable>

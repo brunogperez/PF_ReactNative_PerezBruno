@@ -1,10 +1,8 @@
 import { FlatList, StyleSheet, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import products from '../data/products.json'
 import ProductItem from '../components/ProductItem'
 import Search from '../components/Search'
-import { colors } from '../constants/colors'
-import LayoutCustom from '../components/LayoutCustom'
+import { useGetProductsByCategoryQuery } from '../services/shopService'
 
 
 const ItemListCategory = ({
@@ -13,11 +11,14 @@ const ItemListCategory = ({
   navigation
 }) => {
 
+
   const [keyword, setKeyword] = useState('')
-  const [productsFiltered, setProductsFiltered] = useState('')
+  const [productsFiltered, setProductsFiltered] = useState([])
   const [error, setError] = useState('')
 
-  const { category } = route.params
+  const { category: categorySelected } = route.params
+
+  const { data: prodFetched, error: fetchError, isLoading } = useGetProductsByCategoryQuery(categorySelected)
 
   useEffect(() => {
 
@@ -29,31 +30,32 @@ const ItemListCategory = ({
       return
     }
 
-    //Se realiza un prefiltrado para obtener los productos de la categoria específica
-    const filterByCategory = products.filter(product => product.category === category)
-
-    //Se realiza un filtrado de los productos para obtener los que coincidan con la busqueda del input
-    const prodFilter = filterByCategory.filter(product => product.title.toLocaleLowerCase().includes(keyword.toLocaleLowerCase()))
-    setProductsFiltered(prodFilter)
-    setError('')
-
-  }, [keyword, category])
+    if (!isLoading) {
+      //Se realiza un filtrado de los productos para obtener los que coincidan con la busqueda del input
+      const prodFilter = prodFetched.filter(product =>
+        product.title.toLocaleLowerCase().includes(keyword.toLocaleLowerCase()))
+      setProductsFiltered(prodFilter)
+      setError('')
+    }
+  }, [keyword, categorySelected, prodFetched, isLoading])
 
 
   return (
     <View style={styles.flatlistContainer}>
-   
+
       <Search
         onSearch={setKeyword}
-        goBack={() => setCategorySelected('')}
+        goBack={() => navigation.goBack()}
         error={error}
         style={styles.inputSearch}
         navigation={navigation}
-      />  
+      />
       <FlatList
         showsVerticalScrollIndicator={false}
         data={productsFiltered}
-        renderItem={({ item }) => <ProductItem product={item} style={styles.productItem} navigation={navigation} />}
+        renderItem={({ item }) =>
+          <ProductItem product={item} style={styles.productItem} navigation={navigation} />
+        }
         keyExtractor={(product) => product.id}
       />
     </View>
@@ -64,18 +66,18 @@ export default ItemListCategory
 
 const styles = StyleSheet.create({
   flatlistContainer: {
-    width:'100%',
+    width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'column',
-    backgroundColor:'black'
-    
+    backgroundColor: 'black'
+
   },
   inputSearch: {
     width: '100%'
   },
   productItem: {
-    alignSelf:'center',
-    
+    alignSelf: 'center',
+
   },
 })
