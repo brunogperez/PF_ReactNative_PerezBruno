@@ -1,4 +1,4 @@
-import { Image, Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native'
+import { Image, Pressable, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { colors } from '../constants/colors'
 import { MaterialIcons } from '@expo/vector-icons'
@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { addToCart } from '../features/cart/cartSlice'
 import Card from '../components/Card'
 import { useGetProductsByIDQuery } from '../services/shopService'
+import ButtonCustom from '../components/ButtonCustom'
 
 const ItemDetail = ({ route, navigation }) => {
 
@@ -34,12 +35,10 @@ const ItemDetail = ({ route, navigation }) => {
 
 
   const handleAddCart = () => {
-    dispatch(addToCart({...product, quantity: 1}))
+    dispatch(addToCart({ ...product, quantity: 1 }))
   }
 
-  //Landscape = Horizontal
-  //Portrait = Vertical
-
+ 
   return (
     <View>
       <Pressable onPress={() => navigation.goBack()} style={styles.goBack}>
@@ -69,10 +68,9 @@ const ItemDetail = ({ route, navigation }) => {
               <Text style={{ color: colorText, ...styles.price }}>Precio: ${product.price}</Text>
             </View>
             <View style={(width <= 360) ? styles.quantityContainerSM : styles.quantityContainerM}>
-              <Pressable style={{ backgroundColor: bgimage, ...styles.pressable }} onPress={handleAddCart}>
+              <ButtonCustom onPress={handleAddCart}>
                 <Text style={{ color: colorText }}>ADD TO CART</Text>
-                {/* <FontAwesome5 name="cart-plus" size={30} color="black" /> */}
-              </Pressable>
+              </ButtonCustom>
             </View>
           </View>
         </View>
@@ -133,12 +131,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginVertical: 10
   },
-  pressable: {
+  /* pressable: {
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
     borderRadius: 100,
-  },
+  }, */
   goBack: {
     position: 'absolute',
     alignItems: 'center',
