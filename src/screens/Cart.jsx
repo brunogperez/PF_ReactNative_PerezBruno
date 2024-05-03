@@ -1,13 +1,16 @@
-import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native'
+import { FlatList, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import CartItem from '../components/CartItem'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { usePostOrderMutation } from '../services/shopService'
-import ButtonCustom from '../components/ButtonCustom'
 import { colors } from '../constants/colors'
+import { clearCart } from '../features/cart/cartSlice'
+import ButtonCustom from '../components/ButtonCustom'
 
 const Cart = () => {
 
+  const dispatch = useDispatch()
+  
   const { cart, total } = useSelector((state) => state.cartReducer.value)
   const isDark = useSelector(state => state.globalReducer.value.darkMode)
 
@@ -23,6 +26,10 @@ const Cart = () => {
     })
   }
 
+  const handleClearCart = () => {
+    dispatch(clearCart())
+  }
+
   if (cart.length == 0) {
     return (
       <View style={styles.container}>
@@ -34,6 +41,11 @@ const Cart = () => {
   } else {
     return (
       <View style={styles.container}>
+        <ButtonCustom onPress={handleClearCart}>
+          <Text style={{ color: colorText }}>
+            Clear Cart
+          </Text>
+        </ButtonCustom>
         <FlatList
           data={cart}
           keyExtractor={product => product.id}

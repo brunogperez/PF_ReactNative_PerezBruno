@@ -49,35 +49,33 @@ export const cartSlice = createSlice({
         }
       }
     },
-    /*     increment(state, { payload }) {
-    
-          const productInCart = state.value.cart.find((product) => product.id == payload.id)
-          if (productInCart) productInCart.quantity++
-    
-        },
-        decrement(state, { payload }) {
-    
-          const productInCart = state.value.cart.find((product) => product.id == payload.id)
-    
-          if (productInCart == 1) {
-            const products = state.value.cart.filter(product => product.id !== payload.id)
-            state.value.cart = products
-          } else {
-            productInCart.quantity--
-          }
-        }, */
+    increment(state, { payload }) {
+
+      const item = state.value.cart.find((item) => item.id === payload);
+      item.quantity++
+
+    },
+    decrement(state, { payload }) {
+
+      const item = state.value.cart.find((item) => item.id === payload)
+      if (item.quantity === 1) {
+        item.quantity = 1
+      } else {
+        item.quantity--
+      }
+    },
     removeProduct: (state, { payload }) => {
 
-      const products = state.value.cart.filter(product => product.id != payload.id)
-      
-      state.value.cart = products
+      const newCart = state.value.cart.filter((item) => item.id !== payload)
 
-      console.log(products)
+      state.value.cart = newCart
 
     },
     clearCart: (state) => {
 
-      state.value.cart = []
+      const clearCart = []
+
+      state.value.cart = clearCart
 
     }
   }

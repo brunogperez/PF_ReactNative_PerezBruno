@@ -1,12 +1,11 @@
-import { Pressable, StyleSheet, Text, View } from "react-native"
-import React, { useState, useEffect } from "react"
-import { colors } from "../constants/colors"
-import InputForm from "../components/InputForm"
-
-import { useSignInMutation } from "../services/authService"
-import { setUser } from "../features/auth/authSlice"
-import { useDispatch } from "react-redux"
-import ButtonCustom from "../components/ButtonCustom"
+import { Pressable, StyleSheet, Text, View } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { colors } from '../constants/colors'
+import InputForm from '../components/InputForm'
+import { useSignInMutation } from '../services/authService'
+import { setUser } from '../features/auth/authSlice'
+import { useDispatch } from 'react-redux'
+import ButtonCustom from '../components/ButtonCustom'
 
 const LoginScreen = ({ navigation }) => {
 
@@ -21,8 +20,8 @@ const LoginScreen = ({ navigation }) => {
   const [password, setPassword] = useState()
 
   //Estados para manejar los errores al ingresar datos en los inputs
-  const [errorEmail, setErrorEmail] = useState("")
-  const [errorPassword, setErrorPassword] = useState("")
+  const [errorEmail, setErrorEmail] = useState('')
+  const [errorPassword, setErrorPassword] = useState('')
 
   //Función effect para despachar los datos a redux si el resultado es success
   useEffect(() => {
@@ -38,56 +37,63 @@ const LoginScreen = ({ navigation }) => {
 
   //Función para manejar el submit del form
   const onSubmit = () => {
-    try {
 
-      setErrorEmail("")
-      setErrorPassword("")
+    triggerSignIn({ email, password })
 
-      //Validación de datos por medio de la librería YUP
-      const validation = signupSchema.validateSync({ email, password })
+      /* try {
 
-      //Función para enviar los datos a firebase auth
-      triggerSignIn({ email, password })
+        setErrorEmail('')
+        setErrorPassword('')
 
-    } catch (error) {
+        //Validación de datos por medio de la librería YUP
+        const validation = signupSchema.validateSync({ email, password })
 
-      switch (error.path) {
-        case "email":
-          setErrorEmail(error.message)
-          break
-        case "password":
-          setErrorPassword(error.message)
+        //Función para enviar los datos a firebase auth
+        triggerSignIn({ email, password })
 
-        default:
-          break
-      }
-    }
+      } catch (error) {
+
+        switch (error.path) {
+          case 'email':
+            setErrorEmail(error.message)
+            break
+          case 'password':
+            setErrorPassword(error.message)
+
+          default:
+            break
+        }
+      } */
   }
 
   return (
     <View style={styles.main}>
       <View style={styles.container}>
-        <Text style={styles.title}>LOGIN</Text>
-        <InputForm
-          label={"Email"}
-          onChange={setEmail}
-          error={errorEmail}
-        />
-        <InputForm
-          label={"Password"}
-          onChange={setPassword}
-          error={errorPassword}
-          isSecure={true}
-        />
-        <ButtonCustom onPress={onSubmit} >
-          <Text style={styles.subLink}>
-            Submit
-          </Text>
-        </ButtonCustom>
-        <Text style={styles.sub}>Not have an account?</Text>
-        <ButtonCustom onPress={() => navigation.navigate("SignUp")}>
-          <Text style={styles.subLink}>Sign up</Text>
-        </ButtonCustom>
+        <View style={styles.containerForm}>
+          <Text style={styles.title}>LOGIN</Text>
+          <InputForm
+            label={'Email'}
+            onChange={setEmail}
+            error={errorEmail}
+          />
+          <InputForm
+            label={'Password'}
+            onChange={setPassword}
+            error={errorPassword}
+            isSecure={true}
+          />
+          <ButtonCustom onPress={onSubmit} >
+            <Text style={styles.submitbtn}>
+              Submit
+            </Text>
+          </ButtonCustom>
+        </View>
+        <View style={styles.containerRedirect}>
+          <Text style={styles.sub}>Not have an account?</Text>
+          <Pressable onPress={() => navigation.navigate('SignUp')}>
+            <Text style={styles.subLink}>Sign up</Text>
+          </Pressable>
+        </View>
       </View>
     </View>
   )
@@ -97,32 +103,47 @@ export default LoginScreen
 
 const styles = StyleSheet.create({
   main: {
-    width: "100%",
-    height: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-
-    backgroundColor: colors.SeaGreen,
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.MintGreen,
   },
   container: {
-    width: "90%",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
+    width: '90%',
+    flexDirection: 'column',
+    justifyContent: 'center',
     backgroundColor: colors.Turquoise,
     gap: 15,
     paddingVertical: 20,
     borderRadius: 20,
+  },
+  containerForm: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    gap: 15
+  },
+  containerRedirect: {
+    gap: 4,
+    alignItems: 'flex-end',
+    marginHorizontal: 25
   },
   title: {
     fontSize: 22,
   },
   sub: {
     fontSize: 14,
-    color: "black",
+    color: 'black',
   },
-  subLink: {
+  submitbtn: {
     fontSize: 14,
     color: colors.textLight,
+  },
+  subLink: {
+    fontSize: 17,
+    color: 'blue',
+    textDecorationLine: 'underline'
   },
 })

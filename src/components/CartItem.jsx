@@ -5,27 +5,29 @@ import { FontAwesome5 } from '@expo/vector-icons'
 import { colors } from '../constants/colors'
 import { useDispatch, useSelector } from 'react-redux'
 import { removeProduct } from '../features/cart/cartSlice'
+import ButtonCustom from './ButtonCustom'
+import Counter from '../components/Counter'
 
 const CartItem = ({ cartItem }) => {
-
-  const { cart } = useSelector((state) => state.cartReducer.value)
 
   const dispatch = useDispatch()
 
   const handleRemove = () => {
+    
     dispatch(removeProduct(cartItem.id))
   }
 
   return (
     <Card style={styles.card} onPress={() => { }}>
+      <ButtonCustom onPress={handleRemove}>
+        <FontAwesome5 name='trash' size={24} color='black' style={styles.icon} />
+      </ButtonCustom>
       <View style={styles.textContainer}>
         <Text style={styles.text}>{cartItem.title} ({cartItem.quantity})</Text>
         <Text style={styles.text2}>{cartItem.brand}</Text>
         <Text style={styles.text2}>${cartItem.price}</Text>
       </View>
-      <Pressable onPress={handleRemove}>
-        <FontAwesome5 name='trash' size={24} color='black' style={styles.icon} />
-      </Pressable>
+      <Counter cartItem={{...cartItem}} />
     </Card>
   )
 }
@@ -39,7 +41,7 @@ const styles = StyleSheet.create({
     padding: 5,
     margin: 5,
     borderRadius: 10,
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'space-between',
     alignSelf: 'center',
     width: '90%'
