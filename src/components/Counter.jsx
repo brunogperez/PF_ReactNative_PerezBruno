@@ -15,7 +15,7 @@ const Counter = ({ cartItem }) => {
   // Por el momento definimos el stock con una cantidad harcodeada para luego manejar el estado del
   // pressable con la cantidad obtenida por redux
   const stock = 25
-  console.log(cartItem)
+  
   const handleIncrement = () => {
     dispatch(increment(cartItem.id))
   }

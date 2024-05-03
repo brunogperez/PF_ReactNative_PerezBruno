@@ -42,7 +42,6 @@ const ItemListCategory = ({
 
   return (
     <View style={styles.flatlistContainer}>
-
       <Search
         onSearch={setKeyword}
         goBack={() => navigation.goBack()}

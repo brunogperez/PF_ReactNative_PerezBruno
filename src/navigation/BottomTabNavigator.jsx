@@ -3,7 +3,9 @@ import React from 'react'
 import HomeStackNavigator from './HomeStackNavigator'
 import CartStackNavigator from './CartStackNavigator'
 import OrderStackNavigator from './OrderStackNavigator'
+import ProfileStackNavigator from './ProfileStackNavigator'
 import { FontAwesome5 } from '@expo/vector-icons'
+import { Ionicons } from '@expo/vector-icons'
 import { colors } from '../constants/colors'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Header from '../components/Header'
@@ -28,7 +30,7 @@ const BottomTabNavigator = () => {
           tabBarIcon: ({ focused }) => {
             return (
               <View>
-                <FontAwesome5 name="store" size={focused ? 28 : 20} color={focused ? "black" : colors.Chetsnut}
+                <FontAwesome5 name="store" size={focused ? 28 : 20} color={focused ? "black" : colors.CastletonGreen}
                 />
               </View>
             )
@@ -42,7 +44,7 @@ const BottomTabNavigator = () => {
           tabBarIcon: ({ focused }) => {
             return (
               <View>
-                <FontAwesome5 name="shopping-cart" size={focused ? 28 : 20}  color={focused ? 'black' : colors.Chetsnut} />
+                <FontAwesome5 name="shopping-cart" size={focused ? 28 : 20}  color={focused ? 'black' : colors.CastletonGreen} />
               </View>
             )
           },
@@ -55,7 +57,20 @@ const BottomTabNavigator = () => {
           tabBarIcon: ({ focused }) => {
             return (
               <View>
-                <FontAwesome5 name="receipt" size={focused ? 28 : 20}  color={focused ? 'black' : colors.Chetsnut} />
+                <FontAwesome5 name="receipt" size={focused ? 28 : 20}  color={focused ? 'black' : colors.CastletonGreen} />
+              </View>
+            )
+          },
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={ProfileStackNavigator}
+        options={{
+          tabBarIcon: ({ focused }) => {
+            return (
+              <View>
+                <Ionicons name="person-circle-sharp" size={focused ? 32 : 26}  color={focused ? 'black' : colors.CastletonGreen}/>
               </View>
             )
           },

@@ -13,7 +13,6 @@ const CartItem = ({ cartItem }) => {
   const dispatch = useDispatch()
 
   const handleRemove = () => {
-    
     dispatch(removeProduct(cartItem.id))
   }
 
@@ -23,7 +22,7 @@ const CartItem = ({ cartItem }) => {
         <FontAwesome5 name='trash' size={24} color='black' style={styles.icon} />
       </ButtonCustom>
       <View style={styles.textContainer}>
-        <Text style={styles.text}>{cartItem.title} ({cartItem.quantity})</Text>
+        <Text style={styles.text}>{cartItem.title}</Text>
         <Text style={styles.text2}>{cartItem.brand}</Text>
         <Text style={styles.text2}>${cartItem.price}</Text>
       </View>

@@ -1,4 +1,4 @@
-import { Image, Pressable, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions } from 'react-native'
+import { ActivityIndicator, Image, Pressable, StyleSheet, Text, ToastAndroid, View, useWindowDimensions } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { colors } from '../constants/colors'
 import { MaterialIcons } from '@expo/vector-icons'
@@ -13,6 +13,7 @@ const ItemDetail = ({ route, navigation }) => {
   const dispatch = useDispatch()
 
   const isDark = useSelector(state => state.globalReducer.value.darkMode)
+  const { user } = useSelector(state => state.authReducer.value)
 
   const bgColor = isDark ? colors.Black : colors.MintGreen
   const bgimage = isDark ? colors.DarkGreen : colors.Mint
@@ -33,18 +34,26 @@ const ItemDetail = ({ route, navigation }) => {
     else setOrientation('portrait')
   }, [width, height])
 
-
-  const handleAddCart = () => {
-    dispatch(addToCart({ ...product, quantity: 1 }))
+  const showToast = () => {
+    ToastAndroid.show('Product added to cart!', ToastAndroid.SHORT)
   }
 
- 
+  const handleAddCart = () => {
+    if (!user) {
+      navigation.navigate('Profile')
+    } else {
+      dispatch(addToCart({ ...product, quantity: 1 }))
+      showToast()
+    }
+  }
+
+
   return (
     <View>
       <Pressable onPress={() => navigation.goBack()} style={styles.goBack}>
         <MaterialIcons name="arrow-back" size={30} style={styles.colorIcons} />
       </Pressable>
-      {product ? (
+      {!isLoading ? (
         <View
           style={
             orientation === 'portrait' ?
@@ -74,7 +83,11 @@ const ItemDetail = ({ route, navigation }) => {
             </View>
           </View>
         </View>
-      ) : null
+      ) : (
+        <View style={styles.loaderContainer}>
+          <ActivityIndicator size="large" />
+        </View>
+      )
       }
     </View >
   )
@@ -84,7 +97,13 @@ const ItemDetail = ({ route, navigation }) => {
 export default ItemDetail
 
 const styles = StyleSheet.create({
-
+  loaderContainer: {
+    alignItems:'center',
+    justifyContent: 'center',
+    height: '100%',
+    width: '100%',
+    
+  },
   mainContainer: {
     flexDirection: 'column',
     alignItems: 'center',
@@ -92,7 +111,6 @@ const styles = StyleSheet.create({
     padding: 10,
     height: '100%',
     width: '100%',
-
   },
   imgContainerM: {
     width: '120%',
