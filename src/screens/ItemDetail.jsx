@@ -7,6 +7,7 @@ import { addToCart } from '../features/cart/cartSlice'
 import Card from '../components/Card'
 import { useGetProductsByIDQuery } from '../services/shopService'
 import ButtonCustom from '../components/ButtonCustom'
+import GoBackCustom from '../components/GoBackCustom'
 
 const ItemDetail = ({ route, navigation }) => {
 
@@ -34,25 +35,26 @@ const ItemDetail = ({ route, navigation }) => {
     else setOrientation('portrait')
   }, [width, height])
 
-  const showToast = () => {
+ const showToast = () => {
     ToastAndroid.show('Product added to cart!', ToastAndroid.SHORT)
   }
 
   const handleAddCart = () => {
     if (!user) {
-      navigation.navigate('Profile')
+      navigation.navigate('Login')
     } else {
       dispatch(addToCart({ ...product, quantity: 1 }))
-      showToast()
+       showToast() 
     }
   }
 
 
   return (
     <View>
-      <Pressable onPress={() => navigation.goBack()} style={styles.goBack}>
+      <GoBackCustom onPress={() => navigation.goBack()} style={styles.goBack} ></GoBackCustom>
+      {/* <Pressable onPress={() => navigation.goBack()} style={styles.goBack}>
         <MaterialIcons name="arrow-back" size={30} style={styles.colorIcons} />
-      </Pressable>
+      </Pressable> */}
       {!isLoading ? (
         <View
           style={
@@ -98,11 +100,11 @@ export default ItemDetail
 
 const styles = StyleSheet.create({
   loaderContainer: {
-    alignItems:'center',
+    alignItems: 'center',
     justifyContent: 'center',
     height: '100%',
     width: '100%',
-    
+
   },
   mainContainer: {
     flexDirection: 'column',
@@ -123,9 +125,9 @@ const styles = StyleSheet.create({
   },
   imageM: {
     alignSelf: 'center',
-    width: '70%',
-    height: '70%',
-    borderRadius: 250,
+    width: 300,
+    height: 300,
+    borderRadius: 150,
   },
   textContainer: {
     flexDirection: 'column',
@@ -149,12 +151,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginVertical: 10
   },
-  /* pressable: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
-    borderRadius: 100,
-  }, */
+  
   goBack: {
     position: 'absolute',
     alignItems: 'center',

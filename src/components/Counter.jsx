@@ -8,8 +8,6 @@ import { decrement, increment } from '../features/cart/cartSlice'
 
 const Counter = ({ cartItem }) => {
 
-  /* const count = useSelector(state => state.counterReducer.value) */
-
   const dispatch = useDispatch()
 
   // Por el momento definimos el stock con una cantidad harcodeada para luego manejar el estado del
@@ -21,20 +19,19 @@ const Counter = ({ cartItem }) => {
   }
   const handleDecrement = () => {
     dispatch(decrement(cartItem.id))
-   
   }
 
   return (
     <View style={styles.counterContainer}>
 
       <Pressable style={styles.pressable} onPress={handleDecrement} disabled={Boolean(cartItem.quantity == 0)}>
-        <FontAwesome5 name="minus" size={20} color={colors.light} />
+        <FontAwesome5 name="minus" size={15} color={colors.light} />
       </Pressable>
 
       <Text style={styles.textCounter}>{cartItem.quantity}</Text>
 
       <Pressable style={styles.pressable} onPress={handleIncrement} disabled={Boolean(cartItem.quantity >= stock)}>
-        <FontAwesome5 name="plus" size={20} color={colors.light} />
+        <FontAwesome5 name="plus" size={15} color={colors.light} />
       </Pressable>
 
     </View>
@@ -47,19 +44,22 @@ const styles = StyleSheet.create({
   counterContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'left',
+    justifyContent: 'center',
     marginVertical: 15,
-    gap: 10,
+    gap: 20,
+    
   },
   pressable: {
     backgroundColor: colors.Chetsnut,
-    padding: 10,
+    padding: 3,
     borderRadius: 100,
   },
   textCounter: {
     width: '20%',
     fontSize: 20,
     fontWeight: 'bold',
-    textAlign: 'center'
+    textAlign: 'center',
+    backgroundColor:colors.White,
+    
   }
 })

@@ -5,12 +5,14 @@ import { colors } from '../constants/colors'
 import { useDispatch, useSelector } from 'react-redux'
 import { setDarkMode } from '../features/global/globalSlice'
 
-const Header = ({ navigation }) => {
+const Header = ({ navigation, route }) => {
+
+  const isHome = route.name
 
   const dispatch = useDispatch()
 
   const isDark = useSelector(state => state.globalReducer.value.darkMode)
-  
+
   const bgColor = isDark ? colors.DarkGreen : colors.Mint
 
   const { height, width } = useWindowDimensions()
@@ -32,11 +34,12 @@ const Header = ({ navigation }) => {
           }}
         />
       </Pressable>
-      <SwitchCustom
-        isEnabled={isEnabled}
-        setIsEnabled={handleTheme}
-        style={styles.switch}
-      />
+      {(isHome == 'Shop') &&
+        <SwitchCustom
+          isEnabled={isEnabled}
+          setIsEnabled={handleTheme}
+          style={styles.switch}
+        />}
     </View>
   )
 }
@@ -46,7 +49,7 @@ export default Header
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 15,
-    paddingTop: 30,
+    paddingTop: 40,
     paddingBottom: 15,
     justifyContent: 'space-between',
     alignSelf: 'center',

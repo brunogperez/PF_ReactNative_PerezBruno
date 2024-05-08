@@ -3,14 +3,17 @@ import React, { useEffect, useState } from 'react'
 import ProductItem from '../components/ProductItem'
 import Search from '../components/Search'
 import { useGetProductsByCategoryQuery } from '../services/shopService'
+import { colors } from '../constants/colors'
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 
 
 const ItemListCategory = ({
-  setCategorySelected = () => { },
   route,
   navigation
 }) => {
 
+  //Obtenemos la altura del bottomTabNavigator a partir de un hook para poder realizar un paddingBottom y no componentes
+  const tabBarHeight = useBottomTabBarHeight() + 40
 
   const [keyword, setKeyword] = useState('')
   const [productsFiltered, setProductsFiltered] = useState([])
@@ -41,7 +44,7 @@ const ItemListCategory = ({
 
 
   return (
-    <View style={styles.flatlistContainer}>
+    <View style={{ ...styles.container }}>
       <Search
         onSearch={setKeyword}
         goBack={() => navigation.goBack()}
@@ -50,6 +53,7 @@ const ItemListCategory = ({
         navigation={navigation}
       />
       <FlatList
+        style={{ flex: 1 }}
         showsVerticalScrollIndicator={false}
         data={productsFiltered}
         renderItem={({ item }) =>
@@ -64,19 +68,16 @@ const ItemListCategory = ({
 export default ItemListCategory
 
 const styles = StyleSheet.create({
-  flatlistContainer: {
-    width: '100%',
+  container: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    flexDirection: 'column',
-    backgroundColor: 'black'
-
+    paddingBottom:70
   },
   inputSearch: {
-    width: '100%'
+    width: '10%'
   },
   productItem: {
-    alignSelf: 'center',
-
+    alignSelf: 'center'
   },
 })

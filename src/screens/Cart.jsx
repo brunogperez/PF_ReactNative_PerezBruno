@@ -6,18 +6,27 @@ import { usePostOrderMutation } from '../services/shopService'
 import { colors } from '../constants/colors'
 import { clearCart } from '../features/cart/cartSlice'
 import ButtonCustom from '../components/ButtonCustom'
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 
 const Cart = () => {
+  
+  // Hook para utilizar el trigger con la función para gatillar el post de la compra
+  const [triggerPostOrder, result] = usePostOrderMutation()
+  
+  //Obtenemos la altura del bottomTabNavigator a partir de un hook para poder realizar un paddingBottom y no componentes
+  const tabBarHeight = useBottomTabBarHeight()
 
   const dispatch = useDispatch()
-  
+
+
   const { cart, total } = useSelector((state) => state.cartReducer.value)
+
   const isDark = useSelector(state => state.globalReducer.value.darkMode)
 
   const colorText = isDark ? colors.White : colors.Black
 
-  const [triggerPostOrder, result] = usePostOrderMutation()
 
+  //Función para confirmar la compra 
   const onConfirmOrder = () => {
     triggerPostOrder({
       items: cart,
@@ -26,6 +35,7 @@ const Cart = () => {
     })
   }
 
+  //Función para  vaciar el carrito
   const handleClearCart = () => {
     dispatch(clearCart())
   }
@@ -40,7 +50,7 @@ const Cart = () => {
     )
   } else {
     return (
-      <View style={styles.container}>
+      <View style={{ ...styles.container, paddingBottom: tabBarHeight }}>
         <ButtonCustom onPress={handleClearCart}>
           <Text style={{ color: colorText }}>
             Clear Cart
@@ -53,6 +63,7 @@ const Cart = () => {
             return (
               <CartItem
                 cartItem={item}
+
               />
             )
           }}
@@ -75,17 +86,16 @@ export default Cart
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
-    justifyContent: 'center',
     flex: 1,
-
+    paddingTop: 20,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   totalContainer: {
     justifyContent: 'center',
     alignItems: 'center',
     marginVertical: 20,
     gap: 20,
-    flex: 2,
     width: '100%'
   }
 })

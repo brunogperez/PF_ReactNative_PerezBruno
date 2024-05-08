@@ -11,7 +11,7 @@ import { useGetCategoriesQuery } from '../services/shopService.js'
 const Home = ({ navigation }) => {
 
   const { data: categories, isLoading, error } = useGetCategoriesQuery()
-
+  
   const isDark = useSelector(state => state.globalReducer.value.darkMode)
   const bgColor = isDark ? colors.Black : colors.MintGreen
 

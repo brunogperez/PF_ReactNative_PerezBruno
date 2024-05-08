@@ -4,12 +4,10 @@ import { colors } from '../constants/colors'
 import InputForm from '../components/InputForm'
 import { useSignInMutation } from '../services/authService'
 import { setUser } from '../features/auth/authSlice'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import ButtonCustom from '../components/ButtonCustom'
 
 const LoginScreen = ({ navigation }) => {
-
-  const { user } = useSelector(state => state.authReducer.value)
 
   //Instanciamos el dispatch
   const dispatch = useDispatch()
@@ -24,7 +22,7 @@ const LoginScreen = ({ navigation }) => {
   //Estados para manejar los errores al ingresar datos en los inputs
   const [errorEmail, setErrorEmail] = useState('')
   const [errorPassword, setErrorPassword] = useState('')
-
+  
   //Función effect para despachar los datos a redux si el resultado es success
   useEffect(() => {
     if (result.isSuccess) {
@@ -37,11 +35,6 @@ const LoginScreen = ({ navigation }) => {
       navigation.navigate('Home')
     }
   }, [result])
-
-  useEffect(() => {
-    if (user) 
-      navigation.navigate('Home')
-  }, [])
 
   //Función para manejar el submit del form
   const onSubmit = () => {

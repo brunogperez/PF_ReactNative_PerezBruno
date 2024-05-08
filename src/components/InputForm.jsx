@@ -1,6 +1,6 @@
 import { StyleSheet, Text, TextInput, View } from 'react-native'
 import React, { useState } from 'react'
-import { colors } from '../constants/colors';
+import { colors } from '../constants/colors'
 
 const InputForm = ({
   label,
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     width: '90%',
     borderWidth: 0,
     borderBottomWidth: 2,
-    borderBottomColor: colors.Black,
+    borderBottomColor: colors.white,
     padding: 2,
 
     fontSize: 14,

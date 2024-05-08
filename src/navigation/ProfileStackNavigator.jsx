@@ -9,21 +9,17 @@ import SignupScreen from '../screens/SignUpScreen'
 const Stack = createNativeStackNavigator()
 
 
-const OrderStackNavigator = () => {
+const ProfileStackNavigator = () => {
   return (
     <Stack.Navigator
-      initialRouteName='Profile'
+      initialRouteName='MyProfile'
       screenOptions={{
         headerShown: false,
       }}
     >
       <Stack.Screen
-        name='Profile'
+        name='MyProfile'
         component={Profile}
-      />
-      <Stack.Screen
-        name='ImageSelector'
-        component={ImageSelector}
       />
       <Stack.Screen
         name='Login'
@@ -33,10 +29,14 @@ const OrderStackNavigator = () => {
         name='SignUp'
         component={SignupScreen}
       />
+      <Stack.Screen
+        name='ImageSelector'
+        component={ImageSelector}
+      />
     </Stack.Navigator>
   )
 }
 
-export default OrderStackNavigator
+export default ProfileStackNavigator
 
 const styles = StyleSheet.create({})

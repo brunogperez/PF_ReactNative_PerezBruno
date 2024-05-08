@@ -18,15 +18,14 @@ const CartItem = ({ cartItem }) => {
 
   return (
     <Card style={styles.card} onPress={() => { }}>
-      <ButtonCustom onPress={handleRemove}>
-        <FontAwesome5 name='trash' size={24} color='black' style={styles.icon} />
-      </ButtonCustom>
       <View style={styles.textContainer}>
-        <Text style={styles.text}>{cartItem.title}</Text>
-        <Text style={styles.text2}>{cartItem.brand}</Text>
-        <Text style={styles.text2}>${cartItem.price}</Text>
+        <Text style={styles.title}>{cartItem.title}</Text>
+        <Text style={styles.price}>${cartItem.price}</Text>
       </View>
-      <Counter cartItem={{...cartItem}} />
+      <Counter cartItem={{ ...cartItem }} />
+      <ButtonCustom onPress={handleRemove} style={styles.btnRemove}>
+        <FontAwesome5 name='trash' size={20} color='black' style={styles.icon} />
+      </ButtonCustom>
     </Card>
   )
 }
@@ -40,24 +39,24 @@ const styles = StyleSheet.create({
     padding: 5,
     margin: 5,
     borderRadius: 10,
-    flexDirection: 'column',
-    justifyContent: 'space-between',
+    flexDirection: 'row',
     alignSelf: 'center',
-    width: '90%'
+    width: '95%',
   },
   textContainer: {
-    width: "60%",
+    width: "40%",
     flexDirection: "column",
-    justifyContent: "flex-start",
+    justifyContent: 'center',
     alignItems: "flex-start",
+    marginLeft: 10
   },
-  text: {
-    fontSize: 19,
+  title: {
+    fontSize: 20,
   },
-  text2: {
-    fontSize: 14,
+  price: {
+    fontSize: 16,
   },
-  icon: {
-    marginHorizontal: 15
+  btnRemove:{
+    backgroundColor:'transparent'
   }
 })

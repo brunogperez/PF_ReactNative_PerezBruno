@@ -5,7 +5,7 @@ import { colors } from '../constants/colors'
 import { useDispatch } from 'react-redux'
 import { setItemIDSelected } from '../features/shop/shopSlice'
 
-const ProductItem = ({ product, route, navigation }) => {
+const ProductItem = ({ product, navigation }) => {
 
   const dispatch = useDispatch()
 
@@ -34,13 +34,13 @@ export default ProductItem
 
 const styles = StyleSheet.create({
   card: {
-    height: 120,
+    height: 100,
     width: '90%',
-    marginTop: 30,
+    marginTop: 40,
     borderRadius: 10,
     alignSelf: 'center',
     borderWidth:2,
-    backgroundColor:colors.Chetsnut
+    backgroundColor:colors.CastletonGreen
   },
   image: {
     height: 110,
