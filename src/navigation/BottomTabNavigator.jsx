@@ -10,7 +10,6 @@ import { FontAwesome5 } from '@expo/vector-icons'
 import { Ionicons } from '@expo/vector-icons'
 import { colors } from '../constants/colors'
 import { useSelector } from 'react-redux'
-import { BlurView } from 'expo-blur'
 
 const Tab = createBottomTabNavigator()
 

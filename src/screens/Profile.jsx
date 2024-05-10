@@ -1,10 +1,13 @@
 import { Image, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useGetProfileImageQuery } from '../services/shopService'
 import ButtonCustom from '../components/ButtonCustom'
+import { clearUser } from '../features/auth/authSlice'
 
 const Profile = ({ navigation }) => {
+
+  const dispatch = useDispatch()
 
   const { user } = useSelector(state => state.authReducer.value)
 
@@ -21,6 +24,11 @@ const Profile = ({ navigation }) => {
     navigation.navigate('Login')
   }
 
+  const handleSignOut = () => {
+    dispatch(clearUser())
+    navigation.navigate('Home')
+  }
+
   const imageDefault = '../../assets/images/profileDefault.png'
 
   return (
@@ -28,7 +36,7 @@ const Profile = ({ navigation }) => {
       {user ? (
         <View style={styles.container}>
 
-          <ButtonCustom style={styles.btnLogout}>
+          <ButtonCustom style={styles.btnLogout} onPress={handleSignOut}>
             <Text>
               Logout
             </Text>
@@ -86,7 +94,7 @@ const styles = StyleSheet.create({
 
     paddingTop: 50,
     gap: 15,
-    alignItems:'center',
+    alignItems: 'center',
     justifyContent: 'flex-start',
     flex: 1
   },
@@ -97,8 +105,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center'
   },
   btnLogout: {
-    position:'absolute',
-    top:10,
-    right:10
+    position: 'absolute',
+    top: 10,
+    right: 10
   }
 })

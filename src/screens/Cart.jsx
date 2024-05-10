@@ -1,36 +1,47 @@
 import { FlatList, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import CartItem from '../components/CartItem'
 import { useDispatch, useSelector } from 'react-redux'
-import { usePostOrderMutation } from '../services/shopService'
+import { usePostOrderMutation, usePostProductsInCartMutation } from '../services/shopService'
 import { colors } from '../constants/colors'
 import { clearCart } from '../features/cart/cartSlice'
 import ButtonCustom from '../components/ButtonCustom'
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
+import { FontAwesome5 } from '@expo/vector-icons'
 
 const Cart = () => {
-  
-  // Hook para utilizar el trigger con la función para gatillar el post de la compra
-  const [triggerPostOrder, result] = usePostOrderMutation()
-  
-  //Obtenemos la altura del bottomTabNavigator a partir de un hook para poder realizar un paddingBottom y no componentes
+
+  //Obtenemos la altura del bottomTabNavigator a partir de un hook para poder realizar un paddingBottom y no ocultar componentes
   const tabBarHeight = useBottomTabBarHeight()
 
+  // Hook para utilizar el trigger con la función para gatillar el post de la compra
+  const [triggerPostOrder, postOrderResult] = usePostOrderMutation()
+
+  // Hook para utilizar el trigger con la función para gatillar el update del cart
+  const [triggerPostCart, postCartResult] = usePostProductsInCartMutation()
+
+
   const dispatch = useDispatch()
-
-
+  const { user, localId } = useSelector((state) => state.authReducer.value)
   const { cart, total } = useSelector((state) => state.cartReducer.value)
 
+  
+  
   const isDark = useSelector(state => state.globalReducer.value.darkMode)
-
   const colorText = isDark ? colors.White : colors.Black
-
+  
+  //useEffect para gatillar una actualización del cart cada vez que se genere algun cambio en el mismo
+  useEffect(() => {
+    if (localId) {
+      triggerPostCart({ cart, localId })
+    }
+  }, [cart])
 
   //Función para confirmar la compra 
   const onConfirmOrder = () => {
     triggerPostOrder({
       items: cart,
-      user: 'Bruno',
+      user,
       total
     })
   }
@@ -40,11 +51,14 @@ const Cart = () => {
     dispatch(clearCart())
   }
 
+
+  // Return condicional
   if (cart.length == 0) {
     return (
       <View style={styles.container}>
+        <FontAwesome5 name="question" size={80} color="black" />
         <Text>
-          Tu carrito está vacio
+          Aun no tienes productos agregados
         </Text>
       </View>
     )

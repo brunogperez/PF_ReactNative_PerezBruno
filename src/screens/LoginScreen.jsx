@@ -4,13 +4,16 @@ import { colors } from '../constants/colors'
 import InputForm from '../components/InputForm'
 import { useSignInMutation } from '../services/authService'
 import { setUser } from '../features/auth/authSlice'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import ButtonCustom from '../components/ButtonCustom'
+import TextCustom from '../components/TextCustom'
 
 const LoginScreen = ({ navigation }) => {
 
   //Instanciamos el dispatch
   const dispatch = useDispatch()
+
+  const { user } = useSelector((state) => state.authReducer.value)
 
   //Instanciamos la función para disparar el login del user
   const [triggerSignIn, result] = useSignInMutation()
@@ -22,7 +25,7 @@ const LoginScreen = ({ navigation }) => {
   //Estados para manejar los errores al ingresar datos en los inputs
   const [errorEmail, setErrorEmail] = useState('')
   const [errorPassword, setErrorPassword] = useState('')
-  
+
   //Función effect para despachar los datos a redux si el resultado es success
   useEffect(() => {
     if (result.isSuccess) {
@@ -30,8 +33,10 @@ const LoginScreen = ({ navigation }) => {
         setUser({
           email: result.data.email,
           idToken: result.data.idToken,
+          localId: result.data.localId
         })
       )
+      navigation.push('MyProfile')
       navigation.navigate('Home')
     }
   }, [result])
@@ -41,37 +46,39 @@ const LoginScreen = ({ navigation }) => {
 
     triggerSignIn({ email, password })
 
-      /* try {
+    /* try {
 
-        setErrorEmail('')
-        setErrorPassword('')
+      setErrorEmail('')
+      setErrorPassword('')
 
-        //Validación de datos por medio de la librería YUP
-        const validation = signupSchema.validateSync({ email, password })
+      //Validación de datos por medio de la librería YUP
+      const validation = signupSchema.validateSync({ email, password })
 
-        //Función para enviar los datos a firebase auth
-        triggerSignIn({ email, password })
+      //Función para enviar los datos a firebase auth
+      triggerSignIn({ email, password })
 
-      } catch (error) {
+    } catch (error) {
 
-        switch (error.path) {
-          case 'email':
-            setErrorEmail(error.message)
-            break
-          case 'password':
-            setErrorPassword(error.message)
+      switch (error.path) {
+        case 'email':
+          setErrorEmail(error.message)
+          break
+        case 'password':
+          setErrorPassword(error.message)
 
-          default:
-            break
-        }
-      } */
+        default:
+          break
+      }
+    } */
   }
 
   return (
     <View style={styles.main}>
       <View style={styles.container}>
         <View style={styles.containerForm}>
-          <Text style={styles.title}>LOGIN</Text>
+          <TextCustom style={styles.title}>
+            LOGIN
+          </TextCustom>
           <InputForm
             label={'Email'}
             onChange={setEmail}
@@ -84,15 +91,15 @@ const LoginScreen = ({ navigation }) => {
             isSecure={true}
           />
           <ButtonCustom onPress={onSubmit} >
-            <Text style={styles.submitbtn}>
+            <TextCustom style={styles.submitbtn}>
               Submit
-            </Text>
+            </TextCustom>
           </ButtonCustom>
         </View>
         <View style={styles.containerRedirect}>
-          <Text style={styles.sub}>Not have an account?</Text>
+          <TextCustom style={styles.sub}>Not have an account?</TextCustom>
           <Pressable onPress={() => navigation.navigate('SignUp')}>
-            <Text style={styles.subLink}>Sign up</Text>
+            <TextCustom style={styles.subLink}>Sign up</TextCustom>
           </Pressable>
         </View>
       </View>
@@ -136,11 +143,10 @@ const styles = StyleSheet.create({
   },
   sub: {
     fontSize: 14,
-    color: 'black',
+
   },
   submitbtn: {
     fontSize: 14,
-    color: colors.textLight,
   },
   subLink: {
     fontSize: 17,

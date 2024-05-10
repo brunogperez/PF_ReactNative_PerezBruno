@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, View } from 'react-native'
+import { ActivityIndicator, FlatList, StyleSheet, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import ProductItem from '../components/ProductItem'
 import Search from '../components/Search'
@@ -44,23 +44,33 @@ const ItemListCategory = ({
 
 
   return (
+
     <View style={{ ...styles.container }}>
-      <Search
-        onSearch={setKeyword}
-        goBack={() => navigation.goBack()}
-        error={error}
-        style={styles.inputSearch}
-        navigation={navigation}
-      />
-      <FlatList
-        style={{ flex: 1 }}
-        showsVerticalScrollIndicator={false}
-        data={productsFiltered}
-        renderItem={({ item }) =>
-          <ProductItem product={item} style={styles.productItem} navigation={navigation} />
-        }
-        keyExtractor={(product) => product.id}
-      />
+      {isLoading ? (
+        <View style={styles.loaderContainer}>
+          <ActivityIndicator size="large" />
+        </View>
+      ) : (
+        <>
+          <Search
+            onSearch={setKeyword}
+            goBack={() => navigation.goBack()}
+            error={error}
+            style={styles.inputSearch}
+            navigation={navigation}
+          />
+          <FlatList
+            style={{ flex: 1 }}
+            showsVerticalScrollIndicator={false}
+            data={productsFiltered}
+            renderItem={({ item }) =>
+              <ProductItem product={item} style={styles.productItem} navigation={navigation} />
+            }
+            keyExtractor={(product) => product.id}
+          />
+        </>
+      )
+      }
     </View>
   )
 }
@@ -72,7 +82,14 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingBottom:70
+    paddingBottom: 70
+  },
+  loaderContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100%',
+    width: '100%',
+
   },
   inputSearch: {
     width: '10%'

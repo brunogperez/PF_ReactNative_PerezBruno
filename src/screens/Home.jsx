@@ -1,21 +1,35 @@
 import { FlatList, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import CategoryItem from '../components/CategoryItem.jsx'
 import { colors } from '../constants/colors.js'
 import products from '../data/products.json'
 import Card from '../components/Card.jsx'
 import { useDispatch, useSelector } from 'react-redux'
 import { setItemIDSelected } from '../features/shop/shopSlice.js'
-import { useGetCategoriesQuery } from '../services/shopService.js'
+import { useGetCartbyIdQuery, useGetCategoriesQuery } from '../services/shopService.js'
+import { onCart } from '../features/cart/cartSlice.js'
 
 const Home = ({ navigation }) => {
 
+  const { localId } = useSelector(state => state.authReducer.value)
+
+  //hook para traer el cart desde la DB 
+  const { data: cart } = useGetCartbyIdQuery(localId)
+
   const { data: categories, isLoading, error } = useGetCategoriesQuery()
-  
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    if (cart) {
+      dispatch(onCart(cart))
+    }
+  }, [localId])
+
+
   const isDark = useSelector(state => state.globalReducer.value.darkMode)
   const bgColor = isDark ? colors.Black : colors.MintGreen
 
-  const dispatch = useDispatch()
 
   const idRandom = Math.floor(Math.random(10) * 10)
   const productRandom = products.find(product => product.id == 1)

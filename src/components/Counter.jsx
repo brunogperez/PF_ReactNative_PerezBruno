@@ -47,10 +47,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginVertical: 15,
     gap: 20,
-    
   },
   pressable: {
-    backgroundColor: colors.Chetsnut,
     padding: 3,
     borderRadius: 100,
   },
@@ -59,7 +57,5 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
-    backgroundColor:colors.White,
-    
   }
 })

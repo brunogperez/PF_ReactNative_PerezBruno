@@ -1,7 +1,6 @@
-import { ActivityIndicator, Image, Pressable, StyleSheet, Text, ToastAndroid, View, useWindowDimensions } from 'react-native'
+import { ActivityIndicator, Image, StyleSheet, Text, ToastAndroid, View, useWindowDimensions } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { colors } from '../constants/colors'
-import { MaterialIcons } from '@expo/vector-icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { addToCart } from '../features/cart/cartSlice'
 import Card from '../components/Card'
@@ -47,14 +46,11 @@ const ItemDetail = ({ route, navigation }) => {
        showToast() 
     }
   }
-
-
+{}
   return (
     <View>
       <GoBackCustom onPress={() => navigation.goBack()} style={styles.goBack} ></GoBackCustom>
-      {/* <Pressable onPress={() => navigation.goBack()} style={styles.goBack}>
-        <MaterialIcons name="arrow-back" size={30} style={styles.colorIcons} />
-      </Pressable> */}
+      
       {!isLoading ? (
         <View
           style={

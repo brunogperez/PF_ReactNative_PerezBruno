@@ -11,6 +11,9 @@ export const cartSlice = createSlice({
     }
   },
   reducers: {
+    onCart: (state, { payload }) => {
+      state.value = payload
+    },
     addToCart: (state, { payload }) => {
 
       const productRepeated = state.value.cart.find(
@@ -81,6 +84,6 @@ export const cartSlice = createSlice({
   }
 })
 
-export const { addToCart, increment, decrement, removeProduct, clearCart } = cartSlice.actions
+export const { onCart, addToCart, increment, decrement, removeProduct, clearCart } = cartSlice.actions
 
 export default cartSlice.reducer

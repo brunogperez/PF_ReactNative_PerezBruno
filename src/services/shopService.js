@@ -27,6 +27,23 @@ export const shopApi = createApi({
         return null
       }
     }),
+    getCartbyId: builder.query({
+      query: (localId) => `carts.json?orderBy="localId"&equalTo=${localId}`,
+      transformResponse: (req) => {
+        const result = Object.values(req)
+        if (result.length) return result
+        return null
+      }
+    }),
+    postProductsInCart: builder.mutation({
+      query: ({ cart, localId }) => ({
+        url: `carts/${localId}.json`,
+        method: 'PUT',
+        body: {
+          cart: cart
+        }
+      })
+    }),
     //Endpoint para enviar los datos de la orden de compra de un cart
     postOrder: builder.mutation({
       query: ({ ...order }) => ({
@@ -58,6 +75,8 @@ export const {
   useGetCategoriesQuery,
   useGetProductsByCategoryQuery,
   useGetProductsByIDQuery,
+  useGetCartbyIdQuery,
+  usePostProductsInCartMutation,
   usePostOrderMutation,
   useGetProfileImageQuery,
   usePostProfileImageMutation
