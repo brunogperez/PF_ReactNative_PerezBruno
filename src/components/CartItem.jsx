@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux'
 import { removeProduct } from '../features/cart/cartSlice'
 import ButtonCustom from './ButtonCustom'
 import Counter from '../components/Counter'
+import TextCustom from './TextCustom'
 
 const CartItem = ({ cartItem }) => {
 
@@ -17,14 +18,14 @@ const CartItem = ({ cartItem }) => {
   }
 
   return (
-    <Card style={styles.card} onPress={() => { }}>
+    <Card style={styles.card} onPress={() => {}}>
       <View style={styles.textContainer}>
-        <Text style={styles.title}>{cartItem.title}</Text>
-        <Text style={styles.price}>${cartItem.price}</Text>
+        <TextCustom style={styles.title}>{cartItem.title}</TextCustom>
+        <TextCustom style={styles.price}>${cartItem.price}</TextCustom>
       </View>
       <Counter cartItem={{ ...cartItem }} />
       <ButtonCustom onPress={handleRemove} style={styles.btnRemove}>
-        <FontAwesome5 name='trash' size={20} color='black' style={styles.icon} />
+        <FontAwesome5 name='trash' size={20} color='red' style={styles.icon} />
       </ButtonCustom>
     </Card>
   )
@@ -35,10 +36,9 @@ export default CartItem
 const styles = StyleSheet.create({
   card: {
     height: 100,
-    backgroundColor: colors.Mint,
     padding: 5,
     margin: 5,
-    borderRadius: 10,
+    
     flexDirection: 'row',
     alignSelf: 'center',
     width: '95%',
@@ -51,12 +51,13 @@ const styles = StyleSheet.create({
     marginLeft: 10
   },
   title: {
-    fontSize: 20,
+    fontSize: 18,
   },
   price: {
     fontSize: 16,
   },
   btnRemove:{
-    backgroundColor:'transparent'
+    backgroundColor:'transparent',
+    justifyContent:'flex-start'
   }
 })

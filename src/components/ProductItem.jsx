@@ -4,6 +4,7 @@ import Card from './Card'
 import { colors } from '../constants/colors'
 import { useDispatch } from 'react-redux'
 import { setItemIDSelected } from '../features/shop/shopSlice'
+import TextCustom from './TextCustom'
 
 const ProductItem = ({ product, navigation }) => {
 
@@ -17,8 +18,8 @@ const ProductItem = ({ product, navigation }) => {
     <Card style={styles.card}>
       <Pressable style={styles.styleProduct} onPress={handleNavigate}>
         <View style={styles.textContainer}>
-          <Text style={styles.textCategory}> {product.title}</Text>
-          <Text style={styles.textCategory}>  Precio: ${product.price}</Text>
+          <TextCustom style={styles.textCategory}> {product.title}</TextCustom>
+          <TextCustom style={styles.textCategory}>  Precio: ${product.price}</TextCustom>
         </View>
         <Image
           resizeMode='cover'
@@ -40,7 +41,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignSelf: 'center',
     borderWidth:2,
-    backgroundColor:colors.CastletonGreen
+    
   },
   image: {
     height: 110,

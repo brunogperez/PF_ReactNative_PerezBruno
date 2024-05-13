@@ -1,4 +1,4 @@
-import { ActivityIndicator, Image, StyleSheet, Text, ToastAndroid, View, useWindowDimensions } from 'react-native'
+import { ActivityIndicator, Image, StyleSheet, Text, /* ToastAndroid, */ View, useWindowDimensions } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { colors } from '../constants/colors'
 import { useDispatch, useSelector } from 'react-redux'
@@ -33,17 +33,17 @@ const ItemDetail = ({ route, navigation }) => {
     if (width > height) setOrientation('landscape')
     else setOrientation('portrait')
   }, [width, height])
-
+/* 
  const showToast = () => {
     ToastAndroid.show('Product added to cart!', ToastAndroid.SHORT)
-  }
+  } */
 
   const handleAddCart = () => {
     if (!user) {
       navigation.navigate('Login')
     } else {
       dispatch(addToCart({ ...product, quantity: 1 }))
-       showToast() 
+      /*  showToast()  */
     }
   }
 {}

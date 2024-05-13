@@ -1,5 +1,6 @@
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import TextCustom from './TextCustom'
 
 const ItemList = ({ handleModal, itemList }) => {
   return (
@@ -10,9 +11,9 @@ const ItemList = ({ handleModal, itemList }) => {
         keyExtractor={product => product.id.toString()}
         renderItem={({ item }) =>
           <Pressable style={styles.card} onPressIn={() => handleModal(item)}>
-            <Text style={styles.taskText} >
+            <TextCustom style={styles.taskText} >
               {item.value}
-            </Text>
+            </TextCustom>
           </Pressable>
         }
       />

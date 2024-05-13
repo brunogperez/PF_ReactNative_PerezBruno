@@ -1,25 +1,25 @@
-import React, { useState } from "react";
-import { Image, View, StyleSheet, Text, Pressable } from "react-native";
-import * as ImagePicker from "expo-image-picker";
-import { useDispatch, useSelector } from "react-redux";
-import { setCameraImage } from "../features/auth/authSlice"
-import { colors } from "../constants/colors";
-import { usePostProfileImageMutation } from "../services/shopService";
-import ButtonCustom from "../components/ButtonCustom";
-import { MaterialIcons } from '@expo/vector-icons'
-import GoBackCustom from "../components/GoBackCustom";
-// import { usePostProfileImageMutation } from "../Services/shopServices";
-// import { saveImage } from "../Features/User/userSlice";
+import React, { useState } from 'react'
+import { Image, View, StyleSheet, Text } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
+import { setCameraImage } from '../features/auth/authSlice'
+import { colors } from '../constants/colors'
+import { usePostProfileImageMutation } from '../services/shopService'
+import * as ImagePicker from 'expo-image-picker'
+import * as MediaLibrary from 'expo-media-library'
+import ButtonCustom from '../components/ButtonCustom'
+import GoBackCustom from '../components/GoBackCustom'
+
 
 const ImageSelector = ({ navigation }) => {
 
-  const [image, setImage] = useState(null)
-
-  const [triggerPostImage, result] = usePostProfileImageMutation()
-
   const { localId } = useSelector(state => state.authReducer.value)
 
-  
+  const [image, setImage] = useState(null)
+
+  const [imageFromCamera, setImageFromCamera] = useState(false)
+  const [imageURI, setImageURI] = useState('')
+
+  const [triggerPostImage, result] = usePostProfileImageMutation()
 
   const dispatch = useDispatch()
 
@@ -29,10 +29,17 @@ const ImageSelector = ({ navigation }) => {
     return granted
   }
 
+  //Función para consultar si se otorgan permisos para abrir la galeria
+  const verifyGalleryPermissions = async () => {
+    const { granted } = await ImagePicker.requestMediaLibraryPermissionsAsync()
+    return granted
+  }
+
   //Función para inicializar la cámara y realizar la captura de la foto
   const pickImage = async () => {
-
     try {
+
+      setImageFromCamera(true)
 
       const permission = await verifyCameraPermissions()
 
@@ -48,22 +55,54 @@ const ImageSelector = ({ navigation }) => {
 
         //Si no se cancela la toma de foto se setea la imagen capturada
         if (!result.canceled) {
+          setImageURI(result.assets[0].uri)
           const image = `data:image/jpeg;base64,${result.assets[0].base64}`
           setImage(image)
         }
       }
-
     } catch (error) {
       console.log(error)
     }
+  }
 
+  //Función para inicializar la cámara y realizar la selección de la foto
+  const chooseGalleyImage = async () => {
+    try {
+
+      setImageFromCamera(false)
+
+      const permissionGallery = await verifyGalleryPermissions()
+
+      if (permissionGallery) {
+        const result = await ImagePicker.launchImageLibraryAsync({
+          base64: true,
+          allowsEditing: true,
+          aspect: [1, 1],
+          mediaTypes: ImagePicker.MediaTypeOptions.Images,
+          quality: 0.2
+        })
+        if (!result.canceled) {
+          const image = `data:image/jpeg;base64,${result.assets[0].base64}`
+          setImage(image)
+        }
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const confirmImage = async () => {
     try {
+
       dispatch(setCameraImage(image))
       triggerPostImage({ image, localId })
+
+      if (imageFromCamera) {
+        const result = await MediaLibrary.createAssetAsync(imageURI)
+      }
+      
       navigation.goBack()
+
     } catch (error) {
       console.log(error)
     }
@@ -98,19 +137,24 @@ const ImageSelector = ({ navigation }) => {
               Take a photo
             </Text>
           </ButtonCustom>
+          <ButtonCustom onPress={chooseGalleyImage}>
+            <Text>
+              Choose a photo from gallery
+            </Text>
+          </ButtonCustom>
         </>
       )}
     </View>
-  );
-};
+  )
+}
 
-export default ImageSelector;
+export default ImageSelector
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "flex-start",
+    alignItems: 'center',
+    justifyContent: 'flex-start',
     gap: 20,
     paddingTop: 60,
   },
@@ -124,8 +168,8 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: colors.platinum,
     padding: 10,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   goBack: {
     position: 'absolute',

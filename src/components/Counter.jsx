@@ -24,7 +24,7 @@ const Counter = ({ cartItem }) => {
   return (
     <View style={styles.counterContainer}>
 
-      <Pressable style={styles.pressable} onPress={handleDecrement} disabled={Boolean(cartItem.quantity == 0)}>
+      <Pressable style={styles.pressable} onPress={handleDecrement} disabled={Boolean(cartItem.quantity <= 1)}>
         <FontAwesome5 name="minus" size={15} color={colors.light} />
       </Pressable>
 

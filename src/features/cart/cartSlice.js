@@ -4,7 +4,7 @@ export const cartSlice = createSlice({
   name: 'cart',
   initialState: {
     value: {
-      user: 'userLoggedID',
+      user: null,
       updatedAt: Date.now().toLocaleString(),
       total: null,
       cart: []
@@ -12,7 +12,14 @@ export const cartSlice = createSlice({
   },
   reducers: {
     onCart: (state, { payload }) => {
-      state.value = payload
+      
+      const total = payload.reduce((acc, currentItem) => (acc += currentItem.price * currentItem.quantity), 0)
+
+      state.value = {
+        ...state.value,
+        cart: payload,
+        total,
+      }
     },
     addToCart: (state, { payload }) => {
 
@@ -54,24 +61,62 @@ export const cartSlice = createSlice({
     },
     increment(state, { payload }) {
 
-      const item = state.value.cart.find((item) => item.id === payload);
-      item.quantity++
+      const itemsUpdated = state.value.cart.map((item) => {
+        if (item.id === payload) {
+          item.quantity++
+          return item
+        }
+        return item
+      })
+      const total = itemsUpdated.reduce(
+        (acc, currentItem) =>
+          (acc += currentItem.price * currentItem.quantity),
+        0
+      )
+      state.value = {
+        ...state.value,
+        cart: itemsUpdated,
+        total,
+        updatedAt: new Date().toLocaleString(),
+      }
 
     },
     decrement(state, { payload }) {
 
-      const item = state.value.cart.find((item) => item.id === payload)
-      if (item.quantity === 1) {
-        item.quantity = 1
-      } else {
-        item.quantity--
+      const itemsUpdated = state.value.cart.map((item) => {
+        if (item.id === payload) {
+          item.quantity--
+          return item
+        }
+        return item
+      })
+      const total = itemsUpdated.reduce(
+        (acc, currentItem) =>
+          (acc += currentItem.price * currentItem.quantity),
+        0
+      )
+      state.value = {
+        ...state.value,
+        cart: itemsUpdated,
+        total,
+        updatedAt: new Date().toLocaleString(),
       }
     },
     removeProduct: (state, { payload }) => {
 
       const newCart = state.value.cart.filter((item) => item.id !== payload)
 
-      state.value.cart = newCart
+      const total = newCart.reduce(
+        (acc, currentItem) =>
+          (acc += currentItem.price * currentItem.quantity),
+        0
+      )
+      state.value = {
+        ...state.value,
+        cart: newCart,
+        total,
+        updatedAt: new Date().toLocaleString(),
+      }
 
     },
     clearCart: (state) => {

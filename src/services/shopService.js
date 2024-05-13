@@ -27,20 +27,21 @@ export const shopApi = createApi({
         return null
       }
     }),
+    //Endpoint para obtener el carrito de un cliente
     getCartbyId: builder.query({
-      query: (localId) => `carts.json?orderBy="localId"&equalTo=${localId}`,
+      query: (localId) => `carts/${localId}.json`,
       transformResponse: (req) => {
         const result = Object.values(req)
-        if (result.length) return result
+        if (result.length) return result[0]
         return null
-      }
+      } 
     }),
     postProductsInCart: builder.mutation({
       query: ({ cart, localId }) => ({
         url: `carts/${localId}.json`,
         method: 'PUT',
         body: {
-          cart: cart
+          cart
         }
       })
     }),
@@ -66,7 +67,8 @@ export const shopApi = createApi({
           image: image
         },
       }),
-      invalidatesTags: ['profileImageGet'] //Invalida el tag del image y se dispara un nuevo GET para hacerle nuevamente un fetch y actualizar la imagen
+      //Invalida el tag del image y se dispara un nuevo GET para hacerle nuevamente un fetch y actualizar la imagen
+      invalidatesTags: ['profileImageGet']
     }),
   })
 })

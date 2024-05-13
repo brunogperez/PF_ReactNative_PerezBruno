@@ -6,34 +6,24 @@ import products from '../data/products.json'
 import Card from '../components/Card.jsx'
 import { useDispatch, useSelector } from 'react-redux'
 import { setItemIDSelected } from '../features/shop/shopSlice.js'
-import { useGetCartbyIdQuery, useGetCategoriesQuery } from '../services/shopService.js'
-import { onCart } from '../features/cart/cartSlice.js'
+import { useGetCategoriesQuery } from '../services/shopService.js'
+import TextCustom from '../components/TextCustom.jsx'
+
 
 const Home = ({ navigation }) => {
 
   const { localId } = useSelector(state => state.authReducer.value)
 
-  //hook para traer el cart desde la DB 
-  const { data: cart } = useGetCartbyIdQuery(localId)
-
   const { data: categories, isLoading, error } = useGetCategoriesQuery()
 
   const dispatch = useDispatch()
-
-  useEffect(() => {
-    if (cart) {
-      dispatch(onCart(cart))
-    }
-  }, [localId])
 
 
   const isDark = useSelector(state => state.globalReducer.value.darkMode)
   const bgColor = isDark ? colors.Black : colors.MintGreen
 
-
-  const idRandom = Math.floor(Math.random(10) * 10)
-  const productRandom = products.find(product => product.id == 1)
-
+  const productRandom = products.find(product => product.id == 2)
+    
   const handleNavigate = () => {
     dispatch(setItemIDSelected(productRandom.title))
     navigation.navigate('ItemDetail', { productID: productRandom.id })
@@ -50,9 +40,7 @@ const Home = ({ navigation }) => {
       </Card>
       <Card style={styles.cardCategoryContainer}>
         <View style={styles.textCategories}>
-          <Text style={styles.text}>
-            Categories
-          </Text>
+          <TextCustom style={styles.text}>Categories</TextCustom>
         </View>
         <FlatList
           horizontal
@@ -67,11 +55,10 @@ const Home = ({ navigation }) => {
           )}
         />
       </Card>
-
       {productRandom && (<Card style={styles.cardProductsContainer}>
-        <Text style={styles.textProducts}>
+        <TextCustom style={styles.textProducts}>
           On Sale
-        </Text>
+        </TextCustom>
         <Card style={styles.cardContainer}>
           <Pressable style={styles.styleProduct} onPress={handleNavigate} >
             <Image
@@ -79,7 +66,7 @@ const Home = ({ navigation }) => {
               style={styles.imageOnSale}
               source={{ uri: productRandom.images[1] }}
             />
-            <Text style={styles.text}>{productRandom.title}</Text>
+            <TextCustom style={styles.text}>{productRandom.title}</TextCustom>
           </Pressable>
         </Card>
       </Card>)}
@@ -106,13 +93,11 @@ const styles = StyleSheet.create({
     width: '90%',
     alignSelf: 'center',
     alignItems: 'center',
-    backgroundColor: '#dcdcdc'
   },
   cardItemM: {
     width: 150,
     height: 150,
     margin: 5,
-    backgroundColor: '#b5bac9'
   },
   brandItem: {
     width: 90,
@@ -139,7 +124,6 @@ const styles = StyleSheet.create({
   text: {
     textAlign: 'left',
     fontSize: 20,
-    color: colors.textDark,
     marginVertical: 5,
     marginHorizontal: 10,
     fontWeight: '500'
@@ -147,7 +131,6 @@ const styles = StyleSheet.create({
   textProducts: {
     textAlign: 'left',
     fontSize: 20,
-    color: colors.textDark,
     marginVertical: 10,
     marginHorizontal: 35,
     fontWeight: 'bold'

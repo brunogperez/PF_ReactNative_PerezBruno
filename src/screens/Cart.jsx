@@ -8,6 +8,7 @@ import { clearCart } from '../features/cart/cartSlice'
 import ButtonCustom from '../components/ButtonCustom'
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 import { FontAwesome5 } from '@expo/vector-icons'
+import LayoutCustom from '../components/LayoutCustom'
 
 const Cart = () => {
 
@@ -25,12 +26,10 @@ const Cart = () => {
   const { user, localId } = useSelector((state) => state.authReducer.value)
   const { cart, total } = useSelector((state) => state.cartReducer.value)
 
-  
-  
   const isDark = useSelector(state => state.globalReducer.value.darkMode)
   const colorText = isDark ? colors.White : colors.Black
-  
-  //useEffect para gatillar una actualización del cart cada vez que se genere algun cambio en el mismo
+
+  //useEffect para gatillar una actualización del cart en la DB cada vez que se genere algun cambio en el mismo
   useEffect(() => {
     if (localId) {
       triggerPostCart({ cart, localId })
@@ -44,6 +43,8 @@ const Cart = () => {
       user,
       total
     })
+
+    if (postOrderResult.isSuccess) handleClearCart()
   }
 
   //Función para  vaciar el carrito
@@ -64,7 +65,7 @@ const Cart = () => {
     )
   } else {
     return (
-      <View style={{ ...styles.container, paddingBottom: tabBarHeight }}>
+      <LayoutCustom style={{ ...styles.container, paddingBottom: tabBarHeight }}>
         <ButtonCustom onPress={handleClearCart}>
           <Text style={{ color: colorText }}>
             Clear Cart
@@ -77,7 +78,6 @@ const Cart = () => {
             return (
               <CartItem
                 cartItem={item}
-
               />
             )
           }}
@@ -90,7 +90,7 @@ const Cart = () => {
             </Text>
           </ButtonCustom>
         </View>
-      </View>
+      </LayoutCustom>
     )
   }
 

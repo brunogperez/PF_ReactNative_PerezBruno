@@ -15,7 +15,7 @@ const Tab = createBottomTabNavigator()
 
 const BottomTabNavigator = () => {
 
-  const { cart } = useSelector((state) => state.cartReducer.value)
+ 
 
   return (
     <Tab.Navigator
@@ -62,12 +62,7 @@ const BottomTabNavigator = () => {
           tabBarIcon: ({ focused }) => {
             return (
               <View>
-                {(cart.length == 0) ?
-                  <Ionicons name="cart-outline" size={focused ? 32 : 26} color={focused ? 'black' : colors.CastletonGreen} />
-                  :
                   <Ionicons name="cart-sharp" size={focused ? 32 : 26} color={focused ? 'black' : colors.CastletonGreen} />
-                }
-
               </View>
             )
           },

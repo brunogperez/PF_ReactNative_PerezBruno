@@ -1,9 +1,12 @@
 import { Image, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import LayoutCustom from '../components/LayoutCustom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useGetProfileImageQuery } from '../services/shopService'
 import ButtonCustom from '../components/ButtonCustom'
 import { clearUser } from '../features/auth/authSlice'
+import { clearCart } from '../features/cart/cartSlice'
+import TextCustom from '../components/TextCustom'
 
 const Profile = ({ navigation }) => {
 
@@ -26,6 +29,7 @@ const Profile = ({ navigation }) => {
 
   const handleSignOut = () => {
     dispatch(clearUser())
+    dispatch(clearCart())
     navigation.navigate('Home')
   }
 
@@ -34,12 +38,12 @@ const Profile = ({ navigation }) => {
   return (
     <>
       {user ? (
-        <View style={styles.container}>
+        <LayoutCustom style={styles.container}>
 
           <ButtonCustom style={styles.btnLogout} onPress={handleSignOut}>
-            <Text>
+            <TextCustom>
               Logout
-            </Text>
+            </TextCustom>
           </ButtonCustom>
 
           {(imageFromDB || imageCamera) ? (
@@ -55,33 +59,25 @@ const Profile = ({ navigation }) => {
               resizeMode='cover'
             />
           )}
-
           <ButtonCustom onPress={launchCamera}>
-            {imageCamera || imageFromDB ? (
-              <Text>
-                Change picture
-              </Text>
-            ) : (
-              <Text>
-                Add picture
-              </Text>
-            )}
+            <TextCustom>
+              {(imageCamera || imageFromDB) ? 'Change picture' : 'Add picture'}
+            </TextCustom>
           </ButtonCustom>
-
-        </View>
+        </LayoutCustom>
       ) : (
-        <View style={styles.container}>
+        <LayoutCustom style={styles.container}>
           <Image
             source={require(imageDefault)}
             style={styles.image}
             resizeMode='cover'
           />
           <ButtonCustom onPress={handleLogin}>
-            <Text>
+            <TextCustom>
               Go to Login or Register
-            </Text>
+            </TextCustom>
           </ButtonCustom>
-        </View>
+        </LayoutCustom>
       )}
     </>
   )
@@ -91,12 +87,8 @@ export default Profile
 
 const styles = StyleSheet.create({
   container: {
-
     paddingTop: 50,
     gap: 15,
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    flex: 1
   },
   image: {
     width: 200,

@@ -1,22 +1,37 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native'
+import { Pressable, StyleSheet, View } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { colors } from '../constants/colors'
 import InputForm from '../components/InputForm'
+import ButtonCustom from '../components/ButtonCustom'
+import TextCustom from '../components/TextCustom'
 import { useSignInMutation } from '../services/authService'
 import { setUser } from '../features/auth/authSlice'
 import { useDispatch, useSelector } from 'react-redux'
-import ButtonCustom from '../components/ButtonCustom'
-import TextCustom from '../components/TextCustom'
+import { addToCart, onCart } from '../features/cart/cartSlice'
+import { useGetCartbyIdQuery } from '../services/shopService'
 
 const LoginScreen = ({ navigation }) => {
 
   //Instanciamos el dispatch
   const dispatch = useDispatch()
 
-  const { user } = useSelector((state) => state.authReducer.value)
+  const [newCart, setNewCart] = useState([])
+
+  const { user, localId } = useSelector((state) => state.authReducer.value)
+
 
   //Instanciamos la función para disparar el login del user
   const [triggerSignIn, result] = useSignInMutation()
+
+  //Hook para traer el cart desde la DB 
+  const { data, isLoading, isSuccess } = useGetCartbyIdQuery(localId)
+
+  useEffect(() => {
+    if (data != [] && isSuccess) {
+      dispatch(onCart(data))
+    }
+  }, [isLoading, localId])
+
 
   //Estados para manejar los datos ingresados por el user
   const [email, setEmail] = useState()
@@ -36,6 +51,8 @@ const LoginScreen = ({ navigation }) => {
           localId: result.data.localId
         })
       )
+      if (isSuccess && user)
+        dispatch(onCart(data))
       navigation.push('MyProfile')
       navigation.navigate('Home')
     }
