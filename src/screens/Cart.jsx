@@ -3,12 +3,13 @@ import React, { useEffect } from 'react'
 import CartItem from '../components/CartItem'
 import { useDispatch, useSelector } from 'react-redux'
 import { usePostOrderMutation, usePostProductsInCartMutation } from '../services/shopService'
-import { colors } from '../constants/colors'
+
 import { clearCart } from '../features/cart/cartSlice'
 import ButtonCustom from '../components/ButtonCustom'
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 import { FontAwesome5 } from '@expo/vector-icons'
 import LayoutCustom from '../components/LayoutCustom'
+import TextCustom from '../components/TextCustom'
 
 const Cart = () => {
 
@@ -23,11 +24,9 @@ const Cart = () => {
 
 
   const dispatch = useDispatch()
-  const { user, localId } = useSelector((state) => state.authReducer.value)
+  const { localId } = useSelector((state) => state.authReducer.value)
   const { cart, total } = useSelector((state) => state.cartReducer.value)
 
-  const isDark = useSelector(state => state.globalReducer.value.darkMode)
-  const colorText = isDark ? colors.White : colors.Black
 
   //useEffect para gatillar una actualización del cart en la DB cada vez que se genere algun cambio en el mismo
   useEffect(() => {
@@ -39,55 +38,48 @@ const Cart = () => {
   //Función para confirmar la compra 
   const onConfirmOrder = () => {
     triggerPostOrder({
-      items: cart,
-      user,
-      total
+      order: cart,
+      localId,
     })
-
-    if (postOrderResult.isSuccess) handleClearCart()
   }
+
+  useEffect(() => {
+    if (postOrderResult.isSuccess) handleClearCart()
+  }, [postOrderResult.isLoading])
+
 
   //Función para  vaciar el carrito
   const handleClearCart = () => {
     dispatch(clearCart())
   }
 
-
   // Return condicional
   if (cart.length == 0) {
     return (
-      <View style={styles.container}>
+      <LayoutCustom style={styles.container}>
         <FontAwesome5 name="question" size={80} color="black" />
-        <Text>
+        <TextCustom>
           Aun no tienes productos agregados
-        </Text>
-      </View>
+        </TextCustom>
+      </LayoutCustom>
     )
   } else {
     return (
       <LayoutCustom style={{ ...styles.container, paddingBottom: tabBarHeight }}>
         <ButtonCustom onPress={handleClearCart}>
-          <Text style={{ color: colorText }}>
-            Clear Cart
-          </Text>
+          <TextCustom > Clear Cart </TextCustom>
         </ButtonCustom>
         <FlatList
           data={cart}
           keyExtractor={product => product.id}
           renderItem={({ item }) => {
-            return (
-              <CartItem
-                cartItem={item}
-              />
-            )
+            return (<CartItem cartItem={item} />)
           }}
         />
         <View style={styles.totalContainer}>
-          <Text>Total: ${total}</Text>
+          <TextCustom>Total: ${total}</TextCustom>
           <ButtonCustom onPress={onConfirmOrder}>
-            <Text style={{ color: colorText }}>
-              Checkout
-            </Text>
+            <TextCustom > Checkout </TextCustom>
           </ButtonCustom>
         </View>
       </LayoutCustom>

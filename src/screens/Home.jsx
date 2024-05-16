@@ -20,10 +20,10 @@ const Home = ({ navigation }) => {
 
 
   const isDark = useSelector(state => state.globalReducer.value.darkMode)
-  const bgColor = isDark ? colors.Black : colors.MintGreen
+  const bgColor = isDark ? colors.DarkGrey : colors.BGLight
 
   const productRandom = products.find(product => product.id == 2)
-    
+
   const handleNavigate = () => {
     dispatch(setItemIDSelected(productRandom.title))
     navigation.navigate('ItemDetail', { productID: productRandom.id })
@@ -64,7 +64,7 @@ const Home = ({ navigation }) => {
             <Image
               resizeMode='cover'
               style={styles.imageOnSale}
-              source={{ uri: productRandom.images[1] }}
+              source={{ uri: productRandom.images[2] }}
             />
             <TextCustom style={styles.text}>{productRandom.title}</TextCustom>
           </Pressable>

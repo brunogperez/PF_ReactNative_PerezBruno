@@ -9,13 +9,11 @@ import Header from '../components/Header'
 import { FontAwesome5 } from '@expo/vector-icons'
 import { Ionicons } from '@expo/vector-icons'
 import { colors } from '../constants/colors'
-import { useSelector } from 'react-redux'
+
 
 const Tab = createBottomTabNavigator()
 
 const BottomTabNavigator = () => {
-
- 
 
   return (
     <Tab.Navigator
@@ -35,7 +33,7 @@ const BottomTabNavigator = () => {
           tabBarIcon: ({ focused }) => {
             return (
               <View>
-                <FontAwesome5 name="store" size={focused ? 28 : 20} color={focused ? "black" : colors.CastletonGreen}
+                <FontAwesome5 name="store" size={focused ? 28 : 20} color={focused ? colors.Black: colors.DarkGrey}
                 />
               </View>
             )
@@ -49,7 +47,7 @@ const BottomTabNavigator = () => {
           tabBarIcon: ({ focused }) => {
             return (
               <View>
-                <FontAwesome5 name="receipt" size={focused ? 28 : 20} color={focused ? 'black' : colors.CastletonGreen} />
+                <FontAwesome5 name="receipt" size={focused ? 28 : 20} color={focused ? colors.Black: colors.DarkGrey} />
               </View>
             )
           },
@@ -62,7 +60,7 @@ const BottomTabNavigator = () => {
           tabBarIcon: ({ focused }) => {
             return (
               <View>
-                  <Ionicons name="cart-sharp" size={focused ? 32 : 26} color={focused ? 'black' : colors.CastletonGreen} />
+                <Ionicons name="cart-sharp" size={focused ? 32 : 26} color={focused ? colors.Black: colors.DarkGrey} />
               </View>
             )
           },
@@ -75,7 +73,7 @@ const BottomTabNavigator = () => {
           tabBarIcon: ({ focused }) => {
             return (
               <View>
-                <Ionicons name="person-circle-sharp" size={focused ? 32 : 26} color={focused ? 'black' : colors.CastletonGreen} />
+                <Ionicons name="person-circle-sharp" size={focused ? 32 : 26} color={focused ? colors.Black: colors.DarkGrey} />
               </View>
             )
           },

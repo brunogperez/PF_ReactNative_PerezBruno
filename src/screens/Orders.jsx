@@ -2,10 +2,11 @@ import { FlatList, StyleSheet, View } from 'react-native'
 import React from 'react'
 import OrderData from '../data/orders.json'
 import OrderItem from '../components/OrderItem'
+import LayoutCustom from '../components/LayoutCustom'
 
 const Orders = () => {
   return (
-    <View>
+    <LayoutCustom style={styles.container}>
       <FlatList
         data={OrderData}
         keyExtractor={orderItem => orderItem.id}
@@ -17,10 +18,14 @@ const Orders = () => {
           )
         }}
       />
-    </View>
+    </LayoutCustom>
   )
 }
 
 export default Orders
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
+})

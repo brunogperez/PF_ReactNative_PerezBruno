@@ -7,10 +7,10 @@ const Card = ({ children, style }) => {
 
   const isDark = useSelector(state => state.globalReducer.value.darkMode)
 
-  const bgColor = isDark ? colors.CastletonGreen : colors.Turquoise
+  const bgColor = isDark ? colors.DarkGreen : colors.WaterGreen
 
   return (
-    <View style={{ ...styles.container, ...style, backgroundColor: bgColor }}>
+    <View style={{ backgroundColor: bgColor, ...styles.container, ...style }}>
       {children}
     </View>
   )

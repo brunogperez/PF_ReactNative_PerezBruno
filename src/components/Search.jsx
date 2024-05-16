@@ -4,6 +4,7 @@ import { colors } from '../constants/colors'
 import { FontAwesome5 } from '@expo/vector-icons'
 import { useSelector } from 'react-redux'
 import GoBackCustom from './GoBackCustom'
+import LayoutCustom from './LayoutCustom'
 
 
 const Search = ({ onSearch = () => { }, error = '', navigation }) => {
@@ -12,27 +13,26 @@ const Search = ({ onSearch = () => { }, error = '', navigation }) => {
 
   const isDark = useSelector(state => state.globalReducer.value.darkMode)
 
-  const bgColor = isDark ? colors.DarkGreen : colors.Mint
-
-  const bgInput = isDark ? colors.Mint : colors.DarkGreen
-
+  const color = isDark ? colors.White : colors.Black
+  const colorText = isDark? colors.Black : colors.White
+ 
   return (
-    <View style={{ ...styles.inputContainer, backgroundColor: bgColor }}>
+    <LayoutCustom style={styles.inputContainer}>
       <GoBackCustom onPress={() => navigation.goBack()}></GoBackCustom>
       <TextInput
-        style={{ ...styles.inputSearch, backgroundColor: bgInput }}
+        style={{ ...styles.inputSearch, backgroundColor: color, color: colorText }}
         onChangeText={setInput}
         value={input}
       />
       <Pressable onPress={() => onSearch(input)} >
-        <FontAwesome5 name='search' size={20} style={styles.colorIcons} />
+        <FontAwesome5 name='search' size={20} style={{ color: color, ...styles.colorIcons }} />
       </Pressable>
       <Pressable onPress={() => setInput('')}>
-        <FontAwesome5 name='eraser' size={20} style={styles.colorIcons} />
+        <FontAwesome5 name='eraser' size={20} style={{ color: color, ...styles.colorIcons }} />
       </Pressable>
 
       {error ? <Text>{error}</Text> : null}
-    </View>
+    </LayoutCustom>
   )
 }
 
@@ -42,20 +42,18 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-
+    flex:0,
     width: '100%',
   },
   inputSearch: {
-    backgroundColor: colors.DarkGreen,
     width: '60%',
     height: 40,
     margin: 10,
     borderRadius: 10,
     padding: 10,
-    color: colors.textLight
+    
   },
   colorIcons: {
-    color: colors.light,
     marginHorizontal: 8
   }
 })

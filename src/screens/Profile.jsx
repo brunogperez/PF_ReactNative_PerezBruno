@@ -89,6 +89,7 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: 50,
     gap: 15,
+    flex:1
   },
   image: {
     width: 200,

@@ -2,6 +2,7 @@ import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import TextCustom from './TextCustom'
 
+
 const ItemList = ({ handleModal, itemList }) => {
   return (
     <View style={styles.taskContainer}>
@@ -27,16 +28,13 @@ const styles = StyleSheet.create({
 
   taskContainer: {
     marginTop: 15,
-    alignItems: 'center',
+    
     width: '90%'
   },
   card: {
     borderWidth: 1,
     borderRadius: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#cccccc',
-    width: '100%',
+    width: '90%',
     paddingVertical: 5,
     marginVertical: 10
   },

@@ -13,7 +13,7 @@ const Header = ({ navigation, route }) => {
 
   const isDark = useSelector(state => state.globalReducer.value.darkMode)
 
-  const bgColor = isDark ? colors.DarkGreen : colors.Mint
+  const bgColor = isDark ? colors.DarkGrey : colors.BGLight
 
   const { height, width } = useWindowDimensions()
 
@@ -60,7 +60,9 @@ const styles = StyleSheet.create({
   logo: {
     height: 50,
     width: 100,
-    borderRadius: 8
+    borderRadius: 8,
+    borderColor:'black',
+    borderWidth:1
   },
 
   // Estilos para posicion horizontal del dispositivo

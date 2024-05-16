@@ -7,6 +7,7 @@ import { signupSchema } from '../validations/authSchema'
 import { setUser } from '../features/auth/authSlice'
 import ButtonCustom from '../components/ButtonCustom'
 import InputForm from '../components/InputForm'
+import LayoutCustom from '../components/LayoutCustom'
 
 
 const SignupScreen = ({ navigation }) => {
@@ -63,7 +64,7 @@ const SignupScreen = ({ navigation }) => {
   }
 
   return (
-    <View style={styles.main}>
+    <LayoutCustom style={styles.main}>
       <View style={styles.container}>
         <View style={styles.containerForm}>
           <Text style={styles.title}>SIGN UP</Text>
@@ -93,7 +94,7 @@ const SignupScreen = ({ navigation }) => {
           </Pressable>
         </View>
       </View>
-    </View>
+    </LayoutCustom>
   )
 }
 
@@ -105,14 +106,13 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: colors.MintGreen,
   },
   container: {
     width: '90%',
     flexDirection: 'column',
     justifyContent: 'center',
 
-    backgroundColor: colors.Turquoise,
+    backgroundColor: colors.WaterGreen,
     gap: 15,
     paddingVertical: 20,
     borderRadius: 20,

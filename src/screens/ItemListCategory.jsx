@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react'
 import ProductItem from '../components/ProductItem'
 import Search from '../components/Search'
 import { useGetProductsByCategoryQuery } from '../services/shopService'
-import { colors } from '../constants/colors'
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
+import LayoutCustom from '../components/LayoutCustom'
 
 
 const ItemListCategory = ({
@@ -45,7 +45,7 @@ const ItemListCategory = ({
 
   return (
 
-    <View style={{ ...styles.container }}>
+    <LayoutCustom style={{ ...styles.container }}>
       {isLoading ? (
         <View style={styles.loaderContainer}>
           <ActivityIndicator size="large" />
@@ -71,7 +71,7 @@ const ItemListCategory = ({
         </>
       )
       }
-    </View>
+    </LayoutCustom>
   )
 }
 
@@ -79,10 +79,10 @@ export default ItemListCategory
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingBottom: 70
+    paddingBottom: 70,
+    flex: 1
   },
   loaderContainer: {
     alignItems: 'center',

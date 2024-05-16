@@ -12,8 +12,8 @@ const SwitchCustom = ({
   return (
     <View style={styles.container}>
       <Switch
-        trackColor={{ false: colors.FlourescentCyan, true: colors.Black }}
-        thumbColor={isEnabled ? colors.MintGreen : colors.MintGreen}
+        trackColor={{ false: colors.Black, true: colors.Black }}
+        thumbColor={isEnabled ? colors.CastletonGreen: colors.WaterGreen}
         ios_backgroundColor="#3e3e3e"
         onValueChange={toggleSwitch}
         value={isEnabled}

@@ -7,15 +7,15 @@ import TextCustom from '../components/TextCustom'
 import { useSignInMutation } from '../services/authService'
 import { setUser } from '../features/auth/authSlice'
 import { useDispatch, useSelector } from 'react-redux'
-import { addToCart, onCart } from '../features/cart/cartSlice'
+import { onCart } from '../features/cart/cartSlice'
 import { useGetCartbyIdQuery } from '../services/shopService'
+import LayoutCustom from '../components/LayoutCustom'
+import Card from '../components/Card'
 
 const LoginScreen = ({ navigation }) => {
 
   //Instanciamos el dispatch
   const dispatch = useDispatch()
-
-  const [newCart, setNewCart] = useState([])
 
   const { user, localId } = useSelector((state) => state.authReducer.value)
 
@@ -90,8 +90,8 @@ const LoginScreen = ({ navigation }) => {
   }
 
   return (
-    <View style={styles.main}>
-      <View style={styles.container}>
+    <LayoutCustom style={styles.main}>
+      <Card style={styles.container}>
         <View style={styles.containerForm}>
           <TextCustom style={styles.title}>
             LOGIN
@@ -119,8 +119,8 @@ const LoginScreen = ({ navigation }) => {
             <TextCustom style={styles.subLink}>Sign up</TextCustom>
           </Pressable>
         </View>
-      </View>
-    </View>
+      </Card>
+    </LayoutCustom>
   )
 }
 
@@ -132,14 +132,13 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: colors.MintGreen,
   },
   container: {
     width: '90%',
     flexDirection: 'column',
     justifyContent: 'center',
-    backgroundColor: colors.Turquoise,
     gap: 15,
+    backgroundColor:colors.WaterGreen,
     paddingVertical: 20,
     borderRadius: 20,
   },

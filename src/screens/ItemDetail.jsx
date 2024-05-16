@@ -1,4 +1,4 @@
-import { ActivityIndicator, Image, StyleSheet, Text, /* ToastAndroid, */ View, useWindowDimensions } from 'react-native'
+import { ActivityIndicator, Image, StyleSheet, Text, ToastAndroid,  View, useWindowDimensions } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { colors } from '../constants/colors'
 import { useDispatch, useSelector } from 'react-redux'
@@ -7,6 +7,8 @@ import Card from '../components/Card'
 import { useGetProductsByIDQuery } from '../services/shopService'
 import ButtonCustom from '../components/ButtonCustom'
 import GoBackCustom from '../components/GoBackCustom'
+import TextCustom from '../components/TextCustom'
+import LayoutCustom from '../components/LayoutCustom'
 
 const ItemDetail = ({ route, navigation }) => {
 
@@ -16,8 +18,6 @@ const ItemDetail = ({ route, navigation }) => {
   const { user } = useSelector(state => state.authReducer.value)
 
   const bgColor = isDark ? colors.Black : colors.MintGreen
-  const bgimage = isDark ? colors.DarkGreen : colors.Mint
-  const colorText = isDark ? colors.White : colors.Black
 
   const { width, height } = useWindowDimensions()
 
@@ -33,61 +33,61 @@ const ItemDetail = ({ route, navigation }) => {
     if (width > height) setOrientation('landscape')
     else setOrientation('portrait')
   }, [width, height])
-/* 
+ 
  const showToast = () => {
     ToastAndroid.show('Product added to cart!', ToastAndroid.SHORT)
-  } */
+  }
 
   const handleAddCart = () => {
     if (!user) {
-      navigation.navigate('Login')
+      navigation.navigate('Profile', {screen: 'Login'})
     } else {
       dispatch(addToCart({ ...product, quantity: 1 }))
-      /*  showToast()  */
+       showToast()  
     }
   }
 {}
   return (
-    <View>
+    <>
       <GoBackCustom onPress={() => navigation.goBack()} style={styles.goBack} ></GoBackCustom>
       
       {!isLoading ? (
-        <View
+        <LayoutCustom
           style={
             orientation === 'portrait' ?
               { backgroundColor: bgColor, ...styles.mainContainer }
               : { backgroundColor: bgColor, ...styles.mainContainerLandscape }
           }
         >
-          <Card style={(width <= 360) ? { backgroundColor: bgimage, ...styles.imgContainerSM } : { backgroundColor: bgimage, ...styles.imgContainerM }}>
+          <LayoutCustom style={(width <= 360) ? {  ...styles.imgContainerSM } : {  ...styles.imgContainerM }}>
             <View style={styles.textTitleContainer}>
-              <Text style={{ color: colorText, ...styles.textTitle }} >{product.title}</Text>
+              <TextCustom style={styles.textTitle} >{product.title}</TextCustom>
             </View>
             <Image
               source={{ uri: product.images[0] }}
               style={(width <= 360) ? styles.imageSM : styles.imageM}
               resizeMode='cover'
             />
-          </Card>
+          </LayoutCustom>
           <View style={orientation === 'portrait' ? styles.textContainer : styles.textContainerLandscape}>
             <View >
-              <Text style={{ color: colorText }}>{product.description}</Text>
-              <Text style={{ color: colorText, ...styles.price }}>Precio: ${product.price}</Text>
+              <TextCustom >{product.description}</TextCustom>
+              <TextCustom style={styles.price }>Precio: ${product.price}</TextCustom>
             </View>
             <View style={(width <= 360) ? styles.quantityContainerSM : styles.quantityContainerM}>
               <ButtonCustom onPress={handleAddCart}>
-                <Text style={{ color: colorText }}>ADD TO CART</Text>
+                <TextCustom >ADD TO CART</TextCustom>
               </ButtonCustom>
             </View>
           </View>
-        </View>
+        </LayoutCustom>
       ) : (
         <View style={styles.loaderContainer}>
           <ActivityIndicator size="large" />
         </View>
       )
       }
-    </View >
+    </ >
   )
 }
 

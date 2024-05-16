@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 const LayoutCustom = ({ children, style }) => {
 
   const isDark = useSelector(state => state.globalReducer.value.darkMode)
-  const bgColor = isDark ? colors.Black : colors.MintGreen
+  const bgColor = isDark ? colors.DarkGrey : colors.BGLight
 
   return (
     <View style={{ ...styles.container, backgroundColor: bgColor, ...style }}>
@@ -19,7 +19,7 @@ export default LayoutCustom
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    
     alignItems: 'center'
   }
 })

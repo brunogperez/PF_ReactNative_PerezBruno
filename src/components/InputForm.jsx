@@ -1,6 +1,8 @@
 import { StyleSheet, Text, TextInput, View } from 'react-native'
 import React, { useState } from 'react'
 import { colors } from '../constants/colors'
+import TextCustom from './TextCustom';
+import { useSelector } from 'react-redux';
 
 const InputForm = ({
   label,
@@ -8,24 +10,30 @@ const InputForm = ({
   error = "",
   isSecure = false
 }) => {
+
   const [input, setInput] = useState("");
   const onChangeText = (text) => {
     setInput(text)
     onChange(text)
   }
+
+  const isDark = useSelector(state => state.globalReducer.value.darkMode)
+
+  const colorText = isDark ? colors.White : colors.Black
+
   return (
     <View style={styles.inputContainer}>
-      <Text style={styles.subtitle}>{label}</Text>
+      <TextCustom style={styles.subtitle}>{label}</TextCustom>
       <TextInput
-        style={styles.input}
+        style={{ ...styles.input, color: colorText }}
         value={input}
         onChangeText={onChangeText}
         secureTextEntry={isSecure}
       />
       {error ?
-        <Text style={styles.error}>
+        <TextCustom style={styles.error}>
           {error}
-        </Text>
+        </TextCustom>
         :
         null
       }
@@ -45,7 +53,6 @@ const styles = StyleSheet.create({
   subtitle: {
     width: '90%',
     fontSize: 16,
-
   },
   error: {
     paddingVertical: 3,

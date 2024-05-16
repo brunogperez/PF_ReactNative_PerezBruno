@@ -34,8 +34,9 @@ export const shopApi = createApi({
         const result = Object.values(req)
         if (result.length) return result[0]
         return null
-      } 
+      }
     }),
+    //Endpoint para agregar los productos al carrito
     postProductsInCart: builder.mutation({
       query: ({ cart, localId }) => ({
         url: `carts/${localId}.json`,
@@ -45,11 +46,15 @@ export const shopApi = createApi({
         }
       })
     }),
+    //Endpoint para obtener las ordenes de la DB
+    getOrders: builder.query({
+      query: (localId) => `orders/${localId}.json`
+    }),
     //Endpoint para enviar los datos de la orden de compra de un cart
     postOrder: builder.mutation({
-      query: ({ ...order }) => ({
-        url: 'orders.json',
-        method: 'POST',
+      query: ({ order, localId }) => ({
+        url: `orders/${localId}.json`,
+        method: 'PUT',
         body: order
       })
     }),
@@ -79,6 +84,7 @@ export const {
   useGetProductsByIDQuery,
   useGetCartbyIdQuery,
   usePostProductsInCartMutation,
+  useGetOrdersQuery,
   usePostOrderMutation,
   useGetProfileImageQuery,
   usePostProfileImageMutation
