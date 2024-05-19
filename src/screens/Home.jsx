@@ -1,5 +1,5 @@
-import { FlatList, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect } from 'react'
+import { ActivityIndicator, FlatList, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
+import React from 'react'
 import CategoryItem from '../components/CategoryItem.jsx'
 import { colors } from '../constants/colors.js'
 import products from '../data/products.json'
@@ -12,12 +12,9 @@ import TextCustom from '../components/TextCustom.jsx'
 
 const Home = ({ navigation }) => {
 
-  const { localId } = useSelector(state => state.authReducer.value)
-
-  const { data: categories, isLoading, error } = useGetCategoriesQuery()
-
+  const { data: categories, isLoading } = useGetCategoriesQuery()
+  
   const dispatch = useDispatch()
-
 
   const isDark = useSelector(state => state.globalReducer.value.darkMode)
   const bgColor = isDark ? colors.DarkGrey : colors.BGLight
@@ -31,6 +28,7 @@ const Home = ({ navigation }) => {
 
   return (
     <ScrollView style={{ backgroundColor: bgColor, ...styles.container }} showsVerticalScrollIndicator={false}>
+      <TextCustom style={styles.textTitle}>Discover</TextCustom>
       <Card style={styles.cardContainer}>
         <Image
           source={{ uri: 'https://res.cloudinary.com/divujqlv8/image/upload/v1713902741/15600086360926_wj01er.jpg' }}
@@ -42,34 +40,40 @@ const Home = ({ navigation }) => {
         <View style={styles.textCategories}>
           <TextCustom style={styles.text}>Categories</TextCustom>
         </View>
-        <FlatList
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          keyExtractor={item => item}
-          data={categories}
-          renderItem={({ item }) => (
-            <CategoryItem
-              navigation={navigation}
-              category={item}
-            />
-          )}
-        />
+        {!isLoading ? (
+          <FlatList
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            keyExtractor={item => item.id}
+            data={categories}
+            renderItem={({ item }) => (
+              <CategoryItem
+                navigation={navigation}
+                category={item}
+              />
+            )}
+          />
+        ) : (
+          <ActivityIndicator style={styles.indicator} size="large" color={bgColor} />
+        )}
       </Card>
-      {productRandom && (<Card style={styles.cardProductsContainer}>
-        <TextCustom style={styles.textProducts}>
-          On Sale
-        </TextCustom>
-        <Card style={styles.cardContainer}>
-          <Pressable style={styles.styleProduct} onPress={handleNavigate} >
-            <Image
-              resizeMode='cover'
-              style={styles.imageOnSale}
-              source={{ uri: productRandom.images[2] }}
-            />
-            <TextCustom style={styles.text}>{productRandom.title}</TextCustom>
-          </Pressable>
+      {productRandom && (
+        <Card style={styles.cardProductsContainer}>
+          <TextCustom style={styles.textProducts}>
+            On Sale
+          </TextCustom>
+          <Card style={styles.cardContainer}>
+            <Pressable style={styles.styleProduct} onPress={handleNavigate} >
+              <Image
+                resizeMode='cover'
+                style={styles.imageOnSale}
+                source={{ uri: productRandom.images[2] }}
+              />
+              <TextCustom style={styles.text}>{productRandom.title}</TextCustom>
+            </Pressable>
+          </Card>
         </Card>
-      </Card>)}
+      )}
     </ScrollView>
   )
 }
@@ -88,6 +92,7 @@ const styles = StyleSheet.create({
   cardCategoryContainer: {
     width: '80%',
     alignSelf: 'center',
+    height: 130
   },
   cardProductsContainer: {
     width: '90%',
@@ -99,11 +104,6 @@ const styles = StyleSheet.create({
     height: 150,
     margin: 5,
   },
-  brandItem: {
-    width: 90,
-    height: 50,
-    margin: 1
-  },
   imageM: {
     width: '100%',
     height: '100%',
@@ -111,15 +111,23 @@ const styles = StyleSheet.create({
   },
   imageHome: {
     width: '100%',
-    height: 200,
+    height: 180,
     borderRadius: 10,
   },
   imageOnSale: {
     alignSelf: 'center',
     width: '95%',
-    height: 200,
+    height: 190,
     borderRadius: 10,
     marginTop: 5
+  },
+  indicator: {
+    margin: 11
+  },
+  textTitle: {
+    fontSize: 30,
+    fontWeight: '500',
+    marginHorizontal: 20,
   },
   text: {
     textAlign: 'left',

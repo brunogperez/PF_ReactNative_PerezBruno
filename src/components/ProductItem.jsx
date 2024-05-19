@@ -23,7 +23,7 @@ const ProductItem = ({ product, navigation }) => {
         </View>
         <Image
           resizeMode='cover'
-          style={styles.image}
+          style={{...styles.image}}
           source={{ uri: product.images[0] }}
         />
       </Pressable>
@@ -42,12 +42,10 @@ const styles = StyleSheet.create({
     alignSelf: 'center',  
   },
   image: {
-    height: 110,
+    height: 120,
     width: '35%', // Ancho específico para que la imagen sobresalga de la card. 
-    borderRadius: 8,
-    borderColor: colors.CaputMortuum,
-    marginBottom: 50,
-    marginLeft: 20,
+    borderRadius: 10,
+    marginLeft:10
   },
   styleProduct: {
     paddingLeft: 20,

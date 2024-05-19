@@ -13,13 +13,13 @@ const ItemListCategory = ({
 }) => {
 
   //Obtenemos la altura del bottomTabNavigator a partir de un hook para poder realizar un paddingBottom y no componentes
-  const tabBarHeight = useBottomTabBarHeight() + 40
+  const tabBarHeight = useBottomTabBarHeight() + 20
 
   const [keyword, setKeyword] = useState('')
   const [productsFiltered, setProductsFiltered] = useState([])
   const [error, setError] = useState('')
 
-  const { category: categorySelected } = route.params
+  const { categoryName: categorySelected } = route.params
 
   const { data: prodFetched, error: fetchError, isLoading } = useGetProductsByCategoryQuery(categorySelected)
 
@@ -62,11 +62,11 @@ const ItemListCategory = ({
           <FlatList
             style={{ flex: 1 }}
             showsVerticalScrollIndicator={false}
+            keyExtractor={(product) => product.id}
             data={productsFiltered}
             renderItem={({ item }) =>
               <ProductItem product={item} style={styles.productItem} navigation={navigation} />
             }
-            keyExtractor={(product) => product.id}
           />
         </>
       )
@@ -81,7 +81,6 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
-    paddingBottom: 70,
     flex: 1
   },
   loaderContainer: {

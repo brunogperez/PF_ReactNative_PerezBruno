@@ -8,6 +8,8 @@ import * as ImagePicker from 'expo-image-picker'
 import * as MediaLibrary from 'expo-media-library'
 import ButtonCustom from '../components/ButtonCustom'
 import GoBackCustom from '../components/GoBackCustom'
+import TextCustom from '../components/TextCustom'
+import LayoutCustom from '../components/LayoutCustom'
 
 
 const ImageSelector = ({ navigation }) => {
@@ -110,41 +112,41 @@ const ImageSelector = ({ navigation }) => {
   }
 
   return (
-    <View style={styles.container}>
+    <LayoutCustom style={styles.container}>
       {image ? (
         <>
           <GoBackCustom onPress={() => navigation.goBack()} style={styles.goBack} ></GoBackCustom>
           <Image source={{ uri: image }} style={styles.image} />
           <ButtonCustom onPress={pickImage}>
-            <Text>
+            <TextCustom>
               Take another photo
-            </Text>
+            </TextCustom>
           </ButtonCustom>
           <ButtonCustom onPress={confirmImage}>
-            <Text>
+            <TextCustom>
               Confirm
-            </Text>
+            </TextCustom>
           </ButtonCustom>
         </>
       ) : (
         <>
           <GoBackCustom onPress={() => navigation.goBack()} style={styles.goBack} ></GoBackCustom>
           <View style={styles.noPhotoContainer}>
-            <Text>No photo</Text>
+            <TextCustom>No photo</TextCustom>
           </View>
           <ButtonCustom onPress={pickImage}>
-            <Text>
+            <TextCustom>
               Take a photo
-            </Text>
+            </TextCustom>
           </ButtonCustom>
           <ButtonCustom onPress={chooseGalleyImage}>
-            <Text>
+            <TextCustom>
               Choose a photo from gallery
-            </Text>
+            </TextCustom>
           </ButtonCustom>
         </>
       )}
-    </View>
+    </LayoutCustom>
   )
 }
 

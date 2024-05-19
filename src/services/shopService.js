@@ -4,7 +4,7 @@ import { dbURL } from '../database/realtimeDB'
 export const shopApi = createApi({
   reducerPath: 'shopApi',
   baseQuery: fetchBaseQuery({ baseUrl: dbURL }),
-  tagTypes: ['profileImageGet'],
+  tagTypes: ['profileImageGet', 'getCart', 'locationGet'], //Declaramos los tags correspondientes
   endpoints: (builder) => ({
     //Endpoint para obtener las categorias
     getCategories: builder.query({
@@ -34,7 +34,7 @@ export const shopApi = createApi({
         const result = Object.values(req)
         if (result.length) return result[0]
         return null
-      }
+      },
     }),
     //Endpoint para agregar los productos al carrito
     postProductsInCart: builder.mutation({
@@ -44,7 +44,7 @@ export const shopApi = createApi({
         body: {
           cart
         }
-      })
+      }),
     }),
     //Endpoint para obtener las ordenes de la DB
     getOrders: builder.query({
@@ -75,6 +75,23 @@ export const shopApi = createApi({
       //Invalida el tag del image y se dispara un nuevo GET para hacerle nuevamente un fetch y actualizar la imagen
       invalidatesTags: ['profileImageGet']
     }),
+    getLocation: builder.query({
+      query: (localId) => `locations/${localId}.json`,
+      providesTags: ['locationGet']
+    }),
+    postLocation: builder.mutation({
+      query: ({ location, localId }) => ({
+        url: `locations/${localId}.json`,
+        method: "PUT",
+        body: {
+          latitude: location.latitude,
+          longitude: location.longitude,
+          address: location.address
+        },
+      }),
+      //Invalida el tag del location y se dispara un nuevo GET para hacerle nuevamente un fetch y actualizar la location
+      invalidatesTags: ['locationGet']
+    }),
   })
 })
 
@@ -87,5 +104,7 @@ export const {
   useGetOrdersQuery,
   usePostOrderMutation,
   useGetProfileImageQuery,
-  usePostProfileImageMutation
+  usePostProfileImageMutation,
+  useGetLocationQuery,
+  usePostLocationMutation
 } = shopApi

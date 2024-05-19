@@ -19,7 +19,6 @@ export default LayoutCustom
 
 const styles = StyleSheet.create({
   container: {
-    
     alignItems: 'center'
   }
 })
