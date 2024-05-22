@@ -12,7 +12,7 @@ export const cartSlice = createSlice({
   },
   reducers: {
     onCart: (state, { payload }) => {
-      
+
       const total = payload.reduce((acc, currentItem) => (acc += currentItem.price * currentItem.quantity), 0)
 
       state.value = {

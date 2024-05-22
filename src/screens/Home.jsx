@@ -1,30 +1,70 @@
-import { ActivityIndicator, FlatList, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import CategoryItem from '../components/CategoryItem.jsx'
-import { colors } from '../constants/colors.js'
-import products from '../data/products.json'
-import Card from '../components/Card.jsx'
+import { ActivityIndicator, FlatList, Image, Pressable, ScrollView, StyleSheet, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import CategoryItem from '../components/CategoryItem'
+import Card from '../components/Card'
+import TextCustom from '../components/TextCustom'
 import { useDispatch, useSelector } from 'react-redux'
 import { setItemIDSelected } from '../features/shop/shopSlice.js'
-import { useGetCategoriesQuery } from '../services/shopService.js'
-import TextCustom from '../components/TextCustom.jsx'
+import { useGetCartbyIdQuery, useGetCategoriesQuery, useGetProductsByIDQuery } from '../services/shopService.js'
+import { colors } from '../constants/colors.js'
+import { fetchSession } from '../persistence'
+import { setUser } from '../features/auth/authSlice.js'
+import { onCart } from '../features/cart/cartSlice.js'
 
 
 const Home = ({ navigation }) => {
 
+  const [idRandom, setIDRandom] = useState()
+
+  //Hook para traer las categorias de la DB
   const { data: categories, isLoading } = useGetCategoriesQuery()
-  
+
+  const { data: prodFetched, error: fetchError, isLoading: isLoadingProduct } = useGetProductsByIDQuery(idRandom)
+
   const dispatch = useDispatch()
 
   const isDark = useSelector(state => state.globalReducer.value.darkMode)
   const bgColor = isDark ? colors.DarkGrey : colors.BGLight
 
-  const productRandom = products.find(product => product.id == 2)
+  useEffect(() => {
+    const generateID = Math.floor(Math.random() * 100)
+    setIDRandom(generateID)
+  }, [])
 
   const handleNavigate = () => {
-    dispatch(setItemIDSelected(productRandom.title))
-    navigation.navigate('ItemDetail', { productID: productRandom.id })
+    dispatch(setItemIDSelected(prodFetched.title))
+    navigation.navigate('ItemDetail', { productID: prodFetched.id })
   }
+
+  const { localId } = useSelector((state) => state.authReducer.value)
+  //Hook para traer el cart desde la DB 
+  const { data: cartFromDB, isLoading: isLoadingCart, isSuccess } = useGetCartbyIdQuery(localId)
+
+  //Effect para hacerle un fetch a la session y no loguearse cada vez que se abre la app
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await fetchSession()
+        if (response.rows._array.length) {
+          const user = response.rows._array[0]
+          dispatch(setUser({
+            email: user.email,
+            localId: user.localId,
+            idToken: user.token
+          }))
+        }
+
+      } catch (error) {
+        console.log(error)
+      }
+    })()
+  }, [])
+
+  useEffect(() => {
+    if (localId && isSuccess) {
+      dispatch(onCart(cartFromDB))
+    }
+  }, [localId, isSuccess])
 
   return (
     <ScrollView style={{ backgroundColor: bgColor, ...styles.container }} showsVerticalScrollIndicator={false}>
@@ -54,26 +94,28 @@ const Home = ({ navigation }) => {
             )}
           />
         ) : (
-          <ActivityIndicator style={styles.indicator} size="large" color={bgColor} />
+          <ActivityIndicator style={styles.indicator} size="small" color={bgColor} />
         )}
       </Card>
-      {productRandom && (
-        <Card style={styles.cardProductsContainer}>
-          <TextCustom style={styles.textProducts}>
-            On Sale
-          </TextCustom>
+      <Card style={styles.cardProductsContainer}>
+        <TextCustom style={styles.textProducts}>
+          On Sale
+        </TextCustom>
+        {!isLoadingProduct ? (
           <Card style={styles.cardContainer}>
             <Pressable style={styles.styleProduct} onPress={handleNavigate} >
               <Image
                 resizeMode='cover'
                 style={styles.imageOnSale}
-                source={{ uri: productRandom.images[2] }}
+                source={{ uri: prodFetched.images[0] }}
               />
-              <TextCustom style={styles.text}>{productRandom.title}</TextCustom>
+              <TextCustom style={styles.text}>{prodFetched.title}</TextCustom>
             </Pressable>
           </Card>
-        </Card>
-      )}
+        ) : (
+          <ActivityIndicator style={styles.indicator} size="large" color={bgColor} />
+        )}
+      </Card>
     </ScrollView>
   )
 }

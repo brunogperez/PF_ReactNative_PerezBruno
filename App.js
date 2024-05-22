@@ -6,7 +6,16 @@ import {
 import Navigator from './src/navigation/Navigator'
 import { Provider } from 'react-redux'
 import store from './src/store'
+import { initSQLiteDB } from './src/persistence'
 
+//Funcion IIFE para iniciar DB de SQLite y que no sea necesario loguearse cada vez que se inicia la app
+(async () => {
+  try {
+    const response = await initSQLiteDB()
+  } catch (error) {
+    
+  }
+})()
 
 const App = () => {
 
@@ -26,5 +35,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
- 
+
 })

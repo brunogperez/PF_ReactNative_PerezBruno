@@ -11,27 +11,15 @@ import { onCart } from '../features/cart/cartSlice'
 import { useGetCartbyIdQuery } from '../services/shopService'
 import LayoutCustom from '../components/LayoutCustom'
 import Card from '../components/Card'
+import { insertSession } from '../persistence'
 
 const LoginScreen = ({ navigation }) => {
 
   //Instanciamos el dispatch
   const dispatch = useDispatch()
 
-  const { user, localId } = useSelector((state) => state.authReducer.value)
-
-
   //Instanciamos la función para disparar el login del user
   const [triggerSignIn, result] = useSignInMutation()
-
-  //Hook para traer el cart desde la DB 
-  const { data, isLoading, isSuccess } = useGetCartbyIdQuery(localId)
-
-  useEffect(() => {
-    if (data != [] && isSuccess) {
-      dispatch(onCart(data))
-    }
-  }, [isLoading, localId])
-
 
   //Estados para manejar los datos ingresados por el user
   const [email, setEmail] = useState()
@@ -41,22 +29,43 @@ const LoginScreen = ({ navigation }) => {
   const [errorEmail, setErrorEmail] = useState('')
   const [errorPassword, setErrorPassword] = useState('')
 
+  const { localId } = useSelector((state) => state.authReducer.value)
+
+  //Hook para traer el cart desde la DB 
+  const { data: cartFromDB, isLoading: isLoadingCart, isSuccess } = useGetCartbyIdQuery(localId)
+
   //Función effect para despachar los datos a redux si el resultado es success
   useEffect(() => {
-    if (result.isSuccess) {
-      dispatch(
-        setUser({
-          email: result.data.email,
-          idToken: result.data.idToken,
-          localId: result.data.localId
+    if (result?.data && result.isSuccess) {
+      insertSession({
+        email: result.data.email,
+        localId: result.data.localId,
+        token: result.data.idToken,
+      })
+        .then((response) => {
+          dispatch(
+            setUser({
+              email: result.data.email,
+              idToken: result.data.idToken,
+              localId: result.data.localId,
+            })
+          )
         })
-      )
-      if (isSuccess && user)
-        dispatch(onCart(data))
+        .catch((err) => {
+          console.log(err)
+        })
+    }
+  }, [result])
+
+  //useEffect para setear el cart desde la DB
+  useEffect(() => {
+    if (localId && isSuccess) {
+      dispatch(onCart(cartFromDB))
       navigation.push('MyProfile')
       navigation.navigate('Home')
     }
-  }, [result])
+  }, [localId, isSuccess])
+
 
   //Función para manejar el submit del form
   const onSubmit = () => {
@@ -138,7 +147,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     gap: 15,
-    backgroundColor:colors.WaterGreen,
+    backgroundColor: colors.WaterGreen,
     paddingVertical: 20,
     borderRadius: 20,
   },

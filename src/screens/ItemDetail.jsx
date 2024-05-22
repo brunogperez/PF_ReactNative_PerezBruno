@@ -1,9 +1,8 @@
-import { ActivityIndicator, Image, StyleSheet, Text, ToastAndroid,  View, useWindowDimensions } from 'react-native'
+import { ActivityIndicator, Image, StyleSheet, ToastAndroid, View, useWindowDimensions } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { colors } from '../constants/colors'
 import { useDispatch, useSelector } from 'react-redux'
 import { addToCart } from '../features/cart/cartSlice'
-import Card from '../components/Card'
 import { useGetProductsByIDQuery } from '../services/shopService'
 import ButtonCustom from '../components/ButtonCustom'
 import GoBackCustom from '../components/GoBackCustom'
@@ -33,24 +32,24 @@ const ItemDetail = ({ route, navigation }) => {
     if (width > height) setOrientation('landscape')
     else setOrientation('portrait')
   }, [width, height])
- 
- const showToast = () => {
+
+  const showToast = () => {
     ToastAndroid.show('Product added to cart!', ToastAndroid.SHORT)
   }
 
   const handleAddCart = () => {
     if (!user) {
-      navigation.navigate('Profile', {screen: 'Login'})
+      navigation.navigate('Profile', { screen: 'Login' })
     } else {
       dispatch(addToCart({ ...product, quantity: 1 }))
-       showToast()  
+      showToast()
     }
   }
-{}
+
   return (
     <>
       <GoBackCustom onPress={() => navigation.goBack()} style={styles.goBack} ></GoBackCustom>
-      
+
       {!isLoading ? (
         <LayoutCustom
           style={
@@ -59,7 +58,7 @@ const ItemDetail = ({ route, navigation }) => {
               : { backgroundColor: bgColor, ...styles.mainContainerLandscape }
           }
         >
-          <LayoutCustom style={(width <= 360) ? {  ...styles.imgContainerSM } : {  ...styles.imgContainerM }}>
+          <LayoutCustom style={(width <= 360) ? { ...styles.imgContainerSM } : { ...styles.imgContainerM }}>
             <View style={styles.textTitleContainer}>
               <TextCustom style={styles.textTitle} >{product.title}</TextCustom>
             </View>
@@ -72,7 +71,7 @@ const ItemDetail = ({ route, navigation }) => {
           <View style={orientation === 'portrait' ? styles.textContainer : styles.textContainerLandscape}>
             <View >
               <TextCustom >{product.description}</TextCustom>
-              <TextCustom style={styles.price }>Precio: ${product.price}</TextCustom>
+              <TextCustom style={styles.price}>Precio: ${product.price}</TextCustom>
             </View>
             <View style={(width <= 360) ? styles.quantityContainerSM : styles.quantityContainerM}>
               <ButtonCustom onPress={handleAddCart}>
@@ -147,7 +146,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginVertical: 10
   },
-  
+
   goBack: {
     position: 'absolute',
     alignItems: 'center',
@@ -170,7 +169,6 @@ const styles = StyleSheet.create({
     borderBottomStartRadius: 400,
     top: -10,
     height: '50%',
-
   },
   imageSM: {
     alignSelf: 'center',

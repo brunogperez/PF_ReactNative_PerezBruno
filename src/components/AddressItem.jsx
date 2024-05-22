@@ -17,9 +17,8 @@ const AddressItem = ({ location, navigation }) => {
         </Text>
       </View>
       <Pressable onPress={onChangeLocation}>
-        <Entypo name='location' size={30} color='black'>
-          <Text style={styles.text2}>Change</Text>
-        </Entypo>
+        <Entypo name='location' size={30} color='black' />
+        <Text style={styles.text2}>Change</Text>
       </Pressable>
     </View>
   )
@@ -38,19 +37,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-},
-textContainer: {
+  },
+  textContainer: {
     width: '70%',
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-},
-text: {
+  },
+  text: {
     fontSize: 17,
     color: 'black',
-},
-text2: {
+  },
+  text2: {
     fontSize: 19,
     color: colors.platinum,
-},
+  },
 })

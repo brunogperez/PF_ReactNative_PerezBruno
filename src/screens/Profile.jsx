@@ -1,23 +1,25 @@
-import { Image, StyleSheet, Text, View } from 'react-native'
+import {  Image, Pressable, StyleSheet, View } from 'react-native'
 import React from 'react'
 import LayoutCustom from '../components/LayoutCustom'
 import { useDispatch, useSelector } from 'react-redux'
-import { useGetProfileImageQuery } from '../services/shopService'
+import { useGetLocationQuery, useGetProfileImageQuery } from '../services/shopService'
 import ButtonCustom from '../components/ButtonCustom'
 import { clearUser } from '../features/auth/authSlice'
 import { clearCart } from '../features/cart/cartSlice'
 import TextCustom from '../components/TextCustom'
 import { Octicons } from '@expo/vector-icons'
 import { colors } from '../constants/colors'
+import { truncateSessionsTable } from '../persistence'
 
 
 const Profile = ({ navigation }) => {
 
   const dispatch = useDispatch()
 
-  const { user } = useSelector(state => state.authReducer.value)
+  const { imageCamera, localId, user } = useSelector(state => state.authReducer.value) //El localId es el uuid que asigna la base de datos al user
 
-  const { imageCamera, localId } = useSelector(state => state.authReducer.value) //El localId es el uuid que asigna la base de datos al user
+  const { data: location, isLoading, error } = useGetLocationQuery(localId)
+
 
   const isDark = useSelector(state => state.globalReducer.value.darkMode)
   const colorIcon = isDark ? colors.White : colors.Black
@@ -28,7 +30,7 @@ const Profile = ({ navigation }) => {
   const launchCamera = async () => {
     navigation.navigate('ImageSelector')
   }
-  
+
   const launchLocation = async () => {
     navigation.navigate('ListAddress')
   }
@@ -37,10 +39,17 @@ const Profile = ({ navigation }) => {
     navigation.navigate('Login')
   }
 
-  const handleSignOut = () => {
-    dispatch(clearUser())
-    dispatch(clearCart())
-    navigation.navigate('Home')
+  const handleSignOut = async () => {
+    try {
+      const response = await truncateSessionsTable()
+      console.log(response)
+      dispatch(clearUser())
+      dispatch(clearCart())
+      navigation.navigate('Home')
+    } catch (error) {
+      console.log(error)
+    }
+
   }
 
   const imageDefault = '../../assets/images/profileDefault.png'
@@ -75,11 +84,22 @@ const Profile = ({ navigation }) => {
                 <Octicons name="plus" size={18} color={colorIcon} />
             }
           </ButtonCustom>
-          <ButtonCustom onPress={launchLocation}>
-            <TextCustom>
-              My Address
+
+          <TextCustom style={styles.userText}>
+            Email: {user}
+          </TextCustom>
+          <View style={styles.address}>
+            <TextCustom style={styles.addressText}>
+              Address : {location ? `${location.address}` : 'No location set'}
             </TextCustom>
-          </ButtonCustom>
+            <Pressable style={styles.addressPressable} onPress={() => navigation.navigate('LocationSelector')}>
+              {location ?
+                <Octicons name="pencil" size={16} color={colorIcon} />
+                :
+                <Octicons name="plus" size={16} color={colorIcon} />
+              }
+            </Pressable>
+          </View>
         </LayoutCustom>
       ) : (
         <LayoutCustom style={styles.container}>
@@ -113,10 +133,20 @@ const styles = StyleSheet.create({
     borderRadius: 125,
     alignSelf: 'center'
   },
+  userText: {
+    textAlign: 'left'
+  },
+  address: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  addressText: {
+    width: '70%'
+  },
   btnLogout: {
     position: 'absolute',
     top: 10,
-    right: 10
+    right: 20
   },
   btnPicture: {
     top: -50,

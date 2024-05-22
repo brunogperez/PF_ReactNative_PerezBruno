@@ -7,12 +7,12 @@ import { decrement, increment } from '../features/cart/cartSlice'
 import TextCustom from './TextCustom'
 
 
+
 const Counter = ({ cartItem }) => {
 
   const dispatch = useDispatch()
 
-  // Por el momento definimos el stock con una cantidad harcodeada para luego manejar el estado del
-  // pressable con la cantidad obtenida por redux
+  const isDark = useSelector(state => state.globalReducer.value.darkMode)
   const stock = cartItem.stock
 
   const handleIncrement = () => {
@@ -22,7 +22,6 @@ const Counter = ({ cartItem }) => {
     dispatch(decrement(cartItem.id))
   }
 
-  const isDark = useSelector(state => state.globalReducer.value.darkMode)
   const colorIcon = isDark ? colors.White : colors.Black
 
   return (

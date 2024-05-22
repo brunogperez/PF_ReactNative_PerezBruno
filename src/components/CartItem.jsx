@@ -1,24 +1,27 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native'
+import { Pressable, StyleSheet, View } from 'react-native'
 import React from 'react'
 import Card from '../components/Card'
 import { FontAwesome5 } from '@expo/vector-icons'
-import { colors } from '../constants/colors'
 import { useDispatch } from 'react-redux'
 import { removeProduct } from '../features/cart/cartSlice'
 import ButtonCustom from './ButtonCustom'
 import Counter from '../components/Counter'
 import TextCustom from './TextCustom'
 
+
 const CartItem = ({ cartItem }) => {
 
   const dispatch = useDispatch()
 
+
+
   const handleRemove = () => {
     dispatch(removeProduct(cartItem.id))
+
   }
 
   return (
-    <Card style={styles.card} onPress={() => {}}>
+    <Card style={styles.card} onPress={() => { }}>
       <View style={styles.textContainer}>
         <TextCustom style={styles.title}>{cartItem.title}</TextCustom>
         <TextCustom style={styles.price}>${cartItem.price}</TextCustom>
@@ -38,7 +41,7 @@ const styles = StyleSheet.create({
     height: 100,
     padding: 5,
     margin: 5,
-    
+
     flexDirection: 'row',
     alignSelf: 'center',
     width: '95%',
@@ -56,8 +59,8 @@ const styles = StyleSheet.create({
   price: {
     fontSize: 16,
   },
-  btnRemove:{
-    backgroundColor:'transparent',
-    justifyContent:'flex-start'
+  btnRemove: {
+    backgroundColor: 'transparent',
+    justifyContent: 'flex-start'
   }
 })

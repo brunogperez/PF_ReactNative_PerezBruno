@@ -69,10 +69,9 @@ const LocationSelector = ({ navigation }) => {
             .then(response => response.json())
             .then(result => {
               if (result.features.length) {
-
                 setAddress(result.features[0].properties.formatted)
               } else {
-                console.log('No address found');
+                console.log('No address found')
               }
             })
         }
@@ -81,26 +80,25 @@ const LocationSelector = ({ navigation }) => {
       }
     })();
   }, [location])
-  console.log(address)
+
+
   return (
     <LayoutCustom style={styles.container}>
-      <TextCustom style={styles.text}>My Address</TextCustom>
       {/* Flatlist con las directions */}
       {location ? (
         <>
-          <Text style={styles.text}>
+          <TextCustom style={styles.text}>
             Lat: {location.latitude}, long: {location.longitude}.
-          </Text>
+          </TextCustom>
           <MapPreview location={location} />
-          <Text style={styles.address}>
+          <TextCustom style={styles.address}>
             Formatted address: {address}
-          </Text>
+          </TextCustom>
           <ButtonCustom onPress={onConfirmAddress}>
-            <Text style={styles.address}>
+            <TextCustom >
               Confirm Address
-            </Text>
+            </TextCustom>
           </ButtonCustom>
-
         </>
       ) : (
         <>

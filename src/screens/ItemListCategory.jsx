@@ -45,7 +45,7 @@ const ItemListCategory = ({
 
   return (
 
-    <LayoutCustom style={{ ...styles.container }}>
+    <LayoutCustom style={{ ...styles.container, paddingBottom: tabBarHeight }}>
       {isLoading ? (
         <View style={styles.loaderContainer}>
           <ActivityIndicator size="large" />
