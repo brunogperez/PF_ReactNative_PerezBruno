@@ -45,7 +45,7 @@ const ItemListCategory = ({
 
   return (
 
-    <LayoutCustom style={{ ...styles.container, paddingBottom: tabBarHeight }}>
+    <LayoutCustom style={{ ...styles.container, paddingBottom:tabBarHeight}}>
       {isLoading ? (
         <View style={styles.loaderContainer}>
           <ActivityIndicator size="large" />
@@ -60,7 +60,7 @@ const ItemListCategory = ({
             navigation={navigation}
           />
           <FlatList
-            style={{ flex: 1 }}
+            style={{ paddingBottom: tabBarHeight }}
             showsVerticalScrollIndicator={false}
             keyExtractor={(product) => product.id}
             data={productsFiltered}

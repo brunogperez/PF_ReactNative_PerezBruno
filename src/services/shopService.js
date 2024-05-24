@@ -4,7 +4,7 @@ import { dbURL } from '../database/realtimeDB'
 export const shopApi = createApi({
   reducerPath: 'shopApi',
   baseQuery: fetchBaseQuery({ baseUrl: dbURL }),
-  tagTypes: ['profileImageGet', 'getCart', 'locationGet'], //Declaramos los tags correspondientes
+  tagTypes: ['profileImageGet', 'locationGet', 'getOrders'], //Declaramos los tags correspondientes
   endpoints: (builder) => ({
     //Endpoint para obtener las categorias
     getCategories: builder.query({
@@ -31,9 +31,10 @@ export const shopApi = createApi({
     getCartbyId: builder.query({
       query: (localId) => `carts/${localId}.json`,
       transformResponse: (req) => {
-        const result = Object.values(req)
-        if (result.length) return result[0]
-        return null
+        if (req != null) {
+          const result = Object.values(req)
+          if (result.length) return result[0]
+        } 
       },
     }),
     //Endpoint para agregar los productos al carrito
@@ -48,15 +49,17 @@ export const shopApi = createApi({
     }),
     //Endpoint para obtener las ordenes de la DB
     getOrders: builder.query({
-      query: (localId) => `orders/${localId}.json`
+      query: () => `orders.json`,
+      providesTags: ['getOrders']
     }),
     //Endpoint para enviar los datos de la orden de compra de un cart
     postOrder: builder.mutation({
-      query: ({ order, localId }) => ({
-        url: `orders/${localId}.json`,
-        method: 'PUT',
+      query: ({ ...order }) => ({
+        url: `orders.json`,
+        method: 'POST',
         body: order
-      })
+      }),
+      invalidatesTags: ['getOrders']
     }),
     //Endpoint para obtener la imagen de perfil del usuario desde la base de datos
     getProfileImage: builder.query({
@@ -100,11 +103,11 @@ export const {
   useGetProductsByCategoryQuery,
   useGetProductsByIDQuery,
   useGetCartbyIdQuery,
-  usePostProductsInCartMutation,
   useGetOrdersQuery,
-  usePostOrderMutation,
   useGetProfileImageQuery,
-  usePostProfileImageMutation,
   useGetLocationQuery,
+  usePostProductsInCartMutation,
+  usePostOrderMutation,
+  usePostProfileImageMutation,
   usePostLocationMutation
 } = shopApi

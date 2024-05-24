@@ -13,7 +13,6 @@ const ListAddress = ({ navigation }) => {
 
   const { data: location, isLoading, error } = useGetLocationQuery(localId)
 
-
   return (
     <>
       {!isLoading ? (

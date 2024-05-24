@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import * as Location from 'expo-location'
 import { useSelector } from 'react-redux'
@@ -6,9 +6,9 @@ import MapPreview from '../components/MapPreview'
 import ButtonCustom from '../components/ButtonCustom'
 import { googleMapsApiKey } from '../database/googleMaps'
 import { usePostLocationMutation } from '../services/shopService'
-import { colors } from '../constants/colors'
 import LayoutCustom from '../components/LayoutCustom'
 import TextCustom from '../components/TextCustom'
+import GoBackCustom from '../components/GoBackCustom'
 
 const LocationSelector = ({ navigation }) => {
 
@@ -17,6 +17,8 @@ const LocationSelector = ({ navigation }) => {
   const [error, setError] = useState('')
   const [triggerPostLocation, result] = usePostLocationMutation()
   const { localId } = useSelector(state => state.authReducer.value)
+
+  const [isLoading, setIsLoading] = useState(false)
 
   const onConfirmAddress = () => {
 
@@ -42,6 +44,7 @@ const LocationSelector = ({ navigation }) => {
         let { status } = await Location.requestForegroundPermissionsAsync()
 
         if (status === 'granted') {
+
           let location = await Location.getCurrentPositionAsync({})
 
           setLocation({
@@ -70,6 +73,7 @@ const LocationSelector = ({ navigation }) => {
             .then(result => {
               if (result.features.length) {
                 setAddress(result.features[0].properties.formatted)
+                setIsLoading(true)
               } else {
                 console.log('No address found')
               }
@@ -84,29 +88,29 @@ const LocationSelector = ({ navigation }) => {
 
   return (
     <LayoutCustom style={styles.container}>
-      {/* Flatlist con las directions */}
-      {location ? (
+      
+      <GoBackCustom onPress={() => navigation.goBack()} style={styles.goBack} ></GoBackCustom>
+
+      {(location && isLoading) ? (
         <>
-          <TextCustom style={styles.text}>
-            Lat: {location.latitude}, long: {location.longitude}.
-          </TextCustom>
           <MapPreview location={location} />
           <TextCustom style={styles.address}>
-            Formatted address: {address}
+            {address}
           </TextCustom>
-          <ButtonCustom onPress={onConfirmAddress}>
-            <TextCustom >
-              Confirm Address
-            </TextCustom>
-          </ButtonCustom>
+
         </>
       ) : (
         <>
           <View style={styles.noLocationContainer}>
-            <Text>{error}</Text>
+            <ActivityIndicator size='large' />
           </View>
         </>
       )}
+      <ButtonCustom onPress={onConfirmAddress}>
+        <TextCustom >
+          Confirm
+        </TextCustom>
+      </ButtonCustom>
     </LayoutCustom>
   )
 
@@ -125,9 +129,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   noLocationContainer: {
-    width: 200,
-    height: 200,
-    borderWidth: 2,
+    width: 350,
+    height: 350,
     padding: 10,
     justifyContent: 'center',
     alignItems: 'center',
@@ -135,5 +138,12 @@ const styles = StyleSheet.create({
   address: {
     padding: 10,
     fontSize: 16,
+  },
+  goBack: {
+    position: 'absolute',
+    alignItems: 'center',
+    left: '5%',
+    top: '2%',
+    zIndex: 1
   },
 })

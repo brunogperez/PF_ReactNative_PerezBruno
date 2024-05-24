@@ -19,8 +19,8 @@ const store = configureStore({
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
-    .concat(shopApi.middleware)
-    .concat(authApi.middleware)
+      .concat(shopApi.middleware)
+      .concat(authApi.middleware)
 })
 
 setupListeners(store.dispatch)

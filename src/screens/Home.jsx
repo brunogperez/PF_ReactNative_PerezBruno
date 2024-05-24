@@ -10,11 +10,16 @@ import { colors } from '../constants/colors.js'
 import { fetchSession } from '../persistence'
 import { setUser } from '../features/auth/authSlice.js'
 import { onCart } from '../features/cart/cartSlice.js'
+import LayoutCustom from '../components/LayoutCustom.jsx'
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 
 
 const Home = ({ navigation }) => {
 
   const [idRandom, setIDRandom] = useState()
+
+  //Obtenemos la altura del bottomTabNavigator a partir de un hook para poder realizar un paddingBottom y no componentes
+  const tabBarHeight = useBottomTabBarHeight()
 
   //Hook para traer las categorias de la DB
   const { data: categories, isLoading } = useGetCategoriesQuery()
@@ -61,14 +66,14 @@ const Home = ({ navigation }) => {
   }, [])
 
   useEffect(() => {
-    if (localId && isSuccess) {
+    if (localId && isSuccess && cartFromDB != undefined) {
       dispatch(onCart(cartFromDB))
     }
   }, [localId, isSuccess])
 
   return (
-    <ScrollView style={{ backgroundColor: bgColor, ...styles.container }} showsVerticalScrollIndicator={false}>
-      <TextCustom style={styles.textTitle}>Discover</TextCustom>
+    <LayoutCustom style={{ backgroundColor: bgColor, ...styles.container, paddingBottom: tabBarHeight }} showsVerticalScrollIndicator={false}>
+      <TextCustom style={{ ...styles.textTitle, textAlign: 'left', }}>Discover</TextCustom>
       <Card style={styles.cardContainer}>
         <Image
           source={{ uri: 'https://res.cloudinary.com/divujqlv8/image/upload/v1713902741/15600086360926_wj01er.jpg' }}
@@ -109,14 +114,18 @@ const Home = ({ navigation }) => {
                 style={styles.imageOnSale}
                 source={{ uri: prodFetched.images[0] }}
               />
-              <TextCustom style={styles.text}>{prodFetched.title}</TextCustom>
+              <View style={styles.priceContainer}>
+                <TextCustom style={styles.textPrice}>${prodFetched.price}</TextCustom>
+                <TextCustom style={styles.textPriceDiscount}> ${Math.floor(prodFetched.price - prodFetched.discountPercentage)} </TextCustom>
+                <TextCustom style={styles.textDiscount}>{Math.floor(prodFetched.discountPercentage)}% OFF</TextCustom>
+              </View>
             </Pressable>
           </Card>
         ) : (
           <ActivityIndicator style={styles.indicator} size="large" color={bgColor} />
         )}
       </Card>
-    </ScrollView>
+    </LayoutCustom>
   )
 }
 
@@ -125,7 +134,7 @@ export default Home
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
-    flex: 1,
+    flex: 1
   },
   cardContainer: {
     width: '90%',
@@ -140,6 +149,11 @@ const styles = StyleSheet.create({
     width: '90%',
     alignSelf: 'center',
     alignItems: 'center',
+  },
+  priceContainer: {
+    flexDirection: 'row',
+    marginVertical: 5,
+    alignItems: 'center'
   },
   cardItemM: {
     width: 150,
@@ -179,9 +193,8 @@ const styles = StyleSheet.create({
     fontWeight: '500'
   },
   textProducts: {
-    textAlign: 'left',
     fontSize: 20,
-    marginVertical: 10,
+    marginTop: 10,
     marginHorizontal: 35,
     fontWeight: 'bold'
   },
@@ -191,17 +204,19 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     margin: 10
   },
-
-  // Estilos para móviles small
-
-  cardItemSM: {
-    width: 100,
-    height: 100,
-    margin: 5,
+  textPrice: {
+    fontSize: 16,
+    marginHorizontal: 5,
+    color: 'grey',
+    textDecorationLine: 'line-through'
   },
-  imageSM: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 8
+  textPriceDiscount: {
+    fontSize: 20,
+    marginHorizontal: 5,
   },
+  textDiscount: {
+    fontSize: 20,
+    marginHorizontal: 5,
+    color: 'red',
+  }
 })

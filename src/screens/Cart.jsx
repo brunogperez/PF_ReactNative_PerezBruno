@@ -28,7 +28,9 @@ const Cart = () => {
   const onConfirmOrder = () => {
     triggerPostOrder({
       order: cart,
-      localId,
+      user: localId,
+      total: total,
+      date: new Date().toLocaleString()
     })
   }
 
