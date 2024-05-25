@@ -1,10 +1,10 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import ItemListCategory from '../screens/ItemListCategory'
 import Home from '../screens/Home'
 import ItemDetail from '../screens/ItemDetail'
-import { colors } from '../constants/colors'
+
 
 const Stack = createNativeStackNavigator()
 

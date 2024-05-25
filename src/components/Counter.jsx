@@ -1,12 +1,10 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native'
+import { Pressable, StyleSheet, View } from 'react-native'
 import React from 'react'
 import { FontAwesome5 } from '@expo/vector-icons'
 import { colors } from '../constants/colors'
 import { useDispatch, useSelector } from 'react-redux'
 import { decrement, increment } from '../features/cart/cartSlice'
 import TextCustom from './TextCustom'
-
-
 
 const Counter = ({ cartItem }) => {
 
@@ -26,17 +24,13 @@ const Counter = ({ cartItem }) => {
 
   return (
     <View style={styles.counterContainer}>
-
       <Pressable style={styles.pressable} onPress={handleDecrement} disabled={Boolean(cartItem.quantity <= 1)}>
         <FontAwesome5 name="minus" size={15} color={colorIcon} />
       </Pressable>
-
       <TextCustom style={{ ...styles.textCounter }}>{cartItem.quantity}</TextCustom>
-
       <Pressable style={styles.pressable} onPress={handleIncrement} disabled={Boolean(cartItem.quantity >= stock)}>
         <FontAwesome5 name="plus" size={15} color={colorIcon} />
       </Pressable>
-
     </View>
   )
 }

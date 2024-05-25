@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import React from 'react'
 import Card from '../components/Card'
 import { FontAwesome5 } from '@expo/vector-icons'
@@ -13,11 +13,8 @@ const CartItem = ({ cartItem }) => {
 
   const dispatch = useDispatch()
 
-
-
   const handleRemove = () => {
     dispatch(removeProduct(cartItem.id))
-
   }
 
   return (
@@ -41,7 +38,6 @@ const styles = StyleSheet.create({
     height: 100,
     padding: 5,
     margin: 5,
-
     flexDirection: 'row',
     alignSelf: 'center',
     width: '95%',

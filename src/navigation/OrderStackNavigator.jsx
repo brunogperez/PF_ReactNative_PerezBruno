@@ -5,7 +5,6 @@ import Orders from '../screens/Orders'
 
 const Stack = createNativeStackNavigator()
 
-
 const OrderStackNavigator = () => {
   return (
     <Stack.Navigator

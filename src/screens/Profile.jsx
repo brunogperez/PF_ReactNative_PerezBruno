@@ -1,4 +1,4 @@
-import {  Image, Pressable, StyleSheet, View } from 'react-native'
+import { Image, Platform, Pressable, StyleSheet, View } from 'react-native'
 import React from 'react'
 import LayoutCustom from '../components/LayoutCustom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -23,6 +23,7 @@ const Profile = ({ navigation }) => {
 
   const isDark = useSelector(state => state.globalReducer.value.darkMode)
   const colorIcon = isDark ? colors.White : colors.Black
+  
 
   //Llamado a DB mediante RTK Query para obtener la imagen de perfil del usuario
   const { data: imageFromDB } = useGetProfileImageQuery(localId)
@@ -31,23 +32,21 @@ const Profile = ({ navigation }) => {
     navigation.navigate('ImageSelector')
   }
 
-  const launchLocation = async () => {
-    navigation.navigate('ListAddress')
-  }
-
   const handleLogin = async () => {
     navigation.navigate('Login')
   }
 
   const handleSignOut = async () => {
     try {
-      const response = await truncateSessionsTable()
-      console.log(response)
+
+      if (Platform.OS != 'web') await truncateSessionsTable()
+
       dispatch(clearUser())
       dispatch(clearCart())
       navigation.navigate('Home')
+
     } catch (error) {
-      console.log(error)
+      
     }
 
   }

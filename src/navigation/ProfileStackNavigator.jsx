@@ -4,7 +4,6 @@ import Profile from '../screens/Profile'
 import ImageSelector from '../screens/ImageSelector'
 import LoginScreen from '../screens/LoginScreen'
 import SignupScreen from '../screens/SignUpScreen'
-import ListAddress from '../screens/ListAddress'
 import LocationSelector from '../screens/LocationSelector'
 
 
@@ -34,10 +33,6 @@ const ProfileStackNavigator = () => {
       <Stack.Screen
         name='ImageSelector'
         component={ImageSelector}
-      />
-       <Stack.Screen
-        name='ListAddress'
-        component={ListAddress}
       />
        <Stack.Screen
         name='LocationSelector'

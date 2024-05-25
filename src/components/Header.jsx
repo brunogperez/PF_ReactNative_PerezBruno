@@ -1,4 +1,4 @@
-import { Image, Pressable, StyleSheet, View, useWindowDimensions } from 'react-native'
+import { Image, Pressable, StyleSheet, View } from 'react-native'
 import React, { useState } from 'react'
 import SwitchCustom from './SwitchCustom'
 import { colors } from '../constants/colors'
@@ -15,8 +15,6 @@ const Header = ({ navigation, route }) => {
 
   const bgColor = isDark ? colors.DarkGrey : colors.BGLight
 
-  const { height, width } = useWindowDimensions()
-
   const [isEnabled, setIsEnabled] = useState(false)
 
   const handleTheme = () => {
@@ -28,7 +26,7 @@ const Header = ({ navigation, route }) => {
     <View style={{ backgroundColor: bgColor, ...styles.container }}>
       <Pressable onPress={() => navigation.navigate('Home')}>
         <Image
-          style={(width < height) ? styles.logo : styles.logoLandscape}
+          style={styles.logo}
           source={{
             uri: 'https://res.cloudinary.com/divujqlv8/image/upload/v1713998174/fghdfghdfgh_gjmnht.png',
           }}
@@ -61,15 +59,7 @@ const styles = StyleSheet.create({
     height: 50,
     width: 100,
     borderRadius: 8,
-    borderColor:'black',
-    borderWidth:1
-  },
-
-  // Estilos para posicion horizontal del dispositivo
-
-  logoLandscape: {
-    height: 70,
-    width: 200,
-    borderRadius: 4
+    borderColor: 'black',
+    borderWidth: 1
   }
 })

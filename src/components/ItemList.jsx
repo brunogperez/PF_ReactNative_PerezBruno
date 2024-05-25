@@ -1,4 +1,4 @@
-import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native'
+import { FlatList, Pressable, StyleSheet, View } from 'react-native'
 import React from 'react'
 import TextCustom from './TextCustom'
 
@@ -28,7 +28,6 @@ const styles = StyleSheet.create({
 
   taskContainer: {
     marginTop: 15,
-    
     width: '90%'
   },
   card: {

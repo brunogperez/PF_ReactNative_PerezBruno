@@ -4,7 +4,6 @@ import { colors } from '../constants/colors'
 import { useSelector } from 'react-redux'
 import { MaterialIcons } from '@expo/vector-icons'
 
-
 const GoBackCustom = ({ onPress , style}) => {
 
   const isDark = useSelector(state => state.globalReducer.value.darkMode)

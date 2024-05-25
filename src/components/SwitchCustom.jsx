@@ -10,10 +10,10 @@ const SwitchCustom = ({
   const toggleSwitch = () => setIsEnabled(previousState => !previousState)
 
   return (
-    <View style={styles.container}>
+    <View>
       <Switch
         trackColor={{ false: colors.Black, true: colors.Black }}
-        thumbColor={isEnabled ? colors.CastletonGreen: colors.WaterGreen}
+        thumbColor={isEnabled ? colors.CastletonGreen : colors.WaterGreen}
         ios_backgroundColor="#3e3e3e"
         onValueChange={toggleSwitch}
         value={isEnabled}
@@ -22,9 +22,6 @@ const SwitchCustom = ({
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-  },
-})
+const styles = StyleSheet.create({})
 
 export default SwitchCustom

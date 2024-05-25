@@ -1,13 +1,12 @@
-import { FlatList, Modal, Pressable, StyleSheet, Text, View } from 'react-native'
+import { FlatList, StyleSheet, Text, View } from 'react-native'
 import React, { useState } from 'react'
-import Card from '../components/Card'
-import ButtonCustom from '../components/ButtonCustom'
 import { FontAwesome5 } from '@expo/vector-icons'
-
 import { useSelector } from 'react-redux'
 import { MaterialIcons } from '@expo/vector-icons'
-import LayoutCustom from './LayoutCustom'
 import { colors } from '../constants/colors'
+import LayoutCustom from './LayoutCustom'
+import ButtonCustom from '../components/ButtonCustom'
+import ModalCustom from '../components/ModalCustom'
 
 const OrderItem = ({ order }) => {
 
@@ -15,49 +14,23 @@ const OrderItem = ({ order }) => {
 
   const [modalVisible, setModalVisible] = useState(false)
 
-  const { order: orderItem } = order
+  const handleCloseModal = () => {
+    setModalVisible(false)
+  }
 
   return (
-    <LayoutCustom style={styles.card} onPress={() => { }}>
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible)
-        }}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
+    <LayoutCustom style={styles.card} >
 
-            <ButtonCustom
-              style={styles.buttonClose}
-              onPress={() => setModalVisible(!modalVisible)}>
-              <MaterialIcons name="close" size={32} color="red" />
-            </ButtonCustom>
-
-            <Text style={styles.text2}>Owner: {user}</Text>
-            <Text style={styles.text2}>ID User: {localId} </Text>
-            <Text style={styles.text}>Items: </Text>
-            <FlatList
-              data={orderItem}
-              keyExtractor={orderItem => orderItem.id}
-              renderItem={({ item }) => {
-                return (
-                  <View>
-                    <Text style={styles.text}>{item.quantity} x {item.title}</Text>
-                  </View>
-                )
-              }}
-            />
-            <Text style={styles.text}>${order.total}</Text>
-          </View>
-        </View>
-      </Modal>
+      <ModalCustom
+        handleCloseModal={handleCloseModal}
+        modalVisible={modalVisible}
+        order={order}
+      />
 
       <View style={styles.cardContainer}>
         <View>
           <Text style={styles.text}>{order.date}</Text>
-          <Text style={styles.text2}>${order.total}</Text>
+          <Text style={styles.text2}>Total: ${order.total}</Text>
         </View>
         <ButtonCustom onPress={() => setModalVisible(true)} style={styles.btnSearch}>
           <FontAwesome5 name='search' size={24} color='black' />
@@ -81,52 +54,28 @@ const styles = StyleSheet.create({
   cardContainer: {
     width: '100%',
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
   },
   text: {
     fontSize: 19,
-    alignItems: 'flex-start'
+    alignItems: 'flex-start',
+    marginHorizontal: 15
   },
   text2: {
     fontSize: 14,
+    marginHorizontal: 20
   },
   icon: {
     marginHorizontal: 15
   },
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
-  },
+  
   btnSearch: {
     backgroundColor: 'transparent',
-
+    marginHorizontal: 20,
     justifyContent: 'center'
   },
-  modalView: {
-    height: '50%',
-    width: '80%',
-    gap: 10,
-    backgroundColor: colors.White,
-    borderRadius: 20,
-    padding: 20,
-    alignItems: 'flex-start',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  buttonClose: {
-    backgroundColor: 'transparent',
-    bottom: '5%',
-    left: '40%'
-  },
+
 
 
 })

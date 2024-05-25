@@ -6,15 +6,20 @@ import { usePostOrderMutation, usePostProductsInCartMutation } from '../services
 import { clearCart } from '../features/cart/cartSlice'
 import ButtonCustom from '../components/ButtonCustom'
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
-import { FontAwesome5 } from '@expo/vector-icons'
 import LayoutCustom from '../components/LayoutCustom'
 import TextCustom from '../components/TextCustom'
+import { MaterialIcons } from '@expo/vector-icons'
+import { colors } from '../constants/colors'
 
-const Cart = () => {
+const Cart = ({navigation}) => {
 
   const dispatch = useDispatch()
+
   const { localId } = useSelector((state) => state.authReducer.value)
   const { cart, total } = useSelector((state) => state.cartReducer.value)
+  const isDark = useSelector(state => state.globalReducer.value.darkMode)
+
+  const bgColor = isDark ? colors.White : colors.Black
 
   //Obtenemos la altura del bottomTabNavigator a partir de un hook para poder realizar un paddingBottom y no ocultar componentes
   const tabBarHeight = useBottomTabBarHeight()
@@ -53,11 +58,17 @@ const Cart = () => {
   if (cart.length == 0) {
     return (
       <LayoutCustom style={styles.container}>
-        <FontAwesome5 name="question" size={80} color="black" />
+        <MaterialIcons name="shopping-bag" size={300} color={bgColor} />
         <TextCustom>
-          Aun no tienes productos agregados
+          ¡Empezá un carrito de compras!
         </TextCustom>
-      </LayoutCustom>
+        <TextCustom>
+          Sumá productos y conseguí descuentos especiales
+        </TextCustom>
+        <ButtonCustom onPress={() => navigation.navigate('Home')} >
+          <TextCustom > Descubrí productos </TextCustom>
+        </ButtonCustom>
+      </LayoutCustom >
     )
   } else {
     return (
@@ -91,7 +102,9 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 20,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    gap: 10,
+    
   },
   totalContainer: {
     justifyContent: 'center',

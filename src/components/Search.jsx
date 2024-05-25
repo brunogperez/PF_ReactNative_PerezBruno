@@ -1,7 +1,7 @@
 import { Pressable, StyleSheet, TextInput } from 'react-native'
 import React, { useState } from 'react'
 import { colors } from '../constants/colors'
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons'
 import { useSelector } from 'react-redux'
 import GoBackCustom from './GoBackCustom'
 import LayoutCustom from './LayoutCustom'

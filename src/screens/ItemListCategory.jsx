@@ -5,6 +5,8 @@ import Search from '../components/Search'
 import { useGetProductsByCategoryQuery } from '../services/shopService'
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 import LayoutCustom from '../components/LayoutCustom'
+import TextCustom from '../components/TextCustom'
+import { colors } from '../constants/colors'
 
 
 const ItemListCategory = ({
@@ -42,10 +44,9 @@ const ItemListCategory = ({
     }
   }, [keyword, categorySelected, prodFetched, isLoading])
 
-
   return (
 
-    <LayoutCustom style={{ ...styles.container, paddingBottom:tabBarHeight}}>
+    <LayoutCustom style={{ ...styles.container, paddingBottom: tabBarHeight }}>
       {isLoading ? (
         <View style={styles.loaderContainer}>
           <ActivityIndicator size="large" />
@@ -59,15 +60,22 @@ const ItemListCategory = ({
             style={styles.inputSearch}
             navigation={navigation}
           />
-          <FlatList
-            style={{ paddingBottom: tabBarHeight }}
-            showsVerticalScrollIndicator={false}
-            keyExtractor={(product) => product.id}
-            data={productsFiltered}
-            renderItem={({ item }) =>
-              <ProductItem product={item} style={styles.productItem} navigation={navigation} />
-            }
-          />
+          {(productsFiltered.length) ? (
+            <FlatList
+              style={{ paddingBottom: tabBarHeight }}
+              showsVerticalScrollIndicator={false}
+              keyExtractor={(product) => product.id}
+              data={productsFiltered}
+              renderItem={({ item }) =>
+                <ProductItem product={item} style={styles.productItem} navigation={navigation} />
+              }
+            />
+          ) : (
+            <TextCustom style={styles.textSearch}>
+              No se encontró el producto
+            </TextCustom>
+          )
+          }
         </>
       )
       }
@@ -96,4 +104,9 @@ const styles = StyleSheet.create({
   productItem: {
     alignSelf: 'center'
   },
+  textSearch:{
+    alignSelf:'center',
+    flex:1,
+    marginVertical:'50%'
+  }
 })

@@ -14,9 +14,3 @@ const evaluation = expression.test(input)
 const evaluation2 = expression2.test(input)
 
 const evaluation3 = expression3.test(input)
-
-console.log(`El input: ${input}, contiene sólo números?: ${evaluation}`)
-
-console.log(`El input: ${input}, contiene sólo letras?: ${evaluation2}`)
-
-console.log(`El input: ${input}, contiene sólo letras y números?: ${evaluation3}`)

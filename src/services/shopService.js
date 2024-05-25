@@ -34,7 +34,7 @@ export const shopApi = createApi({
         if (req != null) {
           const result = Object.values(req)
           if (result.length) return result[0]
-        } 
+        }
       },
     }),
     //Endpoint para agregar los productos al carrito

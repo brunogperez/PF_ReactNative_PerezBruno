@@ -6,6 +6,7 @@ import ButtonCustom from './ButtonCustom.jsx'
 import { MaterialIcons } from '@expo/vector-icons'
 import { colors } from '../constants/colors.js'
 
+
 const CategoryItem = ({ category, navigation }) => {
 
   const dispatch = useDispatch()

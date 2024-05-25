@@ -10,7 +10,7 @@ const Orders = () => {
 
   const { localId } = useSelector((state) => state.authReducer.value)
 
-  const { data: ordersData, isLoading, isSuccess } = useGetOrdersQuery(localId)
+  const { data: ordersData, isLoading, isSuccess } = useGetOrdersQuery()
 
   const [ordersFiltered, setOrdersFiltered] = useState()
 
@@ -23,6 +23,7 @@ const Orders = () => {
     }
 
   }, [ordersData, isSuccess, localId])
+
 
   return (
     <LayoutCustom style={styles.container}>
@@ -49,7 +50,7 @@ export default Orders
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical:30,
+    paddingVertical: 30,
     flex: 1,
     width: '100%'
   },

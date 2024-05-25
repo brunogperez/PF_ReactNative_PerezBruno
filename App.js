@@ -1,4 +1,5 @@
 import {
+  Platform,
   SafeAreaView,
   StatusBar,
   StyleSheet,
@@ -11,9 +12,11 @@ import { initSQLiteDB } from './src/persistence'
 //Funcion IIFE para iniciar DB de SQLite y que no sea necesario loguearse cada vez que se inicia la app
 (async () => {
   try {
-    const response = await initSQLiteDB()
+    if (Platform.OS !== 'web') {
+      const response = await initSQLiteDB()
+    }
   } catch (error) {
-    
+
   }
 })()
 

@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   },
   image: {
     height: 120,
-    width: '35%', // Ancho específico para que la imagen sobresalga de la card. 
+    width: '35%',
     borderRadius: 10,
     marginLeft:10
   },

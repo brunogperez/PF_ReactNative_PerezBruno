@@ -13,6 +13,7 @@ const LayoutCustom = ({ children, style }) => {
       {children}
     </View>
   )
+  
 }
 
 export default LayoutCustom

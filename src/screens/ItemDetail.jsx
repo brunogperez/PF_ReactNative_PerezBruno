@@ -1,5 +1,5 @@
-import { ActivityIndicator, Image, StyleSheet, ToastAndroid, View, useWindowDimensions } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { ActivityIndicator, Image, StyleSheet, ToastAndroid, View } from 'react-native'
+import React from 'react'
 import { colors } from '../constants/colors'
 import { useDispatch, useSelector } from 'react-redux'
 import { addToCart } from '../features/cart/cartSlice'
@@ -18,23 +18,14 @@ const ItemDetail = ({ route, navigation }) => {
 
   const bgColor = isDark ? colors.Black : colors.MintGreen
 
-  const { width, height } = useWindowDimensions()
-
-  // Estado para manejar la orientación del dispositivo
-  const [orientation, setOrientation] = useState('portrait')
-
   const { productID } = route.params
 
   const { data: product, error, isLoading } = useGetProductsByIDQuery(productID)
 
-  useEffect(() => {
-    // Condicional para comprobar la posición del dispositivo
-    if (width > height) setOrientation('landscape')
-    else setOrientation('portrait')
-  }, [width, height])
-
   const showToast = () => {
-    ToastAndroid.show('Product added to cart!', ToastAndroid.SHORT)
+    ToastAndroid.show('Product added to cart!',
+      ToastAndroid.SHORT,
+    )
   }
 
   const handleAddCart = () => {
@@ -42,7 +33,7 @@ const ItemDetail = ({ route, navigation }) => {
       navigation.navigate('Profile', { screen: 'Login' })
     } else {
       dispatch(addToCart({ ...product, quantity: 1 }))
-      showToast()
+      if (Platform.OS !== 'web') showToast()
     }
   }
 
@@ -51,29 +42,23 @@ const ItemDetail = ({ route, navigation }) => {
       <GoBackCustom onPress={() => navigation.goBack()} style={styles.goBack} ></GoBackCustom>
 
       {!isLoading ? (
-        <LayoutCustom
-          style={
-            orientation === 'portrait' ?
-              { backgroundColor: bgColor, ...styles.mainContainer }
-              : { backgroundColor: bgColor, ...styles.mainContainerLandscape }
-          }
-        >
-          <LayoutCustom style={(width <= 360) ? { ...styles.imgContainerSM } : { ...styles.imgContainerM }}>
+        <LayoutCustom style={{ backgroundColor: bgColor, ...styles.mainContainer }}>
+          <LayoutCustom style={styles.imgContainerM}>
             <View style={styles.textTitleContainer}>
               <TextCustom style={styles.textTitle} >{product.title}</TextCustom>
             </View>
             <Image
               source={{ uri: product.images[0] }}
-              style={(width <= 360) ? styles.imageSM : styles.imageM}
+              style={styles.imageM}
               resizeMode='cover'
             />
           </LayoutCustom>
-          <View style={orientation === 'portrait' ? styles.textContainer : styles.textContainerLandscape}>
+          <View style={styles.textContainer}>
             <View >
               <TextCustom >{product.description}</TextCustom>
               <TextCustom style={styles.price}>Precio: ${product.price}</TextCustom>
             </View>
-            <View style={(width <= 360) ? styles.quantityContainerSM : styles.quantityContainerM}>
+            <View style={styles.quantityContainerM}>
               <ButtonCustom onPress={handleAddCart}>
                 <TextCustom >ADD TO CART</TextCustom>
               </ButtonCustom>
@@ -126,27 +111,25 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     flexDirection: 'column',
-
   },
   textTitleContainer: {
     alignItems: 'center',
+    marginVertical: 30,
+    top: 30
   },
   textTitle: {
     fontSize: 20,
-    margin: 10
   },
   quantityContainerM: {
     flexDirection: 'row',
     alignSelf: 'center',
     justifyContent: 'center',
-
   },
   price: {
     width: '100%',
     fontSize: 20,
     marginVertical: 10
   },
-
   goBack: {
     position: 'absolute',
     alignItems: 'center',
@@ -156,59 +139,5 @@ const styles = StyleSheet.create({
   },
   colorIcons: {
     color: colors.light
-  },
-
-  // Estilos para tamaño de movil small
-
-  imgContainerSM: {
-    backgroundColor: 'white',
-    width: '120%',
-    paddingBottom: 10,
-    gap: 10,
-    borderBottomEndRadius: 400,
-    borderBottomStartRadius: 400,
-    top: -10,
-    height: '50%',
-  },
-  imageSM: {
-    alignSelf: 'center',
-    width: 150,
-    height: 150,
-    borderRadius: 400,
-  },
-  quantityContainerSM: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 100,
-    top: -20
-  },
-  // Estilos para posición horizontal del dispositivo
-
-  mainContainerLandscape: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-    gap: 10,
-
-    height: '100%'
-  },
-  textContainerLandscape: {
-    width: '60%',
-    flexDirection: 'column',
-    alignItems: 'center',
-    gap: 10,
-  },
-  imageLandscapeM: {
-    width: '35%',
-    height: '100%',
-    borderRadius: 10,
-
-  },
-  imageLandscapeSM: {
-    width: '40%',
-    height: '100%',
-    borderRadius: 10
-  },
+  }
 })

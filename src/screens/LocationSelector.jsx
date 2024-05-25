@@ -75,7 +75,7 @@ const LocationSelector = ({ navigation }) => {
                 setAddress(result.features[0].properties.formatted)
                 setIsLoading(true)
               } else {
-                console.log('No address found')
+
               }
             })
         }

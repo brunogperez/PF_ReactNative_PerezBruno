@@ -1,17 +1,15 @@
-import { Pressable, StyleSheet, View } from 'react-native'
+import { Platform, Pressable, StyleSheet, View } from 'react-native'
 import React, { useState, useEffect } from 'react'
-import { colors } from '../constants/colors'
-import InputForm from '../components/InputForm'
-import ButtonCustom from '../components/ButtonCustom'
-import TextCustom from '../components/TextCustom'
+import { signInSchema } from '../validations/authSchema'
 import { useSignInMutation } from '../services/authService'
 import { setUser } from '../features/auth/authSlice'
 import { useDispatch, useSelector } from 'react-redux'
-import { onCart } from '../features/cart/cartSlice'
 import { useGetCartbyIdQuery } from '../services/shopService'
-import LayoutCustom from '../components/LayoutCustom'
-import Card from '../components/Card'
 import { insertSession } from '../persistence'
+import LayoutCustom from '../components/LayoutCustom'
+import InputForm from '../components/InputForm'
+import ButtonCustom from '../components/ButtonCustom'
+import TextCustom from '../components/TextCustom'
 
 const LoginScreen = ({ navigation }) => {
 
@@ -22,8 +20,8 @@ const LoginScreen = ({ navigation }) => {
   const [triggerSignIn, result] = useSignInMutation()
 
   //Estados para manejar los datos ingresados por el user
-  const [email, setEmail] = useState()
-  const [password, setPassword] = useState()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
   //Estados para manejar los errores al ingresar datos en los inputs
   const [errorEmail, setErrorEmail] = useState('')
@@ -37,12 +35,18 @@ const LoginScreen = ({ navigation }) => {
   //Función effect para despachar los datos a redux si el resultado es success
   useEffect(() => {
     if (result?.data && result.isSuccess) {
-      insertSession({
-        email: result.data.email,
-        localId: result.data.localId,
-        token: result.data.idToken,
-      })
-        .then((response) => {
+      //Funcion IIFE para gatillar la persistencia si la plataforma no es WEB
+      (async () => {
+        try {
+
+          if (Platform.OS != 'web') {
+            const resInsertSession = await insertSession({
+              email: result.data.email,
+              localId: result.data.localId,
+              token: result.data.idToken,
+            })
+          }
+
           dispatch(
             setUser({
               email: result.data.email,
@@ -50,61 +54,53 @@ const LoginScreen = ({ navigation }) => {
               localId: result.data.localId,
             })
           )
-        })
-        .catch((err) => {
-          console.log(err)
-        })
+
+        } catch (error) {
+
+        }
+      })()
     }
   }, [result])
 
   //useEffect para setear el cart desde la DB
   useEffect(() => {
     if (localId && isSuccess) {
-      dispatch(onCart(cartFromDB))
+      //dispatch(onCart(cartFromDB))
       navigation.push('MyProfile')
       navigation.navigate('Home')
     }
-  }, [localId, isSuccess])
-
+  }, [localId, isSuccess, isLoadingCart])
 
   //Función para manejar el submit del form
   const onSubmit = () => {
 
-    triggerSignIn({ email, password })
-
-    /* try {
+    try {
 
       setErrorEmail('')
       setErrorPassword('')
-
       //Validación de datos por medio de la librería YUP
-      const validation = signupSchema.validateSync({ email, password })
-
+      const validation = signInSchema.validateSync({ email, password })
       //Función para enviar los datos a firebase auth
       triggerSignIn({ email, password })
-
     } catch (error) {
-
       switch (error.path) {
         case 'email':
           setErrorEmail(error.message)
           break
         case 'password':
           setErrorPassword(error.message)
-
+          break
         default:
           break
       }
-    } */
+    }
   }
 
   return (
     <LayoutCustom style={styles.main}>
-      <Card style={styles.container}>
+      <View style={styles.container}>
         <View style={styles.containerForm}>
-          <TextCustom style={styles.title}>
-            LOGIN
-          </TextCustom>
+          <TextCustom style={styles.title}>LOGIN</TextCustom>
           <InputForm
             label={'Email'}
             onChange={setEmail}
@@ -128,7 +124,7 @@ const LoginScreen = ({ navigation }) => {
             <TextCustom style={styles.subLink}>Sign up</TextCustom>
           </Pressable>
         </View>
-      </Card>
+      </View>
     </LayoutCustom>
   )
 }
@@ -147,9 +143,9 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     gap: 15,
-    backgroundColor: colors.WaterGreen,
     paddingVertical: 20,
     borderRadius: 20,
+    borderWidth: 1
   },
   containerForm: {
     flexDirection: 'column',
@@ -168,14 +164,10 @@ const styles = StyleSheet.create({
   },
   sub: {
     fontSize: 14,
-
-  },
-  submitbtn: {
-    fontSize: 14,
   },
   subLink: {
     fontSize: 17,
     color: 'blue',
     textDecorationLine: 'underline'
-  },
+  }
 })

@@ -11,7 +11,7 @@ const ButtonCustom = ({ children, onPress, style }) => {
 
   return (
     <TouchableOpacity style={{ ...styles.buttonCustom, backgroundColor: bgColor, ...style }} onPress={onPress}>
-      {children}
+        {children} 
     </TouchableOpacity>
   )
 }

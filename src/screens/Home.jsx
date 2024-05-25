@@ -1,4 +1,4 @@
-import { ActivityIndicator, FlatList, Image, Pressable, ScrollView, StyleSheet, View } from 'react-native'
+import { ActivityIndicator, FlatList, Image, Pressable, StyleSheet, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import CategoryItem from '../components/CategoryItem'
 import Card from '../components/Card'
@@ -60,7 +60,7 @@ const Home = ({ navigation }) => {
         }
 
       } catch (error) {
-        console.log(error)
+  
       }
     })()
   }, [])

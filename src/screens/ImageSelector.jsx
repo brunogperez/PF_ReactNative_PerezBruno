@@ -63,11 +63,11 @@ const ImageSelector = ({ navigation }) => {
         }
       }
     } catch (error) {
-      console.log(error)
+      
     }
   }
 
-  //Función para inicializar la cámara y realizar la selección de la foto
+  //Función para abrir la galeria y realizar la selección de la foto
   const chooseGalleyImage = async () => {
     try {
 
@@ -89,7 +89,7 @@ const ImageSelector = ({ navigation }) => {
         }
       }
     } catch (error) {
-      console.log(error)
+      
     }
   }
 
@@ -98,15 +98,13 @@ const ImageSelector = ({ navigation }) => {
 
       dispatch(setCameraImage(image))
       triggerPostImage({ image, localId })
-
       if (imageFromCamera) {
         const result = await MediaLibrary.createAssetAsync(imageURI)
       }
-      
       navigation.goBack()
 
     } catch (error) {
-      console.log(error)
+      
     }
 
   }

@@ -1,8 +1,8 @@
-import { StyleSheet, Text, TextInput, View } from 'react-native'
+import { StyleSheet,  TextInput, View } from 'react-native'
 import React, { useState } from 'react'
 import { colors } from '../constants/colors'
-import TextCustom from './TextCustom';
-import { useSelector } from 'react-redux';
+import TextCustom from './TextCustom'
+import { useSelector } from 'react-redux'
 
 const InputForm = ({
   label,
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   error: {
-    paddingVertical: 3,
+    paddingVertical: 5,
     fontSize: 16,
     color: 'red',
   },
@@ -63,9 +63,7 @@ const styles = StyleSheet.create({
     width: '90%',
     borderWidth: 0,
     borderBottomWidth: 2,
-    borderBottomColor: colors.white,
     padding: 2,
-
     fontSize: 14,
   }
 })

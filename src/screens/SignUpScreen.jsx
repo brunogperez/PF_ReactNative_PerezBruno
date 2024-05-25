@@ -1,13 +1,13 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native'
-import  { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { colors } from '../constants/colors'
 import { useSignUpMutation } from '../services/authService'
 import { signupSchema } from '../validations/authSchema'
 import { setUser } from '../features/auth/authSlice'
 import ButtonCustom from '../components/ButtonCustom'
 import InputForm from '../components/InputForm'
 import LayoutCustom from '../components/LayoutCustom'
+import TextCustom from '../components/TextCustom'
 
 
 const SignupScreen = ({ navigation }) => {
@@ -43,20 +43,18 @@ const SignupScreen = ({ navigation }) => {
       setErrorConfirmPassword('')
       const validation = signupSchema.validateSync({ email, password, confirmPassword })
       triggerSignUp({ email, password, returnSecureToken: true })
-
-    } catch (err) {
-
-      console.log('Entro al signup del error')
-      console.log(err.path)
-      console.log(err.message)
-      switch (err.path) {
+      navigation.navigate('Login')
+    } catch (error) {
+      switch (error.path) {
         case 'email':
-          setErrorMail(err.message)
+          setErrorMail(error.message)
           break
         case 'password':
-          setErrorPassword(err.message)
+          setErrorPassword(error.message)
+          break
         case 'confirmPassword':
-          setErrorConfirmPassword(err.message)
+          setErrorConfirmPassword(error.message)
+          break
         default:
           break
       }
@@ -67,8 +65,12 @@ const SignupScreen = ({ navigation }) => {
     <LayoutCustom style={styles.main}>
       <View style={styles.container}>
         <View style={styles.containerForm}>
-          <Text style={styles.title}>SIGN UP</Text>
-          <InputForm label={'Email'} onChange={setEmail} error={errorMail} />
+          <TextCustom style={styles.title}>SIGN UP</TextCustom>
+          <InputForm
+            label={'Email'}
+            onChange={setEmail}
+            error={errorMail}
+          />
           <InputForm
             label={'Password'}
             onChange={setPassword}
@@ -82,13 +84,13 @@ const SignupScreen = ({ navigation }) => {
             isSecure={true}
           />
           <ButtonCustom onPress={onSubmit} >
-            <Text style={styles.submitbtn}>
+            <TextCustom style={styles.submitbtn}>
               Submit
-            </Text>
+            </TextCustom>
           </ButtonCustom>
         </View>
         <View style={styles.containerRedirect}>
-          <Text style={styles.sub}>Already have an account?</Text>
+          <TextCustom style={styles.sub}>Already have an account?</TextCustom>
           <Pressable onPress={() => navigation.navigate('Login')}>
             <Text style={styles.subLink}>Login</Text>
           </Pressable>
@@ -111,11 +113,10 @@ const styles = StyleSheet.create({
     width: '90%',
     flexDirection: 'column',
     justifyContent: 'center',
-
-    backgroundColor: colors.WaterGreen,
     gap: 15,
     paddingVertical: 20,
     borderRadius: 20,
+    borderWidth: 1
   },
   containerForm: {
     flexDirection: 'column',
@@ -131,16 +132,9 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 22,
-
   },
   sub: {
     fontSize: 14,
-
-    color: 'black',
-  },
-  submitbtn: {
-    fontSize: 14,
-    color: colors.textLight,
   },
   subLink: {
     fontSize: 17,
