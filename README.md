@@ -8,7 +8,6 @@ En este repositorio se encuentra mi proyecto final del curso de Desarrollo de ap
 
 ```
 https://github.com/brunogperez/PF_ReactNative_PerezBruno.git
-
 ```
 2° - Instala las dependencias.
 
