@@ -10,7 +10,7 @@ const OrderStackNavigator = () => {
     <Stack.Navigator
       initialRouteName="OrderScreen"
       screenOptions={{
-        headerShown: false,
+        headerShown: false
       }}
     >
       <Stack.Screen name="OrderScreen" component={Orders} />

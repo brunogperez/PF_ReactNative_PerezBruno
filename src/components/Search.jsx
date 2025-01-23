@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, TextInput } from 'react-native'
 import React, { useState } from 'react'
-import { colors } from '../constants/colors'
+import { colors, textColors } from '../constants/colors'
 import { MaterialIcons } from '@expo/vector-icons'
 import { useSelector } from 'react-redux'
 import GoBackCustom from './GoBackCustom'
@@ -14,8 +14,8 @@ const Search = ({ onSearch, navigation }) => {
 
   const isDark = useSelector(state => state.globalReducer.value.darkMode)
 
-  const color = isDark ? colors.White : colors.Black
-  const colorText = isDark ? colors.Black : colors.White
+  const bgColor = isDark ? colors.Jaffa : colors.Crail
+  const textColor = isDark ? textColors.Dark : textColors.Light
 
   const onFocusSearchBar = () => {
     setOpacity(1)
@@ -30,16 +30,16 @@ const Search = ({ onSearch, navigation }) => {
     <LayoutCustom style={styles.inputContainer}>
       <GoBackCustom onPress={() => navigation.goBack()} style={styles.goBack}></GoBackCustom>
       <TextInput
-        style={{ ...styles.inputSearch, backgroundColor: color, color: colorText }}
+        style={{ ...styles.inputSearch, backgroundColor: bgColor, color: textColor }}
         placeholder=' Search...'
-        placeholderTextColor={colorText}
+        placeholderTextColor={textColor}
         onChangeText={onHandleChange}
         value={input}
         onFocus={onFocusSearchBar}
       />
 
       <Pressable onPress={() => setInput('')}>
-        <MaterialIcons name="backspace" size={24} style={{ color: color, ...styles.colorIcons, opacity: opacity }} />
+        <MaterialIcons name="backspace" size={24} style={{ color: bgColor, ...styles.colorIcons, opacity: opacity }} />
       </Pressable>
 
     </LayoutCustom>

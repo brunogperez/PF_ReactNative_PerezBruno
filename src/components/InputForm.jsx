@@ -1,4 +1,4 @@
-import { StyleSheet,  TextInput, View } from 'react-native'
+import { StyleSheet, TextInput, View } from 'react-native'
 import React, { useState } from 'react'
 import { colors } from '../constants/colors'
 import TextCustom from './TextCustom'
@@ -19,13 +19,13 @@ const InputForm = ({
 
   const isDark = useSelector(state => state.globalReducer.value.darkMode)
 
-  const colorText = isDark ? colors.White : colors.Black
+  const textColor = isDark ? colors.White : colors.Black
 
   return (
     <View style={styles.inputContainer}>
       <TextCustom style={styles.subtitle}>{label}</TextCustom>
       <TextInput
-        style={{ ...styles.input, color: colorText }}
+        style={{ ...styles.input, color: textColor }}
         value={input}
         onChangeText={onChangeText}
         secureTextEntry={isSecure}

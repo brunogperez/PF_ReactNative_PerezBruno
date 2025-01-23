@@ -6,20 +6,26 @@ import TextCustom from '../components/TextCustom'
 import { useDispatch, useSelector } from 'react-redux'
 import { setItemIDSelected } from '../features/shop/shopSlice.js'
 import { useGetCartbyIdQuery, useGetCategoriesQuery, useGetProductsByIDQuery } from '../services/shopService.js'
-import { colors } from '../constants/colors.js'
+import { backgroundColors, colors } from '../constants/colors.js'
 import { fetchSession } from '../persistence'
 import { setUser } from '../features/auth/authSlice.js'
 import { onCart } from '../features/cart/cartSlice.js'
 import LayoutCustom from '../components/LayoutCustom.jsx'
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
+import Header from '../components/Header.jsx'
 
 
-const Home = ({ navigation }) => {
+
+const Home = ({ navigation, route }) => {
 
   const [idRandom, setIDRandom] = useState()
 
   //Obtenemos la altura del bottomTabNavigator a partir de un hook para poder realizar un paddingBottom y no componentes
   const tabBarHeight = useBottomTabBarHeight()
+
+  const isDark = useSelector(state => state.globalReducer.value.darkMode)
+  const bgColor = isDark ? backgroundColors.Dark : backgroundColors.Light
+
 
   //Hook para traer las categorias de la DB
   const { data: categories, isLoading } = useGetCategoriesQuery()
@@ -28,8 +34,6 @@ const Home = ({ navigation }) => {
 
   const dispatch = useDispatch()
 
-  const isDark = useSelector(state => state.globalReducer.value.darkMode)
-  const bgColor = isDark ? colors.DarkGrey : colors.BGLight
 
   useEffect(() => {
     const generateID = Math.floor(Math.random() * 100)
@@ -60,7 +64,7 @@ const Home = ({ navigation }) => {
         }
 
       } catch (error) {
-  
+
       }
     })()
   }, [])
@@ -72,15 +76,18 @@ const Home = ({ navigation }) => {
   }, [localId, isSuccess])
 
   return (
-    <LayoutCustom style={{ backgroundColor: bgColor, ...styles.container, paddingBottom: tabBarHeight }} showsVerticalScrollIndicator={false}>
+    <LayoutCustom style={{ ...styles.container }} showsVerticalScrollIndicator={false}>
+      <Header navigation={navigation} route={route} />
       <TextCustom style={{ ...styles.textTitle, textAlign: 'left', }}>Discover</TextCustom>
+
       <Card style={styles.cardContainer}>
-        <Image
+        {!isLoading ? (<Image
           source={{ uri: 'https://res.cloudinary.com/divujqlv8/image/upload/v1713902741/15600086360926_wj01er.jpg' }}
           style={styles.imageHome}
           resizeMode='cover'
-        />
+        />) : (<ActivityIndicator style={styles.indicator} size="large" color={bgColor} />)}
       </Card>
+
       <Card style={styles.cardCategoryContainer}>
         <View style={styles.textCategories}>
           <TextCustom style={styles.text}>Categories</TextCustom>
@@ -134,16 +141,17 @@ export default Home
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
-    flex: 1
+    flex: 1,
   },
   cardContainer: {
     width: '90%',
     alignSelf: 'center',
   },
   cardCategoryContainer: {
-    width: '80%',
+    width: '85%',
     alignSelf: 'center',
-    height: 130
+    height: 130,
+    backgroundColor:'transparent'
   },
   cardProductsContainer: {
     width: '90%',
@@ -154,16 +162,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginVertical: 5,
     alignItems: 'center'
-  },
-  cardItemM: {
-    width: 150,
-    height: 150,
-    margin: 5,
-  },
-  imageM: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 10,
   },
   imageHome: {
     width: '100%',

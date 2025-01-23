@@ -9,17 +9,15 @@ import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 import LayoutCustom from '../components/LayoutCustom'
 import TextCustom from '../components/TextCustom'
 import { MaterialIcons } from '@expo/vector-icons'
-import { colors } from '../constants/colors'
+import { backgroundColors, iconColors } from '../constants/colors'
 
-const Cart = ({navigation}) => {
+const Cart = ({ navigation }) => {
 
   const dispatch = useDispatch()
 
   const { localId } = useSelector((state) => state.authReducer.value)
   const { cart, total } = useSelector((state) => state.cartReducer.value)
-  const isDark = useSelector(state => state.globalReducer.value.darkMode)
 
-  const bgColor = isDark ? colors.White : colors.Black
 
   //Obtenemos la altura del bottomTabNavigator a partir de un hook para poder realizar un paddingBottom y no ocultar componentes
   const tabBarHeight = useBottomTabBarHeight()
@@ -55,10 +53,14 @@ const Cart = ({navigation}) => {
     dispatch(clearCart())
   }
 
+  const isDark = useSelector(state => state.globalReducer.value.darkMode)
+  const bgColor = isDark ? backgroundColors.Dark : backgroundColors.Light
+  const iconColor = isDark ? iconColors.Dark : iconColors.Light
+
   if (cart.length == 0) {
     return (
-      <LayoutCustom style={styles.container}>
-        <MaterialIcons name="shopping-bag" size={300} color={bgColor} />
+      <LayoutCustom style={{ backgroundColor: bgColor, ...styles.container, paddingBottom: tabBarHeight }}>
+        <MaterialIcons name="shopping-bag" size={300} color={iconColor} />
         <TextCustom>
           ¡Empezá un carrito de compras!
         </TextCustom>
@@ -104,7 +106,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 10,
-    
+
   },
   totalContainer: {
     justifyContent: 'center',

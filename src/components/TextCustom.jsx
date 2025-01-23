@@ -1,16 +1,16 @@
 import { StyleSheet, Text } from 'react-native'
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { colors } from '../constants/colors'
+import { textColors } from '../constants/colors'
 
 const TextCustom = ({ children, style }) => {
 
   const isDark = useSelector(state => state.globalReducer.value.darkMode)
-  const colorText = isDark ? colors.White : colors.Black
+  const textColor = isDark ? textColors.Dark : textColors.Light
 
   return (
     <>
-      <Text style={{ color: colorText, ...style }}>{children}</Text>
+      <Text style={{ color: textColor, ...style }}>{children}</Text>
     </>
   )
 }

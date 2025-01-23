@@ -6,7 +6,6 @@ import { useGetProductsByCategoryQuery } from '../services/shopService'
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 import LayoutCustom from '../components/LayoutCustom'
 import TextCustom from '../components/TextCustom'
-import { colors } from '../constants/colors'
 
 
 const ItemListCategory = ({
@@ -15,7 +14,7 @@ const ItemListCategory = ({
 }) => {
 
   //Obtenemos la altura del bottomTabNavigator a partir de un hook para poder realizar un paddingBottom y no componentes
-  const tabBarHeight = useBottomTabBarHeight() + 20
+  const tabBarHeight = useBottomTabBarHeight() + 40
 
   const [keyword, setKeyword] = useState('')
   const [productsFiltered, setProductsFiltered] = useState([])
@@ -46,7 +45,7 @@ const ItemListCategory = ({
 
   return (
 
-    <LayoutCustom style={{ ...styles.container, paddingBottom: tabBarHeight }}>
+    <LayoutCustom style={{ ...styles.container }}>
       {isLoading ? (
         <View style={styles.loaderContainer}>
           <ActivityIndicator size="large" />
@@ -62,9 +61,10 @@ const ItemListCategory = ({
           />
           {(productsFiltered.length) ? (
             <FlatList
-              style={{ paddingBottom: tabBarHeight }}
+              style={{}}
               showsVerticalScrollIndicator={false}
               keyExtractor={(product) => product.id}
+              contentContainerStyle={{ paddingBottom: 60 }}
               data={productsFiltered}
               renderItem={({ item }) =>
                 <ProductItem product={item} style={styles.productItem} navigation={navigation} />
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
-    flex: 1
+    flex: 1,
   },
   loaderContainer: {
     alignItems: 'center',
@@ -104,9 +104,9 @@ const styles = StyleSheet.create({
   productItem: {
     alignSelf: 'center'
   },
-  textSearch:{
-    alignSelf:'center',
-    flex:1,
-    marginVertical:'50%'
+  textSearch: {
+    alignSelf: 'center',
+    flex: 1,
+    marginVertical: '50%'
   }
 })

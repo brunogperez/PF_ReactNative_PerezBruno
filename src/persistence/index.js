@@ -43,7 +43,6 @@ export const insertSession = ({
 export const fetchSession = () => {
   const promise = new Promise((resolve, reject) => {
     db.transaction((tx) => {
-
       tx.executeSql(
         'SELECT * from sessions',
         [],

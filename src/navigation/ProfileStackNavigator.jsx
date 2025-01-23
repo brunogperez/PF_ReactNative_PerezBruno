@@ -18,6 +18,7 @@ const ProfileStackNavigator = () => {
         headerShown: false,
       }}
     >
+
       <Stack.Screen
         name='MyProfile'
         component={Profile}
@@ -34,7 +35,7 @@ const ProfileStackNavigator = () => {
         name='ImageSelector'
         component={ImageSelector}
       />
-       <Stack.Screen
+      <Stack.Screen
         name='LocationSelector'
         component={LocationSelector}
       />

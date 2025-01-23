@@ -1,6 +1,6 @@
-import { ActivityIndicator, Image, StyleSheet, ToastAndroid, View } from 'react-native'
+import { ActivityIndicator, Image, Platform, StyleSheet, /* ToastAndroid, */ View } from 'react-native'
 import React from 'react'
-import { colors } from '../constants/colors'
+import { backgroundColors, colors } from '../constants/colors'
 import { useDispatch, useSelector } from 'react-redux'
 import { addToCart } from '../features/cart/cartSlice'
 import { useGetProductsByIDQuery } from '../services/shopService'
@@ -16,24 +16,25 @@ const ItemDetail = ({ route, navigation }) => {
   const isDark = useSelector(state => state.globalReducer.value.darkMode)
   const { user } = useSelector(state => state.authReducer.value)
 
-  const bgColor = isDark ? colors.Black : colors.MintGreen
-
+  const bgColor = isDark ? backgroundColors.Dark : backgroundColors.Light
+  const bgColorImg = isDark ? colors.Jaffa : colors.Crail
+  
   const { productID } = route.params
 
   const { data: product, error, isLoading } = useGetProductsByIDQuery(productID)
 
-  const showToast = () => {
+/*   const showToast = () => {
     ToastAndroid.show('Product added to cart!',
       ToastAndroid.SHORT,
     )
-  }
+  } */
 
   const handleAddCart = () => {
     if (!user) {
       navigation.navigate('Profile', { screen: 'Login' })
     } else {
       dispatch(addToCart({ ...product, quantity: 1 }))
-      if (Platform.OS !== 'web') showToast()
+     /*  if (Platform.OS !== 'web') showToast() */
     }
   }
 
@@ -43,7 +44,7 @@ const ItemDetail = ({ route, navigation }) => {
 
       {!isLoading ? (
         <LayoutCustom style={{ backgroundColor: bgColor, ...styles.mainContainer }}>
-          <LayoutCustom style={styles.imgContainerM}>
+          <LayoutCustom style={{ backgroundColor: bgColorImg, ...styles.imgContainerM }}>
             <View style={styles.textTitleContainer}>
               <TextCustom style={styles.textTitle} >{product.title}</TextCustom>
             </View>
@@ -136,8 +137,5 @@ const styles = StyleSheet.create({
     left: '5%',
     top: '2%',
     zIndex: 1
-  },
-  colorIcons: {
-    color: colors.light
   }
 })

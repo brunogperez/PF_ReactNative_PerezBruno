@@ -8,7 +8,7 @@ import { clearUser } from '../features/auth/authSlice'
 import { clearCart } from '../features/cart/cartSlice'
 import TextCustom from '../components/TextCustom'
 import { Octicons } from '@expo/vector-icons'
-import { colors } from '../constants/colors'
+import { backgroundColors, colors, iconColors } from '../constants/colors'
 import { truncateSessionsTable } from '../persistence'
 
 
@@ -22,8 +22,9 @@ const Profile = ({ navigation }) => {
 
 
   const isDark = useSelector(state => state.globalReducer.value.darkMode)
-  const colorIcon = isDark ? colors.White : colors.Black
-  
+  const bgColor = isDark ? backgroundColors.Dark : backgroundColors.Light
+  const iconColor = isDark ? iconColors.Dark : iconColors.Light
+
 
   //Llamado a DB mediante RTK Query para obtener la imagen de perfil del usuario
   const { data: imageFromDB } = useGetProfileImageQuery(localId)
@@ -46,20 +47,22 @@ const Profile = ({ navigation }) => {
       navigation.navigate('Home')
 
     } catch (error) {
-      
+
     }
 
   }
+
+
 
   const imageDefault = '../../assets/images/profileDefault.png'
 
   return (
     <>
       {user ? (
-        <LayoutCustom style={styles.container}>
+        <LayoutCustom style={{ backgroundColor: bgColor, ...styles.container }}>
 
           <ButtonCustom style={styles.btnLogout} onPress={handleSignOut}>
-            <Octicons name="sign-out" size={20} color={colorIcon} />
+            <Octicons name="sign-out" size={20} color={iconColor} />
           </ButtonCustom>
 
           {(imageFromDB || imageCamera) ? (
@@ -78,9 +81,9 @@ const Profile = ({ navigation }) => {
           <ButtonCustom onPress={launchCamera} style={styles.btnPicture}>
             {
               (imageCamera || imageFromDB) ?
-                <Octicons name="pencil" size={20} color={colorIcon} />
+                <Octicons name="pencil" size={20} color={iconColor} />
                 :
-                <Octicons name="plus" size={18} color={colorIcon} />
+                <Octicons name="plus" size={18} color={iconColor} />
             }
           </ButtonCustom>
 
@@ -93,9 +96,9 @@ const Profile = ({ navigation }) => {
             </TextCustom>
             <Pressable style={styles.addressPressable} onPress={() => navigation.navigate('LocationSelector')}>
               {location ?
-                <Octicons name="pencil" size={16} color={colorIcon} />
+                <Octicons name="pencil" size={16} color={iconColor} />
                 :
-                <Octicons name="plus" size={16} color={colorIcon} />
+                <Octicons name="plus" size={16} color={iconColor} />
               }
             </Pressable>
           </View>

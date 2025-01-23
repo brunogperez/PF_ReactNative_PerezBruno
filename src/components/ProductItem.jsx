@@ -1,7 +1,7 @@
-import { Image, Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native'
+import { Image, Pressable, StyleSheet, View } from 'react-native'
 import React from 'react'
 import Card from './Card'
-import { colors } from '../constants/colors'
+
 import { useDispatch } from 'react-redux'
 import { setItemIDSelected } from '../features/shop/shopSlice'
 import TextCustom from './TextCustom'
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   card: {
     height: 100,
     width: '90%',
-    marginTop: 40,
+    marginVertical: 10,
     borderRadius: 10,
     alignSelf: 'center',  
   },

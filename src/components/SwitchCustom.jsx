@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Switch, StyleSheet } from 'react-native'
-import { colors } from '../constants/colors'
+import { backgroundColors, colors } from '../constants/colors'
 
 const SwitchCustom = ({
   isEnabled = false,
@@ -12,8 +12,8 @@ const SwitchCustom = ({
   return (
     <View>
       <Switch
-        trackColor={{ false: colors.Black, true: colors.Black }}
-        thumbColor={isEnabled ? colors.CastletonGreen : colors.WaterGreen}
+        trackColor={{ false: backgroundColors.Dark, true: backgroundColors.Light }}
+        thumbColor={isEnabled ? colors.Jaffa : colors.Jaffa}
         ios_backgroundColor="#3e3e3e"
         onValueChange={toggleSwitch}
         value={isEnabled}

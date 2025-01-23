@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux'
 const ButtonCustom = ({ children, onPress, style }) => {
 
   const isDark = useSelector(state => state.globalReducer.value.darkMode)
-  const bgColor = isDark ? colors.DarkGreen : colors.WaterGreen
+  const bgColor = isDark ? colors.Jaffa  : colors.Jaffa
 
   return (
     <TouchableOpacity style={{ ...styles.buttonCustom, backgroundColor: bgColor, ...style }} onPress={onPress}>
@@ -22,7 +22,8 @@ const styles = StyleSheet.create({
   buttonCustom: {
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 18,
-    borderRadius: 100,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius:50,
   },
 })

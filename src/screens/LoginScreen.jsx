@@ -11,6 +11,10 @@ import InputForm from '../components/InputForm'
 import ButtonCustom from '../components/ButtonCustom'
 import TextCustom from '../components/TextCustom'
 
+import { backgroundColors } from '../constants/colors'
+import CustomShapeDivider from '../components/CustomShapeDivider'
+import { BlurView } from 'expo-blur'
+
 const LoginScreen = ({ navigation }) => {
 
   //Instanciamos el dispatch
@@ -38,7 +42,6 @@ const LoginScreen = ({ navigation }) => {
       //Funcion IIFE para gatillar la persistencia si la plataforma no es WEB
       (async () => {
         try {
-
           if (Platform.OS != 'web') {
             const resInsertSession = await insertSession({
               email: result.data.email,
@@ -46,7 +49,6 @@ const LoginScreen = ({ navigation }) => {
               token: result.data.idToken,
             })
           }
-
           dispatch(
             setUser({
               email: result.data.email,
@@ -54,9 +56,7 @@ const LoginScreen = ({ navigation }) => {
               localId: result.data.localId,
             })
           )
-
         } catch (error) {
-
         }
       })()
     }
@@ -73,9 +73,7 @@ const LoginScreen = ({ navigation }) => {
 
   //Función para manejar el submit del form
   const onSubmit = () => {
-
     try {
-
       setErrorEmail('')
       setErrorPassword('')
       //Validación de datos por medio de la librería YUP
@@ -96,9 +94,13 @@ const LoginScreen = ({ navigation }) => {
     }
   }
 
+  const isDark = useSelector(state => state.globalReducer.value.darkMode)
+  const bgColor = isDark ? backgroundColors.Dark : backgroundColors.Light
+
   return (
-    <LayoutCustom style={styles.main}>
-      <View style={styles.container}>
+    <LayoutCustom style={{ backgroundColor: bgColor, ...styles.main }}>
+      <CustomShapeDivider style={styles.shape} height={350} />
+      <BlurView style={styles.container} experimentalBlurMethod='dimezisBlurView'> 
         <View style={styles.containerForm}>
           <TextCustom style={styles.title}>LOGIN</TextCustom>
           <InputForm
@@ -124,7 +126,8 @@ const LoginScreen = ({ navigation }) => {
             <TextCustom style={styles.subLink}>Sign up</TextCustom>
           </Pressable>
         </View>
-      </View>
+      </BlurView>
+      <CustomShapeDivider style={styles.invertedShape} height={380} />
     </LayoutCustom>
   )
 }
@@ -145,7 +148,9 @@ const styles = StyleSheet.create({
     gap: 15,
     paddingVertical: 20,
     borderRadius: 20,
-    borderWidth: 1
+    borderWidth: 1,
+    zIndex: 2, 
+    overflow: 'hidden'
   },
   containerForm: {
     flexDirection: 'column',
@@ -167,7 +172,21 @@ const styles = StyleSheet.create({
   },
   subLink: {
     fontSize: 17,
-    color: 'blue',
+    color: 'black',
     textDecorationLine: 'underline'
-  }
+  },
+  shape: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex:1
+  },
+  invertedShape: {
+    position: 'absolute',
+    transform: [{ rotateX: '180deg', }],
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
 })

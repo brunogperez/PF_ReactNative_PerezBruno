@@ -1,2 +1,3 @@
-export const dbURL = 'https://digital-age-app-default-rtdb.firebaseio.com/'
+import { REALTIMEDB_URL } from "@env";
 
+export const dbURL = REALTIMEDB_URL;

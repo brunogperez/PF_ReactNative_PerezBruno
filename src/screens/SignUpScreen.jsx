@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useSignUpMutation } from '../services/authService'
 import { signupSchema } from '../validations/authSchema'
 import { setUser } from '../features/auth/authSlice'
@@ -8,6 +8,9 @@ import ButtonCustom from '../components/ButtonCustom'
 import InputForm from '../components/InputForm'
 import LayoutCustom from '../components/LayoutCustom'
 import TextCustom from '../components/TextCustom'
+import { backgroundColors } from '../constants/colors'
+import CustomShapeDivider from '../components/CustomShapeDivider'
+import { BlurView } from 'expo-blur'
 
 
 const SignupScreen = ({ navigation }) => {
@@ -37,7 +40,6 @@ const SignupScreen = ({ navigation }) => {
   const onSubmit = () => {
 
     try {
-
       setErrorMail('')
       setErrorPassword('')
       setErrorConfirmPassword('')
@@ -61,9 +63,13 @@ const SignupScreen = ({ navigation }) => {
     }
   }
 
+  const isDark = useSelector(state => state.globalReducer.value.darkMode)
+  const bgColor = isDark ? backgroundColors.Dark : backgroundColors.Light
+
   return (
-    <LayoutCustom style={styles.main}>
-      <View style={styles.container}>
+    <LayoutCustom style={{ backgroundColor: bgColor, ...styles.main }}>
+      <CustomShapeDivider style={styles.shape} height={350} />
+      <BlurView style={styles.container} experimentalBlurMethod='dimezisBlurView'>
         <View style={styles.containerForm}>
           <TextCustom style={styles.title}>SIGN UP</TextCustom>
           <InputForm
@@ -95,7 +101,8 @@ const SignupScreen = ({ navigation }) => {
             <Text style={styles.subLink}>Login</Text>
           </Pressable>
         </View>
-      </View>
+      </BlurView>
+      <CustomShapeDivider style={styles.invertedShape} height={350} />
     </LayoutCustom>
   )
 }
@@ -105,9 +112,6 @@ export default SignupScreen
 const styles = StyleSheet.create({
   main: {
     width: '100%',
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   container: {
     width: '90%',
@@ -116,7 +120,9 @@ const styles = StyleSheet.create({
     gap: 15,
     paddingVertical: 20,
     borderRadius: 20,
-    borderWidth: 1
+    borderWidth: 1,
+    zIndex: 1000,
+    overflow: 'hidden'
   },
   containerForm: {
     flexDirection: 'column',
@@ -138,7 +144,21 @@ const styles = StyleSheet.create({
   },
   subLink: {
     fontSize: 17,
-    textDecorationLine: 'underline',
-    color: 'blue',
+    color: 'black',
+    textDecorationLine: 'underline'
+  },
+  shape: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+
+  },
+  invertedShape: {
+    position: 'absolute',
+    transform: [{ rotateX: '180deg', }],
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
 })

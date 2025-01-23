@@ -1,16 +1,15 @@
-import { FlatList, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import React, { useState } from 'react'
 import { FontAwesome5 } from '@expo/vector-icons'
 import { useSelector } from 'react-redux'
-import { MaterialIcons } from '@expo/vector-icons'
-import { colors } from '../constants/colors'
+import { backgroundColors, colors, iconColors } from '../constants/colors'
 import LayoutCustom from './LayoutCustom'
 import ButtonCustom from '../components/ButtonCustom'
 import ModalCustom from '../components/ModalCustom'
+import TextCustom from './TextCustom'
+import Card from './Card'
 
 const OrderItem = ({ order }) => {
-
-  const { localId, user } = useSelector((state) => state.authReducer.value)
 
   const [modalVisible, setModalVisible] = useState(false)
 
@@ -18,25 +17,27 @@ const OrderItem = ({ order }) => {
     setModalVisible(false)
   }
 
+  const isDark = useSelector(state => state.globalReducer.value.darkMode)
+  const bgColor = isDark ? backgroundColors.Dark : backgroundColors.Light
+  const iconColor = isDark ? iconColors.Dark : iconColors.Light
+  
   return (
-    <LayoutCustom style={styles.card} >
-
+    <Card style={styles.card} >
       <ModalCustom
         handleCloseModal={handleCloseModal}
         modalVisible={modalVisible}
         order={order}
       />
-
       <View style={styles.cardContainer}>
         <View>
-          <Text style={styles.text}>{order.date}</Text>
-          <Text style={styles.text2}>Total: ${order.total}</Text>
+          <TextCustom style={styles.text}>{order.date}</TextCustom>
+          <TextCustom style={styles.text2}>Total: ${order.total}</TextCustom>
         </View>
         <ButtonCustom onPress={() => setModalVisible(true)} style={styles.btnSearch}>
-          <FontAwesome5 name='search' size={24} color='black' />
+          <FontAwesome5 name='search' size={24} color={iconColor} />
         </ButtonCustom>
       </View>
-    </LayoutCustom >
+    </Card >
   )
 }
 
@@ -44,12 +45,12 @@ export default OrderItem
 
 const styles = StyleSheet.create({
   card: {
-    height: 100,
+    padding: 10,  
     borderRadius: 20,
     flexDirection: 'row',
-    backgroundColor: colors.WaterGreen,
     alignSelf: 'center',
     width: '90%',
+    margin: 10,
   },
   cardContainer: {
     width: '100%',
@@ -69,7 +70,7 @@ const styles = StyleSheet.create({
   icon: {
     marginHorizontal: 15
   },
-  
+
   btnSearch: {
     backgroundColor: 'transparent',
     marginHorizontal: 20,
