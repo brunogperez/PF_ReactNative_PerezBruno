@@ -24,11 +24,11 @@ const ItemDetail = ({ route, navigation }) => {
 
   const { data: product, error, isLoading } = useGetProductsByIDQuery(productID)
 
-  /*   const showToast = () => {
-      ToastAndroid.show('Product added to cart!',
-        ToastAndroid.SHORT,
-      )
-    } */
+  const showToast = () => {
+    ToastAndroid.show('Product added to cart!',
+      ToastAndroid.SHORT,
+    )
+  }
 
   const handleAddCart = () => {
     if (!user) {
@@ -45,6 +45,7 @@ const ItemDetail = ({ route, navigation }) => {
 
       {!isLoading ? (
         <LayoutCustom style={{ ...styles.mainContainer }}>
+
           <LayoutCustom style={{ ...styles.imgContainerM }}>
             <CustomShapeDivider height={700} style={styles.shape} />
             <View style={styles.textTitleContainer}>
@@ -56,6 +57,7 @@ const ItemDetail = ({ route, navigation }) => {
               resizeMode='cover'
             />
           </LayoutCustom>
+
           <View style={styles.textContainer}>
             <View >
               <TextCustom >{product.description}</TextCustom>
@@ -109,6 +111,7 @@ const styles = StyleSheet.create({
   textContainer: {
     flexDirection: 'column',
     height: '30%',
+    paddingHorizontal: 10,
   },
   textTitleContainer: {
     alignItems: 'center',
@@ -120,6 +123,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignSelf: 'center',
     justifyContent: 'center',
+    marginVertical: 20
   },
   price: {
     width: '100%',
