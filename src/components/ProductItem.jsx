@@ -35,9 +35,8 @@ export default ProductItem
 
 const styles = StyleSheet.create({
   card: {
-    height: 100,
+    height: 130,
     width: '90%',
-    marginVertical: 10,
     borderRadius: 10,
     alignSelf: 'center',  
   },

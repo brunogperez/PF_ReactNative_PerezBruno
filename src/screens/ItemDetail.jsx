@@ -46,7 +46,7 @@ const ItemDetail = ({ route, navigation }) => {
       {!isLoading ? (
         <LayoutCustom style={{ ...styles.mainContainer }}>
           <LayoutCustom style={{ ...styles.imgContainerM }}>
-          <CustomShapeDivider height={700} style={styles.shape} />
+            <CustomShapeDivider height={700} style={styles.shape} />
             <View style={styles.textTitleContainer}>
               <TextCustom style={styles.textTitle} >{product.title}</TextCustom>
             </View>
@@ -87,7 +87,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     height: '50%',
     width: '100%',
-
   },
   mainContainer: {
 
@@ -139,6 +138,6 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-   
+
   },
 })
