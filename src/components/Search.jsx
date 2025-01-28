@@ -14,7 +14,7 @@ const Search = ({ onSearch, navigation }) => {
 
   const isDark = useSelector(state => state.globalReducer.value.darkMode)
 
-  const bgColor = isDark ? colors.Jaffa : colors.Crail
+  const bgColor = isDark ? colors.Orange : colors.Jaffa
   const textColor = isDark ? textColors.Dark : textColors.Light
 
   const onFocusSearchBar = () => {
@@ -37,11 +37,9 @@ const Search = ({ onSearch, navigation }) => {
         value={input}
         onFocus={onFocusSearchBar}
       />
-
       <Pressable onPress={() => setInput('')}>
         <MaterialIcons name="backspace" size={24} style={{ color: bgColor, ...styles.colorIcons, opacity: opacity }} />
       </Pressable>
-
     </LayoutCustom>
   )
 }
@@ -54,7 +52,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flex: 0,
     width: '100%',
-    paddingTop: 25
+    paddingVertical: 25,
+    borderBottomWidth: 1,
+    marginBottom: 10,
   },
   inputSearch: {
     width: '70%',
