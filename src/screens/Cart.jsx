@@ -18,6 +18,9 @@ const Cart = ({ navigation }) => {
   const { localId } = useSelector((state) => state.authReducer.value)
   const { cart, total } = useSelector((state) => state.cartReducer.value)
 
+  const today = new Date()
+  console.log(today)
+
 
   //Obtenemos la altura del bottomTabNavigator a partir de un hook para poder realizar un paddingBottom y no ocultar componentes
   const tabBarHeight = useBottomTabBarHeight()
@@ -27,15 +30,17 @@ const Cart = ({ navigation }) => {
 
   const [triggerPostCart, postCartResult] = usePostProductsInCartMutation()
 
+
+
   //Función para confirmar la compra 
   const onConfirmOrder = () => {
     triggerPostOrder({
       order: cart,
       user: localId,
       total: total,
-      date: new Date().toLocaleString()
+      date: today
     }).then(() => {
-      navigation.navigate('PaymentConfirmation', { total, date, order })
+      navigation.navigate('PaymentConfirmation', { total, order })
     })
   }
 

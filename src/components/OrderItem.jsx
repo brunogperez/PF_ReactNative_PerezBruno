@@ -17,10 +17,11 @@ const OrderItem = ({ order }) => {
     setModalVisible(false)
   }
 
+  const date = new Date(order.date).toLocaleDateString()
+
   const isDark = useSelector(state => state.globalReducer.value.darkMode)
-  const bgColor = isDark ? backgroundColors.Dark : backgroundColors.Light
   const iconColor = isDark ? iconColors.Dark : iconColors.Light
-  
+
   return (
     <Card style={styles.card} >
       <ModalCustom
@@ -30,14 +31,14 @@ const OrderItem = ({ order }) => {
       />
       <View style={styles.cardContainer}>
         <View>
-          <TextCustom style={styles.text}>{order.date}</TextCustom>
+          <TextCustom style={styles.text}>Fecha de compra: {date}</TextCustom>
           <TextCustom style={styles.text2}>Total: ${order.total}</TextCustom>
         </View>
         <ButtonCustom onPress={() => setModalVisible(true)} style={styles.btnSearch}>
           <FontAwesome5 name='search' size={24} color={iconColor} />
         </ButtonCustom>
       </View>
-    </Card >
+    </Card>
   )
 }
 
@@ -45,7 +46,7 @@ export default OrderItem
 
 const styles = StyleSheet.create({
   card: {
-    padding: 10,  
+    paddingVertical: 15,
     borderRadius: 20,
     flexDirection: 'row',
     alignSelf: 'center',
@@ -73,7 +74,7 @@ const styles = StyleSheet.create({
 
   btnSearch: {
     backgroundColor: 'transparent',
-    marginHorizontal: 20,
+    marginHorizontal: 10,
     justifyContent: 'center'
   },
 

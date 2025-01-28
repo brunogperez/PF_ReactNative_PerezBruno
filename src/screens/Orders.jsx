@@ -38,7 +38,7 @@ const Orders = ({ navigation }) => {
 
   return (
     <LayoutCustom style={{ backgroundColor: bgColor, ...styles.container }}>
-      {isLoading ? (
+      {(isLoading) ? (
         <ActivityIndicator size='large' />
       ) : (
         <FlatList

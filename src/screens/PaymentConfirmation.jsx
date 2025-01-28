@@ -3,18 +3,20 @@ import { View, Text, StyleSheet } from 'react-native';
 import LayoutCustom from '../components/LayoutCustom';
 import TextCustom from '../components/TextCustom';
 
-const PaymentConfirmation = ({ navigation, total, date, order }) => {
+const PaymentConfirmation = ({ navigation, total, order }) => {
 
+
+    
 
     return (
         <LayoutCustom >
-            <View style={styles.container}> 
+            <View style={styles.container}>
 
-            <TextCustom style={styles.confirmationText}>Pago realizado correctamente</TextCustom>
+                <TextCustom style={styles.confirmationText}>Pago realizado correctamente</TextCustom>
 
             </View>
             <TextCustom style={styles.amountText}>{total}</TextCustom>
-            <TextCustom style={styles.referenceText}>Fecha : {date}</TextCustom>
+            <TextCustom style={styles.referenceText}>Fecha : {order.date.toLocaleString()}</TextCustom>
         </LayoutCustom>
     );
 };

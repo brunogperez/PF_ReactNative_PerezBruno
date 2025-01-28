@@ -1,4 +1,4 @@
-import { ActivityIndicator, Image, Platform, StyleSheet, /* ToastAndroid, */ View } from 'react-native'
+import { ActivityIndicator, Image, Platform, StyleSheet, ToastAndroid,  View } from 'react-native'
 import React from 'react'
 import { backgroundColors, colors } from '../constants/colors'
 import { useDispatch, useSelector } from 'react-redux'
@@ -35,7 +35,7 @@ const ItemDetail = ({ route, navigation }) => {
       navigation.navigate('Profile', { screen: 'Login' })
     } else {
       dispatch(addToCart({ ...product, quantity: 1 }))
-      /*  if (Platform.OS !== 'web') showToast() */
+      if (Platform.OS !== 'web') showToast()
     }
   }
 

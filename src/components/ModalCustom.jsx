@@ -9,7 +9,9 @@ const ModalCustom = ({ modalVisible, order, handleCloseModal }) => {
 
   const { localId, user } = useSelector((state) => state.authReducer.value)
   const { order: orderItem } = order
-  
+
+  const date = new Date(order.date).toLocaleDateString()
+
   return (
     <View style={styles.container}>
       <Modal
@@ -25,7 +27,7 @@ const ModalCustom = ({ modalVisible, order, handleCloseModal }) => {
               onPress={handleCloseModal}>
               <MaterialIcons name="close" size={32} color="red" />
             </ButtonCustom>
-            <Text style={styles.text2}>Purcharse date: {order.date}</Text>
+            <Text style={styles.text2}>Purcharse date: {date}</Text>
             <Text style={styles.text2}>Owner: {user}</Text>
             <Text style={styles.text2}>ID User: {localId} </Text>
             <Text style={styles.text}>Items: </Text>
@@ -54,7 +56,7 @@ export default ModalCustom
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    justifyContent:'center',
+    justifyContent: 'center',
   },
   centeredView: {
     flex: 1,
