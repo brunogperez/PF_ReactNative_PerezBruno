@@ -8,6 +8,7 @@ import ButtonCustom from '../components/ButtonCustom'
 import GoBackCustom from '../components/GoBackCustom'
 import TextCustom from '../components/TextCustom'
 import LayoutCustom from '../components/LayoutCustom'
+import CustomShapeDivider from '../components/CustomShapeDivider'
 
 const ItemDetail = ({ route, navigation }) => {
 
@@ -17,24 +18,24 @@ const ItemDetail = ({ route, navigation }) => {
   const { user } = useSelector(state => state.authReducer.value)
 
   const bgColor = isDark ? backgroundColors.Dark : backgroundColors.Light
-  const bgColorImg = isDark ? colors.Jaffa : colors.Crail
-  
+  const bgColorImg = isDark ? colors.Orange : colors.Crail
+
   const { productID } = route.params
 
   const { data: product, error, isLoading } = useGetProductsByIDQuery(productID)
 
-/*   const showToast = () => {
-    ToastAndroid.show('Product added to cart!',
-      ToastAndroid.SHORT,
-    )
-  } */
+  /*   const showToast = () => {
+      ToastAndroid.show('Product added to cart!',
+        ToastAndroid.SHORT,
+      )
+    } */
 
   const handleAddCart = () => {
     if (!user) {
       navigation.navigate('Profile', { screen: 'Login' })
     } else {
       dispatch(addToCart({ ...product, quantity: 1 }))
-     /*  if (Platform.OS !== 'web') showToast() */
+      /*  if (Platform.OS !== 'web') showToast() */
     }
   }
 
@@ -43,8 +44,9 @@ const ItemDetail = ({ route, navigation }) => {
       <GoBackCustom onPress={() => navigation.goBack()} style={styles.goBack} ></GoBackCustom>
 
       {!isLoading ? (
-        <LayoutCustom style={{ backgroundColor: bgColor, ...styles.mainContainer }}>
-          <LayoutCustom style={{ backgroundColor: bgColorImg, ...styles.imgContainerM }}>
+        <LayoutCustom style={{ ...styles.mainContainer }}>
+          <LayoutCustom style={{ ...styles.imgContainerM }}>
+          <CustomShapeDivider height={700} style={styles.shape} />
             <View style={styles.textTitleContainer}>
               <TextCustom style={styles.textTitle} >{product.title}</TextCustom>
             </View>
@@ -83,26 +85,21 @@ const styles = StyleSheet.create({
   loaderContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    height: '100%',
+    height: '50%',
     width: '100%',
 
   },
   mainContainer: {
-    flexDirection: 'column',
-    alignItems: 'center',
-    gap: 5,
-    padding: 10,
-    height: '100%',
+
     width: '100%',
+    flex: 1,
   },
   imgContainerM: {
-    width: '120%',
+    width: '100%',
     paddingBottom: 10,
     gap: 40,
-    borderBottomEndRadius: 300,
-    borderBottomStartRadius: 300,
     top: -20,
-    height: '60%'
+    borderRadius: 300
   },
   imageM: {
     alignSelf: 'center',
@@ -112,11 +109,10 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     flexDirection: 'column',
+    height: '30%',
   },
   textTitleContainer: {
     alignItems: 'center',
-    marginVertical: 30,
-    top: 30
   },
   textTitle: {
     fontSize: 20,
@@ -137,5 +133,12 @@ const styles = StyleSheet.create({
     left: '5%',
     top: '2%',
     zIndex: 1
-  }
+  },
+  shape: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+   
+  },
 })

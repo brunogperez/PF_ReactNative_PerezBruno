@@ -69,7 +69,7 @@ const SignupScreen = ({ navigation }) => {
   return (
     <LayoutCustom style={{ backgroundColor: bgColor, ...styles.main }}>
       <CustomShapeDivider style={styles.shape} height={350} />
-      <BlurView style={styles.container} experimentalBlurMethod='dimezisBlurView'>
+      <BlurView style={styles.container} intensity={100} tint={isDark ? 'dark' : 'light'}>
         <View style={styles.containerForm}>
           <TextCustom style={styles.title}>SIGN UP</TextCustom>
           <InputForm
@@ -112,6 +112,7 @@ export default SignupScreen
 const styles = StyleSheet.create({
   main: {
     width: '100%',
+    flex: 1,
   },
   container: {
     width: '90%',

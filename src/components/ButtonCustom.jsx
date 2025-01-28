@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux'
 const ButtonCustom = ({ children, onPress, style }) => {
 
   const isDark = useSelector(state => state.globalReducer.value.darkMode)
-  const bgColor = isDark ? colors.Jaffa  : colors.Jaffa
+  const bgColor = isDark ? colors.Orange  : colors.Jaffa
 
   return (
     <TouchableOpacity style={{ ...styles.buttonCustom, backgroundColor: bgColor, ...style }} onPress={onPress}>

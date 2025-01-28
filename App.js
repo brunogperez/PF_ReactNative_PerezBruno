@@ -20,7 +20,7 @@ const App = () => {
   return (
     <SafeAreaView style={styles.container}>
         <Provider store={store}>
-        <StatusBar  />
+        <StatusBar   />
         <Navigator />
     </Provider>
       </SafeAreaView>

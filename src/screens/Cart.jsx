@@ -34,6 +34,8 @@ const Cart = ({ navigation }) => {
       user: localId,
       total: total,
       date: new Date().toLocaleString()
+    }).then(() => {
+      navigation.navigate('PaymentConfirmation', { total, date, order })
     })
   }
 

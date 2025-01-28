@@ -100,7 +100,7 @@ const LoginScreen = ({ navigation }) => {
   return (
     <LayoutCustom style={{ backgroundColor: bgColor, ...styles.main }}>
       <CustomShapeDivider style={styles.shape} height={350} />
-      <BlurView style={styles.container} experimentalBlurMethod='dimezisBlurView'> 
+      <BlurView style={styles.container} intensity={100} tint={isDark ? 'dark' : 'light'} > 
         <View style={styles.containerForm}>
           <TextCustom style={styles.title}>LOGIN</TextCustom>
           <InputForm

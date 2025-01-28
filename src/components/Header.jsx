@@ -49,12 +49,13 @@ export default Header
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 15,
-    paddingVertical: 10,
+    position: 'absolute',
     justifyContent: 'space-between',
     alignSelf: 'center',
     flexDirection: 'row',
     width: '100%',
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
+    top: 20,
   },
   logo: {
     height: 50,
